@@ -19,11 +19,17 @@ public class BigFraction {
 
 	/**
 	 * Parses the given string and returns a new BigFraction object.
+	 * Throws a NumberFormatException if the given string is no BigFraction representation.
 	 */
-	public static BigFraction parse(String str) {
+	public static BigFraction parse(final String str) {
 		if (str.equals(null))
 			throw new NumberFormatException();
-
+		if (str.contains(FRACTION_SEPERATOR)){
+			final String[] parts = str.trim().split(FRACTION_SEPERATOR);
+			if (parts.length != 2)
+				throw new NumberFormatException();
+			return BigFraction.create(new BigInteger(parts[0]), new BigInteger(parts[1]));
+		}
 
 		return null;
 	}
