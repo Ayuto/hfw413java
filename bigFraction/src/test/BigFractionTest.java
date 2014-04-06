@@ -69,5 +69,16 @@ public class BigFractionTest {
 		assertEquals(BigFraction.create(BigInteger.valueOf(4), BigInteger.ONE),
 				quarter1.divide(quarterSquare));
 		assertEquals(quarterSquare, quarterSquare.divide(BigFraction.ONE));
+
+		assertEquals(half, quarter1.add(quarter2));
+		assertEquals("3/4", half.add(quarter2).toString());
+		assertEquals(BigFraction.ONE, half.add(half));
+		assertEquals("5/16", quarterSquare.add(quarter1).toString());
+
+		assertEquals(BigFraction.ZERO, half.subtract(half));
+		assertEquals(BigFraction.ONE,
+				BigFraction.ONE.add(quarter1).subtract(quarter2));
+		assertEquals("-1/4", quarter1.subtract(half).toString());
+		assertEquals(quarterSquare, quarterSquare.subtract(BigFraction.ZERO));
 	}
 }
