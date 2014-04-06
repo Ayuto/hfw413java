@@ -8,7 +8,11 @@ public class BigFraction {
 	private static final String DECIMAL_SEPERATOR = ".";
 	private static final String DECIMAL_POW_SEPERATOR = "E";
 	private static final int DECIMAL_BASE = 10;
-	private static final BigFraction ZERO = BigFraction.create(BigInteger.ZERO, BigInteger.ONE);
+
+	public static final BigFraction ZERO = BigFraction.create(BigInteger.ZERO,
+			BigInteger.ONE);
+	public static final BigFraction ONE = BigFraction.create(BigInteger.ONE,
+			BigInteger.ONE);
 
 	private final BigInteger enumerator;
 	private final BigInteger denominator;
@@ -25,8 +29,8 @@ public class BigFraction {
 	/**
 	 * Parses the given string and returns a new BigFraction object. Throws a
 	 * NumberFormatException if the given string is no BigFraction
-	 * representation. Throws a NullPointerException if the given string is
-	 * null.
+	 * representation. 
+	 * Throws a NullPointerException if the given string is null.
 	 */
 	public static BigFraction parse(final String str) {
 		if (str == null)
@@ -67,8 +71,8 @@ public class BigFraction {
 
 	/**
 	 * Returns the best (shortest) representation of the fraction <enumerator>
-	 * divided by <denominator>. Returns an error if the denominator equals
-	 * zero.
+	 * divided by <denominator>. 
+	 * Throws an error if the denominator equals zero.
 	 */
 	public static BigFraction create(final BigInteger enumerator,
 			final BigInteger denominator) {

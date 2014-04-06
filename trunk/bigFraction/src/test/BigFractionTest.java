@@ -19,11 +19,16 @@ public class BigFractionTest {
 				BigInteger.valueOf(4));
 		final BigFraction quarter2 = BigFraction.create(BigInteger.valueOf(-2),
 				BigInteger.valueOf(-8));
-		assertEquals(quarter1, quarter2);
-
 		final BigFraction quarterSquare = BigFraction.create(BigInteger.ONE,
 				BigInteger.valueOf(16));
-		assertEquals(BigFraction.parse("1/16"), quarter1.multiply(quarter2));
+
+		assertEquals(quarter1, quarter2);
+
+		assertEquals(quarterSquare, quarter1.multiply(quarter2));
+		assertEquals("1/8", quarter1.multiply(half).toString());
+		assertEquals(BigFraction.ZERO, half.multiply(BigFraction.ZERO));
+		assertEquals(quarter1.multiply(quarter2), quarter2.multiply(quarter1));
+
 		assertEquals("1/4", quarter1.toString());
 		assertEquals("1/16", quarterSquare.toString());
 
@@ -32,13 +37,11 @@ public class BigFractionTest {
 			Assert.fail();
 		} catch (NumberFormatException e) {
 		}
-
 		try {
 			BigFraction.parse("");
 			Assert.fail();
 		} catch (NumberFormatException e) {
 		}
-
 		try {
 			BigFraction.parse(null);
 			Assert.fail();
@@ -57,11 +60,14 @@ public class BigFractionTest {
 
 		assertEquals(quarter1, BigFraction.parse("25E2"));
 		assertEquals("1/1000", BigFraction.parse("1E3").toString());
+		assertEquals(half, BigFraction.parse("50E2"));
+		assertEquals("1/8", BigFraction.parse("125E3").toString());
 
 		assertEquals("1/1", quarter1.divide(quarter2).toString());
 		assertEquals(quarter1, half.divide(BigFraction.create(
 				BigInteger.valueOf(2), BigInteger.ONE)));
 		assertEquals(BigFraction.create(BigInteger.valueOf(4), BigInteger.ONE),
 				quarter1.divide(quarterSquare));
+		assertEquals(quarterSquare, quarterSquare.divide(BigFraction.ONE));
 	}
 }
