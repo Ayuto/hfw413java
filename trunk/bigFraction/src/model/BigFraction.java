@@ -6,6 +6,7 @@ public class BigFraction {
 
 	private static final String FRACTION_SEPERATOR = "/";
 	private static final String DECIMAL_SEPERATOR = ".";
+	private static final String DECIMAL_POW_SEPERATOR = "E";
 	private static final int DECIMAL_BASE = 10;
 
 	private final BigInteger enumerator;
@@ -26,8 +27,8 @@ public class BigFraction {
 	 * representation.
 	 */
 	public static BigFraction parse(final String str) {
-		if (str.equals(null))
-			throw new NumberFormatException();
+		if (str == null)
+			throw new NullPointerException();
 
 		// Format [enumerator]/[denominator]
 		if (str.contains(FRACTION_SEPERATOR)) {
@@ -47,8 +48,17 @@ public class BigFraction {
 					BigInteger.valueOf((long) Math.pow(DECIMAL_BASE,
 							decimalpositions)));
 		}
-		
-		// TODO Format [number]E[decimal exponent]
+
+		// Format [number]E[-decimal exponent]
+		if (str.contains(DECIMAL_POW_SEPERATOR)) {
+			final String[] parts = str.split(DECIMAL_POW_SEPERATOR);
+			if (parts.length != 2)
+				throw new NumberFormatException();
+			return BigFraction.create(
+					new BigInteger(parts[0].trim()),
+					BigInteger.valueOf((long) Math.pow(DECIMAL_BASE,
+							Long.valueOf(parts[1].trim()))));
+		}
 
 		throw new NumberFormatException();
 	}
