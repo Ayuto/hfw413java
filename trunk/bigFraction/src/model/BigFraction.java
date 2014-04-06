@@ -27,9 +27,9 @@ public class BigFraction {
 	}
 
 	/**
-	 * Parses the given string and returns a new BigFraction object. Throws a
-	 * NumberFormatException if the given string is no BigFraction
-	 * representation. 
+	 * Parses the given string and returns a new BigFraction object. 
+	 * Throws a NumberFormatException if the given string is no 
+	 * BigFraction representation. 
 	 * Throws a NullPointerException if the given string is null.
 	 */
 	public static BigFraction parse(final String str) {
@@ -117,6 +117,31 @@ public class BigFraction {
 							argumentAsBigFraction.getEnumerator()));
 		}
 		return false;
+	}
+
+	/**
+	 * Adds <value> to <this> and returns the result as a new object.
+	 */
+	public BigFraction add(BigFraction value) {
+		return BigFraction.create(
+				this.getEnumerator()
+						.multiply(value.getDenominator())
+						.add(value.getEnumerator().multiply(
+								this.getDenominator())), this.getDenominator()
+						.multiply(value.getDenominator()));
+	}
+
+	/**
+	 * Subtracts <value> from <this> and returns the result as a new object.
+	 */
+	public BigFraction subtract(BigFraction value) {
+		return BigFraction.create(
+				this.getEnumerator()
+						.multiply(value.getDenominator())
+						.subtract(
+								value.getEnumerator().multiply(
+										this.getDenominator())), this
+						.getDenominator().multiply(value.getDenominator()));
 	}
 
 	/**
