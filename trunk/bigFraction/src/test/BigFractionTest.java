@@ -57,5 +57,11 @@ public class BigFractionTest {
 
 		assertEquals(quarter1, BigFraction.parse("25E2"));
 		assertEquals("1/1000", BigFraction.parse("1E3").toString());
+
+		assertEquals("1/1", quarter1.divide(quarter2).toString());
+		assertEquals(quarter1, half.divide(BigFraction.create(
+				BigInteger.valueOf(2), BigInteger.ONE)));
+		assertEquals(BigFraction.create(BigInteger.valueOf(4), BigInteger.ONE),
+				quarter1.divide(quarterSquare));
 	}
 }

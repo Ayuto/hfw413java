@@ -8,6 +8,7 @@ public class BigFraction {
 	private static final String DECIMAL_SEPERATOR = ".";
 	private static final String DECIMAL_POW_SEPERATOR = "E";
 	private static final int DECIMAL_BASE = 10;
+	private static final BigFraction ZERO = BigFraction.create(BigInteger.ZERO, BigInteger.ONE);
 
 	private final BigInteger enumerator;
 	private final BigInteger denominator;
@@ -24,7 +25,8 @@ public class BigFraction {
 	/**
 	 * Parses the given string and returns a new BigFraction object. Throws a
 	 * NumberFormatException if the given string is no BigFraction
-	 * representation.
+	 * representation. Throws a NullPointerException if the given string is
+	 * null.
 	 */
 	public static BigFraction parse(final String str) {
 		if (str == null)
@@ -49,7 +51,7 @@ public class BigFraction {
 							decimalpositions)));
 		}
 
-		// Format [number]E[-decimal exponent]
+		// Format [number]E[negative decimal exponent]
 		if (str.contains(DECIMAL_POW_SEPERATOR)) {
 			final String[] parts = str.split(DECIMAL_POW_SEPERATOR);
 			if (parts.length != 2)
@@ -120,6 +122,18 @@ public class BigFraction {
 		return BigFraction.create(
 				this.getEnumerator().multiply(factor.getEnumerator()), this
 						.getDenominator().multiply(factor.getDenominator()));
+	}
+
+	/**
+	 * Divides <this> by <divisor> and returns the result as a new object.
+	 * Throws an IllegalArgumentException if the <divisor> equals zero.
+	 */
+	public BigFraction divide(BigFraction divisor) {
+		if (divisor.equals(ZERO))
+			throw new IllegalArgumentException("Divisor shouldn't be zero");
+		return BigFraction.create(
+				this.getEnumerator().multiply(divisor.getDenominator()), this
+						.getDenominator().multiply(divisor.getEnumerator()));
 	}
 
 	/**
