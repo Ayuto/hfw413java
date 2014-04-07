@@ -9,8 +9,15 @@ public class BigFraction {
 	private static final String DECIMAL_POW_SEPERATOR = "E";
 	private static final int DECIMAL_BASE = 10;
 
+	/**
+	 * The BigFraction constant zero.
+	 */
 	public static final BigFraction ZERO = BigFraction.create(BigInteger.ZERO,
 			BigInteger.ONE);
+	
+	/**
+	 * The BigFraction constant one.
+	 */
 	public static final BigFraction ONE = BigFraction.create(BigInteger.ONE,
 			BigInteger.ONE);
 
@@ -27,7 +34,7 @@ public class BigFraction {
 	}
 
 	/**
-	 * Parses the given string and returns a new BigFraction object. 
+	 * Parses the given string <str> and returns a new BigFraction object. 
 	 * Throws a NumberFormatException if the given string is no 
 	 * BigFraction representation. 
 	 * Throws a NullPointerException if the given string is null.
@@ -105,7 +112,7 @@ public class BigFraction {
 	}
 
 	/**
-	 * Returns true if the given object represents the same fraction.
+	 * Returns true if the given object <argument> represents the same fraction like <this>.
 	 */
 	public boolean equals(Object argument) {
 		if (argument instanceof BigFraction) {
@@ -166,7 +173,7 @@ public class BigFraction {
 	}
 
 	/**
-	 * Stringifies the fraction.
+	 * Stringifies the fraction <this>.
 	 */
 	public String toString() {
 		return this.getEnumerator().toString() + FRACTION_SEPERATOR
