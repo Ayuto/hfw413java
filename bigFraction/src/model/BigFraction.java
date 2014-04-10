@@ -42,6 +42,9 @@ public class BigFraction {
 	public static BigFraction parse(final String str) {
 		if (str == null)
 			throw new NullPointerException();
+		
+		// Format /[denominator]
+		
 
 		// Format [enumerator]/[denominator]
 		if (str.contains(FRACTION_SEPERATOR)) {
