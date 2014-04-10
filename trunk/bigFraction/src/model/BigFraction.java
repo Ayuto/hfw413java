@@ -42,15 +42,19 @@ public class BigFraction {
 	public static BigFraction parse(final String str) {
 		if (str == null)
 			throw new NullPointerException();
-		
-		// Format /[denominator]
-		
 
-		// Format [enumerator]/[denominator]
+		// Format <enumerator>/<denominator> and Format /<denominator>
 		if (str.contains(FRACTION_SEPERATOR)) {
 			final String[] parts = str.split(FRACTION_SEPERATOR);
+			// Format /<denominator>
+			if (str.indexOf(FRACTION_SEPERATOR) == 0) {
+				return BigFraction.create(BigInteger.ONE, new BigInteger(parts[1]));
+			}
+			
+			// Format <enumerator>/<denominator>
 			if (parts.length != 2)
 				throw new NumberFormatException();
+			
 			return BigFraction.create(new BigInteger(parts[0].trim()),
 					new BigInteger(parts[1].trim()));
 		}
@@ -59,24 +63,43 @@ public class BigFraction {
 		if (str.contains(DECIMAL_SEPERATOR)) {
 			final int decimalpositions = (str.length() - 1)
 					- str.indexOf(DECIMAL_SEPERATOR);
+			
 			return BigFraction.create(
 					new BigInteger(str.replace(DECIMAL_SEPERATOR, "")),
 					BigInteger.valueOf((long) Math.pow(DECIMAL_BASE,
 							decimalpositions)));
 		}
+		
+		if (str.startsWith(DECIMAL_POW_SEPERATOR)){
+			if (Long.valueOf(str.replace(DECIMAL_POW_SEPERATOR, "")) < 0){
+				return BigFraction.create(
+						BigInteger.ONE,
+						BigInteger.valueOf(
+								(long) Math.pow(DECIMAL_BASE, Long.valueOf(str.replace(DECIMAL_POW_SEPERATOR, "")) * -1
+								)
+						)
+				);
+			}
+			return BigFraction.create(
+					BigInteger.valueOf((long) Math.pow(DECIMAL_BASE, Long.valueOf(str.replace(DECIMAL_POW_SEPERATOR, "")))),
+					BigInteger.ONE
+				);
+		}
 
-		// Format [number]E[negative decimal exponent]
+		// Format <number>E<decimal exponent>
 		if (str.contains(DECIMAL_POW_SEPERATOR)) {
 			final String[] parts = str.split(DECIMAL_POW_SEPERATOR);
 			if (parts.length != 2)
 				throw new NumberFormatException();
+			
 			return BigFraction.create(
 					new BigInteger(parts[0].trim()),
 					BigInteger.valueOf((long) Math.pow(DECIMAL_BASE,
-							Long.valueOf(parts[1].trim()))));
+							Long.valueOf(parts[1].trim()) * -1)));
 		}
 
-		throw new NumberFormatException();
+		// Format 1
+		return BigFraction.create(new BigInteger(str), BigInteger.ONE);
 	}
 
 	/**
@@ -92,9 +115,11 @@ public class BigFraction {
 		final BigInteger greatestCommonDivisor = enumerator.gcd(denominator);
 		final BigInteger Normaliser = !denominator.abs().equals(denominator) ? BigInteger
 				.valueOf(-1) : BigInteger.ONE;
+				
 		final BigInteger normalisedEnumerator = enumerator.multiply(Normaliser);
 		final BigInteger normalisedDenominator = denominator
 				.multiply(Normaliser);
+		
 		return new BigFraction(
 				normalisedEnumerator.divide(greatestCommonDivisor),
 				normalisedDenominator.divide(greatestCommonDivisor));

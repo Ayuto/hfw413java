@@ -58,10 +58,14 @@ public class BigFractionTest {
 		assertEquals(half, BigFraction.parse("0000.5000"));
 		assertEquals(quarterSquare, BigFraction.parse(".0625"));
 
-		assertEquals(quarter1, BigFraction.parse("25E2"));
-		assertEquals("1/1000", BigFraction.parse("1E3").toString());
-		assertEquals(half, BigFraction.parse("50E2"));
-		assertEquals("1/8", BigFraction.parse("125E3").toString());
+		assertEquals(BigFraction.parse("E5"), BigFraction.parse("100000"));
+		assertEquals(BigFraction.parse("E-5"), BigFraction.parse("1/100000"));
+
+		assertEquals(quarter1, BigFraction.parse("25E-2"));
+		assertEquals("1/1000", BigFraction.parse("1E-3").toString());
+		assertEquals(half, BigFraction.parse("50E-2"));
+		assertEquals("1/8", BigFraction.parse("125E-3").toString());
+		assertEquals(BigFraction.parse("100/1"), BigFraction.parse("E2"));
 
 		assertEquals("1/1", quarter1.divide(quarter2).toString());
 		assertEquals(quarter1, half.divide(BigFraction.create(
@@ -80,5 +84,9 @@ public class BigFractionTest {
 				BigFraction.ONE.add(quarter1).subtract(quarter2));
 		assertEquals("-1/4", quarter1.subtract(half).toString());
 		assertEquals(quarterSquare, quarterSquare.subtract(BigFraction.ZERO));
+		
+		assertEquals(BigFraction.parse("/10"), BigFraction.parse("1/10"));
+		
+		assertEquals(BigFraction.parse("10"), BigFraction.parse("10/1"));
 	}
 }
