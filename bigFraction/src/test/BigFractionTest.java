@@ -110,8 +110,8 @@ public class BigFractionTest {
 	@Test
 	public void parseDecimalPowSeperatorTest()
 	{
-		assertEquals(BigFraction.parse("E5"), BigFraction.parse("100000"));
-		assertEquals(BigFraction.parse("E-5"), BigFraction.parse("1/100000"));
+		assertEquals(BigFraction.parse("100000"), BigFraction.parse("E5"));
+		assertEquals(BigFraction.parse("1/100000"), BigFraction.parse("E-5"));
 
 		assertEquals(quarter1, BigFraction.parse("25E-2"));
 		assertEquals("1/1000", BigFraction.parse("1E-3").toString());

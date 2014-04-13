@@ -4,6 +4,7 @@ import java.math.BigInteger;
 
 public class BigFraction {
 
+	private static final String DIVISION_BY_ZERO_ERROR = "Divisor shouldn't be zero";
 	private static final String FRACTION_SEPERATOR = "/";
 	private static final String DECIMAL_SEPERATOR = ".";
 	private static final String DECIMAL_POW_SEPERATOR = "E";
@@ -14,7 +15,7 @@ public class BigFraction {
 	 */
 	public static final BigFraction ZERO = BigFraction.create(BigInteger.ZERO,
 			BigInteger.ONE);
-	
+
 	/**
 	 * The BigFraction constant one.
 	 */
@@ -34,10 +35,10 @@ public class BigFraction {
 	}
 
 	/**
-	 * Parses the given string <str> and returns a new BigFraction object. 
-	 * Throws a NumberFormatException if the given string is no 
-	 * BigFraction representation. 
-	 * Throws a NullPointerException if the given string is null.
+	 * Parses the given string <str> and returns a new BigFraction object.
+	 * Throws a NumberFormatException if the given string is no BigFraction
+	 * representation. Throws a NullPointerException if the given string is
+	 * null.
 	 */
 	public static BigFraction parse(final String str) {
 		if (str == null)
@@ -48,13 +49,14 @@ public class BigFraction {
 			final String[] parts = str.split(FRACTION_SEPERATOR);
 			// Format /<denominator>
 			if (str.indexOf(FRACTION_SEPERATOR) == 0) {
-				return BigFraction.create(BigInteger.ONE, new BigInteger(parts[1]));
+				return BigFraction.create(BigInteger.ONE, new BigInteger(
+						parts[1]));
 			}
-			
+
 			// Format <enumerator>/<denominator>
 			if (parts.length != 2)
 				throw new NumberFormatException();
-			
+
 			return BigFraction.create(new BigInteger(parts[0].trim()),
 					new BigInteger(parts[1].trim()));
 		}
@@ -63,39 +65,36 @@ public class BigFraction {
 		if (str.contains(DECIMAL_SEPERATOR)) {
 			final int decimalpositions = (str.length() - 1)
 					- str.indexOf(DECIMAL_SEPERATOR);
-			
+
 			return BigFraction.create(
 					new BigInteger(str.replace(DECIMAL_SEPERATOR, "")),
 					BigInteger.valueOf((long) Math.pow(DECIMAL_BASE,
 							decimalpositions)));
 		}
-		
-		if (str.startsWith(DECIMAL_POW_SEPERATOR)){
-			if (Long.valueOf(str.replace(DECIMAL_POW_SEPERATOR, "")) < 0){
-				return BigFraction.create(
-						BigInteger.ONE,
-						BigInteger.valueOf(
-								(long) Math.pow(DECIMAL_BASE, Long.valueOf(str.replace(DECIMAL_POW_SEPERATOR, "")) * -1
-								)
-						)
-				);
-			}
-			return BigFraction.create(
-					BigInteger.valueOf((long) Math.pow(DECIMAL_BASE, Long.valueOf(str.replace(DECIMAL_POW_SEPERATOR, "")))),
-					BigInteger.ONE
-				);
-		}
 
 		// Format <number>E<decimal exponent>
 		if (str.contains(DECIMAL_POW_SEPERATOR)) {
-			final String[] parts = str.split(DECIMAL_POW_SEPERATOR);
+			final String[] parts;
+			if (str.startsWith(DECIMAL_POW_SEPERATOR)) {
+				parts = new String[2];
+				parts[0] = "1";
+				parts[1] = str.replace(DECIMAL_POW_SEPERATOR, "");
+			} else {
+				parts = str.split(DECIMAL_POW_SEPERATOR);
+			}
 			if (parts.length != 2)
 				throw new NumberFormatException();
-			
-			return BigFraction.create(
-					new BigInteger(parts[0].trim()),
-					BigInteger.valueOf((long) Math.pow(DECIMAL_BASE,
-							Long.valueOf(parts[1].trim()) * -1)));
+			if (Long.valueOf(parts[1]) < 0) {
+				return BigFraction.create(
+						new BigInteger(parts[0]),
+						BigInteger.valueOf((long) Math.pow(DECIMAL_BASE,
+								Long.valueOf(parts[1]) * -1)));
+			} else {
+				return BigFraction.create(new BigInteger(parts[0])
+						.multiply(BigInteger.valueOf((long) Math.pow(
+								DECIMAL_BASE, Long.valueOf(parts[1])))),
+						BigInteger.ONE);
+			}
 		}
 
 		// Format 1
@@ -104,8 +103,7 @@ public class BigFraction {
 
 	/**
 	 * Returns the best (shortest) representation of the fraction <enumerator>
-	 * divided by <denominator>. 
-	 * Throws an error if the denominator equals zero.
+	 * divided by <denominator>. Throws an error if the denominator equals zero.
 	 */
 	public static BigFraction create(final BigInteger enumerator,
 			final BigInteger denominator) {
@@ -115,11 +113,11 @@ public class BigFraction {
 		final BigInteger greatestCommonDivisor = enumerator.gcd(denominator);
 		final BigInteger Normaliser = !denominator.abs().equals(denominator) ? BigInteger
 				.valueOf(-1) : BigInteger.ONE;
-				
+
 		final BigInteger normalisedEnumerator = enumerator.multiply(Normaliser);
 		final BigInteger normalisedDenominator = denominator
 				.multiply(Normaliser);
-		
+
 		return new BigFraction(
 				normalisedEnumerator.divide(greatestCommonDivisor),
 				normalisedDenominator.divide(greatestCommonDivisor));
@@ -140,7 +138,8 @@ public class BigFraction {
 	}
 
 	/**
-	 * Returns true if the given object <argument> represents the same fraction like <this>.
+	 * Returns true if the given object <argument> represents the same fraction
+	 * like <this>.
 	 */
 	public boolean equals(Object argument) {
 		if (argument instanceof BigFraction) {
@@ -194,7 +193,7 @@ public class BigFraction {
 	 */
 	public BigFraction divide(BigFraction divisor) {
 		if (divisor.equals(ZERO))
-			throw new IllegalArgumentException("Divisor shouldn't be zero");
+			throw new IllegalArgumentException(DIVISION_BY_ZERO_ERROR);
 		return BigFraction.create(
 				this.getEnumerator().multiply(divisor.getDenominator()), this
 						.getDenominator().multiply(divisor.getEnumerator()));
