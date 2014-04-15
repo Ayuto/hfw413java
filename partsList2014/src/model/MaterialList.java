@@ -5,6 +5,9 @@ import java.util.Vector;
 
 public class MaterialList {
 
+	/**
+	 * Creates a new MaterialList with the given <data>.
+	 */
 	public static MaterialList create(Vector<QuantifiedComponent> data) {
 		return new MaterialList(data);
 	}
@@ -15,6 +18,9 @@ public class MaterialList {
 		this.data = data;
 	}
 	
+	/**
+	 * Multiplies the amount of a components this <this> with the factor <value>. 
+	 */
 	public void multiply(int value) {
 		Iterator<QuantifiedComponent> i = this.getData().iterator();
 		while (i.hasNext()){
@@ -23,6 +29,9 @@ public class MaterialList {
 		}
 	}
 	
+	/**
+	 * Adds the components from <list> to <this>.
+	 */
 	public void add(MaterialList list) {
 		Iterator<QuantifiedComponent> i = list.getData().iterator();
 		while(i.hasNext()){
@@ -31,6 +40,9 @@ public class MaterialList {
 		}
 	}
 	
+	/**
+	 * Adds the component <quantifiedComponent> to <this>.
+	 */
 	public void add(QuantifiedComponent quantifiedComponent){
 		Iterator<QuantifiedComponent> i = this.getData().iterator();
 		while(i.hasNext()) {
@@ -43,6 +55,9 @@ public class MaterialList {
 		this.getData().add(quantifiedComponent);
 	}
 	
+	/**
+	 * Returns the data of <this>.
+	 */
 	public Vector<QuantifiedComponent> getData() {
 		return this.data;
 	}
