@@ -33,6 +33,8 @@ public class View extends JFrame {
 	final private PartsList manager;
 
 	private static final long serialVersionUID = 1L;
+	
+	private static final String NAME = "Stücklistenverwaltung";
 
 	protected static final String NameCannotBeEmptyText = "Name darf nicht leer sein!"; // @jve:decl-index=0:
 
@@ -95,7 +97,7 @@ public class View extends JFrame {
 	private JTextField partsCountTextField = null;
 
 	public View(final PartsList manager) {
-		super();
+		super(NAME);
 		this.manager = manager;
 		initialize();
 		refresh();
