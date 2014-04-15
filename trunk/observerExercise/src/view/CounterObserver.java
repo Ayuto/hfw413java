@@ -4,34 +4,39 @@ import model.Counter;
 
 @SuppressWarnings("serial")
 public class CounterObserver extends View {
-	
-	public static CounterObserver createCounterObserver(Counter counter){
+
+	public static CounterObserver createCounterObserver(Counter counter) {
 		return new CounterObserver(counter);
 	}
-	
+
 	private final Counter counter;
-	
-	private CounterObserver(Counter counter){
+
+	private CounterObserver(Counter counter) {
 		this.counter = counter;
 	}
+
 	private Counter getCounter() {
 		return this.counter;
 	}
-	private void refresh(){
+
+	public void refresh() {
 		super.refreshView(this.getCounter().getCurrentValue());
 	}
+
 	protected void deregister() {
-		// TODO implement deregister
+		this.getCounter().removeObserver(this);
 	}
+
 	protected void register() {
-		// TODO implement register
+		this.getCounter().addObserver(this);
+		this.refresh();
 	}
+
 	protected void down() {
 		this.counter.down();
-		this.refresh();
 	}
+
 	protected void up() {
 		this.counter.up();
-		this.refresh();
 	}
 }
