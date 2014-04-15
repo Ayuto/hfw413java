@@ -8,6 +8,10 @@ public class Product extends ComponentCommon {
 
 	private static final String CycleMessage = "Zyklen sind in der Aufbaustruktur nicht erlaubt!";
 
+	/**
+	 * Creates a new Product with the name <name>, the price <price> 
+	 * and without any subcomponents.
+	 */
 	public static Product create(final String name, final int price) {
 		return new Product(name, price,
 				new HashMap<String, QuantifiedComponent>());
