@@ -42,30 +42,47 @@ public class ExpressionFacade {
 
 	public void createAdd(final Expression firstArgument,
 			final Expression secondArgument) {
-		final Addition newAddition = Addition.create(firstArgument,
-				secondArgument);
+		Expression newAddition;
+		try {
+			newAddition = Addition.create(firstArgument, secondArgument);
+		} catch (Error e) {
+			newAddition = DivisionByZero.getInstance();
+		}
 		this.getExpressions().add(newAddition);
 	}
 
 	public void createSubtract(final Expression firstArgument,
 			final Expression secondArgument) {
-		final Subtraction newSubtraction = Subtraction.create(firstArgument,
-				secondArgument);
+		Expression newSubtraction;
+		try {
+			newSubtraction = Subtraction.create(firstArgument, secondArgument);
+		} catch (Error e) {
+			newSubtraction = DivisionByZero.getInstance();
+		}
 		this.getExpressions().add(newSubtraction);
 	}
 
 	public void createMultiply(final Expression firstArgument,
 			final Expression secondArgument) {
-		final Multiplication newMultiplication = Multiplication.create(
-				firstArgument, secondArgument);
+		Expression newMultiplication;
+		try {
+			newMultiplication = Multiplication.create(firstArgument,
+					secondArgument);
+		} catch (Error e) {
+			newMultiplication = DivisionByZero.getInstance();
+		}
 		this.getExpressions().add(newMultiplication);
 	}
 
 	public void createDivide(final Expression firstArgument,
 			final Expression secondArgument) {
-		final Devision newDevision = Devision.create(firstArgument,
-				secondArgument);
-		this.getExpressions().add(newDevision);
+		Expression newDivision;
+		try {
+			newDivision = Division.create(firstArgument, secondArgument);
+		} catch (Error e) {
+			newDivision = DivisionByZero.getInstance();
+		}
+		this.getExpressions().add(newDivision);
 	}
 
 }
