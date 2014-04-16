@@ -9,8 +9,8 @@ public class Product extends ComponentCommon {
 	private static final String CycleMessage = "Zyklen sind in der Aufbaustruktur nicht erlaubt!";
 
 	/**
-	 * Creates a new Product with the name <name>, the price <price> 
-	 * and without any subcomponents.
+	 * Creates a new Product with the name <name>, the price <price> and without
+	 * any subcomponents.
 	 */
 	public static Product create(final String name, final int price) {
 		return new Product(name, price,
@@ -29,7 +29,7 @@ public class Product extends ComponentCommon {
 	public void addPart(final Component part, final int amount)
 			throws Exception {
 		if (part.contains(this))
-			throw new Exception(CycleMessage);
+			throw new Exception(Product.CycleMessage);
 		final String partName = part.getName();
 		if (this.getComponents().containsKey(partName)) {
 			final QuantifiedComponent oldQuantification = this.getComponents()
@@ -78,6 +78,7 @@ public class Product extends ComponentCommon {
 		return result;
 	}
 
+	@Override
 	public int getPrice() {
 		int result = super.getPrice();
 		final Iterator<QuantifiedComponent> subComponents = this
@@ -91,10 +92,12 @@ public class Product extends ComponentCommon {
 
 	@Override
 	public MaterialList getMaterialList() {
-		final Iterator<QuantifiedComponent> i = this.getDirectParts().iterator();
-		final MaterialList result = MaterialList.create(new Vector<QuantifiedComponent>());
-		while(i.hasNext()){
-			QuantifiedComponent current = i.next();
+		final Iterator<QuantifiedComponent> i = this.getDirectParts()
+				.iterator();
+		final MaterialList result = MaterialList
+				.create(new Vector<QuantifiedComponent>());
+		while (i.hasNext()) {
+			final QuantifiedComponent current = i.next();
 			result.add(current.getMaterialList());
 		}
 		return result;

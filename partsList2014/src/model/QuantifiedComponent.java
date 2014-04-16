@@ -7,7 +7,8 @@ public class QuantifiedComponent {
 	private static final String ADDING_ERROR = "Can not add the quantity of one Component to another.";
 
 	/**
-	 * Creates a quantified component with the quantity <quantity> and the component <component>.
+	 * Creates a quantified component with the quantity <quantity> and the
+	 * component <component>.
 	 */
 	public static QuantifiedComponent createQuantifiedComponent(
 			final int quantity, final Component component) {
@@ -26,11 +27,11 @@ public class QuantifiedComponent {
 	 * Returns the component of <this>.
 	 */
 	public Component getComponent() {
-		return component;
+		return this.component;
 	}
 
 	private int getQuantity() {
-		return quantity;
+		return this.quantity;
 	}
 
 	private void setQuantity(final int quantity) {
@@ -43,19 +44,19 @@ public class QuantifiedComponent {
 	public void addQuantity(final int quantity) {
 		this.setQuantity(this.getQuantity() + quantity);
 	}
-	
+
 	/**
-	 * Adds the quantity of <quantifiedComponent> to the quantity of <this> 
-	 * if they represent the same component.
-	 * Throws an Error if they do not represent the same component.
+	 * Adds the quantity of <quantifiedComponent> to the quantity of <this> if
+	 * they represent the same component. Throws an Error if they do not
+	 * represent the same component.
 	 */
 	public void addQuantity(final QuantifiedComponent quantifiedComponent) {
-		if (this.getComponent().equals(quantifiedComponent.getComponent()))
+		if (this.getComponent().equals(quantifiedComponent.getComponent())) {
 			this.addQuantity(quantifiedComponent.getQuantity());
-		else
-			throw new Error(ADDING_ERROR);
+		} else
+			throw new Error(QuantifiedComponent.ADDING_ERROR);
 	}
-	
+
 	/**
 	 * Multiplies the Quantity of <this> with the factor <factor>.
 	 */
@@ -64,7 +65,7 @@ public class QuantifiedComponent {
 	}
 
 	@Override
-	public boolean equals(Object argument) {
+	public boolean equals(final Object argument) {
 		return super.equals(argument);
 	}
 
@@ -77,10 +78,11 @@ public class QuantifiedComponent {
 
 	@Override
 	public String toString() {
-		return this.getComponent().toString() + QuantityOpenBracket
-				+ this.getQuantity() + QuantityCloseBracket;
+		return this.getComponent().toString()
+				+ QuantifiedComponent.QuantityOpenBracket + this.getQuantity()
+				+ QuantifiedComponent.QuantityCloseBracket;
 	}
-	
+
 	/**
 	 * Returns the materiallist of <this>.
 	 */

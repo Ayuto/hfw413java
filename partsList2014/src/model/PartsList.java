@@ -21,7 +21,7 @@ public class PartsList {
 	}
 
 	@Override
-	public boolean equals(Object argument) {
+	public boolean equals(final Object argument) {
 		return super.equals(argument);
 	}
 
@@ -31,33 +31,33 @@ public class PartsList {
 
 	/**
 	 * Creates a new material with the name <name> and the price <price> and
-	 * adds it to the PartsList. 
-	 * Throws an Exception if the name is already in use.
+	 * adds it to the PartsList. Throws an Exception if the name is already in
+	 * use.
 	 */
 	public void createMaterial(final String name, final int price)
 			throws Exception {
 		if (this.getComponentsMap().containsKey(name))
-			throw new Exception(DoubleDefinitionMessage);
+			throw new Exception(PartsList.DoubleDefinitionMessage);
 		final Material newMaterial = Material.create(name, price);
 		this.getComponentsMap().put(name, newMaterial);
 	}
 
 	/**
-	 * Creates a new product with the name <name> and the price <price> and
-	 * adds it to the PartsList. The product has no subcomponents after creation.
+	 * Creates a new product with the name <name> and the price <price> and adds
+	 * it to the PartsList. The product has no subcomponents after creation.
 	 * Throws an Exception if the name is already in use.
 	 */
 	public void createProduct(final String name, final int price)
 			throws Exception {
 		if (this.getComponentsMap().containsKey(name))
-			throw new Exception(DoubleDefinitionMessage);
+			throw new Exception(PartsList.DoubleDefinitionMessage);
 		final Product newProduct = Product.create(name, price);
 		this.getComponentsMap().put(name, newProduct);
 	}
 
 	/**
-	 * Adds the component <part> <amount> times to the component <whole>.
-	 * Throws an Exception if <part> already contains <whole>.
+	 * Adds the component <part> <amount> times to the component <whole>. Throws
+	 * an Exception if <part> already contains <whole>.
 	 */
 	public void addPart(final Component whole, final Component part,
 			final int amount) throws Exception {

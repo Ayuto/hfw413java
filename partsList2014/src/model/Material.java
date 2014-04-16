@@ -17,7 +17,7 @@ public class Material extends ComponentCommon {
 	@Override
 	public void addPart(final Component part, final int amount)
 			throws Exception {
-		throw new Exception(UnstructuredMaterialMessage);
+		throw new Exception(Material.UnstructuredMaterialMessage);
 	}
 
 	@Override
