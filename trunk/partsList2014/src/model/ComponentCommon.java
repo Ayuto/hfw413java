@@ -16,7 +16,7 @@ public abstract class ComponentCommon implements Component {
 	}
 
 	@Override
-	public void setPrice(int price) {
+	public void setPrice(final int price) {
 		this.price = price;
 	}
 
@@ -31,7 +31,7 @@ public abstract class ComponentCommon implements Component {
 	}
 
 	@Override
-	public boolean equals(Object argument) {
+	public boolean equals(final Object argument) {
 		return super.equals(argument);
 	}
 }

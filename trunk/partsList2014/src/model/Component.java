@@ -38,7 +38,7 @@ public interface Component {
 	 * Returns the price of <this>.
 	 */
 	public int getPrice();
-	
+
 	/**
 	 * Returns a list of all materials needed to build <this>.
 	 */
