@@ -1,9 +1,10 @@
 package view;
 
 import model.Counter;
+import model.Observer;
 
 @SuppressWarnings("serial")
-public class CounterObserver extends View {
+public class CounterObserver extends View implements Observer {
 
 	public static CounterObserver createCounterObserver(Counter counter) {
 		return new CounterObserver(counter);
@@ -24,12 +25,11 @@ public class CounterObserver extends View {
 	}
 
 	protected void deregister() {
-		this.getCounter().removeObserver(this);
+		this.getCounter().deregister(this);
 	}
 
 	protected void register() {
-		this.getCounter().addObserver(this);
-		this.refresh();
+		this.getCounter().register(this);
 	}
 
 	protected void down() {
@@ -38,5 +38,10 @@ public class CounterObserver extends View {
 
 	protected void up() {
 		this.counter.up();
+	}
+
+	@Override
+	public void update() {
+		this.refresh();
 	}
 }
