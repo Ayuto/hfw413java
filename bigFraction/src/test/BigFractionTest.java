@@ -38,6 +38,7 @@ public class BigFractionTest {
 		Assert.assertEquals(this.quarter1, this.quarter2);
 		Assert.assertEquals(this.half, this.half2);
 		Assert.assertEquals(BigFraction.parse("5"), BigFraction.parse("5E0"));
+		Assert.assertEquals(false, BigFraction.ZERO.equals(BigFraction.ONE));
 	}
 
 	@Test
@@ -56,6 +57,7 @@ public class BigFractionTest {
 		Assert.assertEquals("1/4", this.quarter1.toString());
 		Assert.assertEquals("1/16", this.quarterSquare.toString());
 		Assert.assertEquals("1/2", this.half.toString());
+		Assert.assertEquals("0/1", BigFraction.ZERO.toString());
 	}
 
 	@Test
@@ -83,6 +85,18 @@ public class BigFractionTest {
 			Assert.fail();
 		} catch (final NullPointerException e) {
 		}
+		
+		try {
+			BigFraction.parse("0/0");
+			Assert.fail();
+		} catch(final Error e) {
+		}
+		
+		try {
+			BigFraction.parse("10/0");
+			Assert.fail();
+		} catch(final Error e) {
+		}
 	}
 
 	@Test
@@ -93,6 +107,7 @@ public class BigFractionTest {
 		Assert.assertEquals(this.half, BigFraction.parse("2/4"));
 		Assert.assertEquals(this.quarter2,
 				BigFraction.parse(this.quarter2.toString()));
+		Assert.assertEquals(BigFraction.parse("10/1"), BigFraction.parse("010/1"));
 
 		// /<denominator>
 		Assert.assertEquals(BigFraction.parse("/10"), BigFraction.parse("1/10"));
