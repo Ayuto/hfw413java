@@ -7,6 +7,7 @@ public abstract class CompositeExpression extends Expression implements
 	private static final String EXPRESSION_OPEN_BRACKET = "(";
 	private static final String EXPRESSION_CLOSE_BRACKET = ")";
 	private static final String EQUALITY_SIGN = "=";
+	public static final String DIVISION_BY_ZERO_MSG = "Devision by zero detected! You can not devide by zero";
 
 	private final Expression first;
 	private final Expression second;
@@ -15,6 +16,9 @@ public abstract class CompositeExpression extends Expression implements
 	public CompositeExpression(Expression first, Expression second) {
 		if (first.contains(this) || second.contains(this))
 			throw new Error(CYCLE_DETECTED_MSG);
+		if (first.equals(DivisionByZero.getInstance())
+				|| second.equals(DivisionByZero.getInstance()))
+			throw new Error(DIVISION_BY_ZERO_MSG);
 		this.first = first;
 		this.second = second;
 		this.getFirst().register(this);

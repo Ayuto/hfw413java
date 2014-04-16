@@ -106,6 +106,7 @@ public class View extends JFrame {
 		this.setSize(737, 531);
 		this.setContentPane(getJContentPane());
 		this.setTitle("Calculator");
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	/**
