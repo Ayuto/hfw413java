@@ -1,4 +1,5 @@
 package view;
+
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
@@ -82,8 +83,6 @@ public class View extends JFrame {
 
 	private JLabel expressionStatusLabel = null;
 
-
-	
 	/**
 	 * This is the default constructor
 	 */
@@ -93,9 +92,11 @@ public class View extends JFrame {
 		initialize();
 		this.refresh();
 	}
-	private ExpressionFacade getFacade(){
+
+	private ExpressionFacade getFacade() {
 		return this.facade;
 	}
+
 	/**
 	 * This method initializes this
 	 * 
@@ -124,9 +125,9 @@ public class View extends JFrame {
 	}
 
 	/**
-	 * This method initializes cellScrollPane	
-	 * 	
-	 * @return javax.swing.JScrollPane	
+	 * This method initializes cellScrollPane
+	 * 
+	 * @return javax.swing.JScrollPane
 	 */
 	private JScrollPane getCellScrollPane() {
 		if (cellScrollPane == null) {
@@ -137,9 +138,9 @@ public class View extends JFrame {
 	}
 
 	/**
-	 * This method initializes cellList	
-	 * 	
-	 * @return javax.swing.JList	
+	 * This method initializes cellList
+	 * 
+	 * @return javax.swing.JList
 	 */
 	private JList<Expression> getCellList() {
 		if (cellList == null) {
@@ -149,9 +150,9 @@ public class View extends JFrame {
 	}
 
 	/**
-	 * This method initializes toolBar	
-	 * 	
-	 * @return javax.swing.JToolBar	
+	 * This method initializes toolBar
+	 * 
+	 * @return javax.swing.JToolBar
 	 */
 	private JToolBar getToolBar() {
 		if (toolBar == null) {
@@ -178,9 +179,9 @@ public class View extends JFrame {
 	}
 
 	/**
-	 * This method initializes argument1TextField	
-	 * 	
-	 * @return javax.swing.JTextField	
+	 * This method initializes argument1TextField
+	 * 
+	 * @return javax.swing.JTextField
 	 */
 	private JTextField getArgument1TextField() {
 		if (argument1TextField == null) {
@@ -190,9 +191,9 @@ public class View extends JFrame {
 	}
 
 	/**
-	 * This method initializes argument2TextField	
-	 * 	
-	 * @return javax.swing.JTextField	
+	 * This method initializes argument2TextField
+	 * 
+	 * @return javax.swing.JTextField
 	 */
 	private JTextField getArgument2TextField() {
 		if (argument2TextField == null) {
@@ -202,9 +203,9 @@ public class View extends JFrame {
 	}
 
 	/**
-	 * This method initializes addButton	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes addButton
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getAddButton() {
 		if (addButton == null) {
@@ -221,59 +222,68 @@ public class View extends JFrame {
 	}
 
 	protected void add_action() {
-		this.getFacade().createAdd(this.firstArgument,this.secondArgument);
+		this.getFacade().createAdd(this.firstArgument, this.secondArgument);
 		this.refresh();
 	}
+
 	/**
-	 * This method initializes subtractButton	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes subtractButton
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getSubtractButton() {
 		if (subtractButton == null) {
 			subtractButton = new JButton();
 			subtractButton.setText("subtract");
-			subtractButton.addActionListener(new java.awt.event.ActionListener() {
-				@Override
-				public void actionPerformed(final java.awt.event.ActionEvent e) {
-					subtract_action();
-				}
-			});
+			subtractButton
+					.addActionListener(new java.awt.event.ActionListener() {
+						@Override
+						public void actionPerformed(
+								final java.awt.event.ActionEvent e) {
+							subtract_action();
+						}
+					});
 		}
 		return subtractButton;
 	}
 
 	protected void subtract_action() {
-		this.getFacade().createSubtract(this.firstArgument,this.secondArgument);
+		this.getFacade()
+				.createSubtract(this.firstArgument, this.secondArgument);
 		this.refresh();
 	}
+
 	/**
-	 * This method initializes multiplyButton	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes multiplyButton
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getMultiplyButton() {
 		if (multiplyButton == null) {
 			multiplyButton = new JButton();
 			multiplyButton.setText("multiply");
-			multiplyButton.addActionListener(new java.awt.event.ActionListener() {
-				@Override
-				public void actionPerformed(final java.awt.event.ActionEvent e) {
-					multiply_action();
-				}
-			});
+			multiplyButton
+					.addActionListener(new java.awt.event.ActionListener() {
+						@Override
+						public void actionPerformed(
+								final java.awt.event.ActionEvent e) {
+							multiply_action();
+						}
+					});
 		}
 		return multiplyButton;
 	}
 
 	protected void multiply_action() {
-		this.getFacade().createMultiply(this.firstArgument,this.secondArgument);
+		this.getFacade()
+				.createMultiply(this.firstArgument, this.secondArgument);
 		this.refresh();
 	}
+
 	/**
-	 * This method initializes divideButton	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes divideButton
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getDivideButton() {
 		if (divideButton == null) {
@@ -290,63 +300,71 @@ public class View extends JFrame {
 	}
 
 	protected void divide_action() {
-		this.getFacade().createDivide(this.firstArgument,this.secondArgument);
+		this.getFacade().createDivide(this.firstArgument, this.secondArgument);
 		this.refresh();
 	}
+
 	/**
-	 * This method initializes select1Button	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes select1Button
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getSelect1Button() {
 		if (select1Button == null) {
 			select1Button = new JButton();
 			select1Button.setText("select");
-			select1Button.addActionListener(new java.awt.event.ActionListener() {
-				@Override
-				public void actionPerformed(final java.awt.event.ActionEvent e) {
-					select_action(true);
-				}
-			});
+			select1Button
+					.addActionListener(new java.awt.event.ActionListener() {
+						@Override
+						public void actionPerformed(
+								final java.awt.event.ActionEvent e) {
+							select_action(true);
+						}
+					});
 		}
 		return select1Button;
 	}
 
 	protected void select_action(final boolean first) {
 		final Expression selected = this.getCellList().getSelectedValue();
-		if (selected != null){
-			if (first)this.firstArgument = selected;
-			else this.secondArgument = selected;
+		if (selected != null) {
+			if (first)
+				this.firstArgument = selected;
+			else
+				this.secondArgument = selected;
 			this.expressionStatusLabel.setText("");
 			this.refresh();
-		}else{
+		} else {
 			this.expressionStatusLabel.setText("Select expression!");
 		}
-		
+
 	}
+
 	/**
-	 * This method initializes select2Button	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes select2Button
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getSelect2Button() {
 		if (select2Button == null) {
 			select2Button = new JButton();
 			select2Button.setText("select");
-			select2Button.addActionListener(new java.awt.event.ActionListener() {
-				@Override
-				public void actionPerformed(final java.awt.event.ActionEvent e) {
-					select_action(false);
-				}
-			});
+			select2Button
+					.addActionListener(new java.awt.event.ActionListener() {
+						@Override
+						public void actionPerformed(
+								final java.awt.event.ActionEvent e) {
+							select_action(false);
+						}
+					});
 		}
 		return select2Button;
 	}
 
 	/**
-	 * This method initializes variableToolBar	
-	 * 	
-	 * @return javax.swing.JToolBar	
+	 * This method initializes variableToolBar
+	 * 
+	 * @return javax.swing.JToolBar
 	 */
 	private JToolBar getVariableToolBar() {
 		if (variableToolBar == null) {
@@ -361,9 +379,9 @@ public class View extends JFrame {
 	}
 
 	/**
-	 * This method initializes variableTextField	
-	 * 	
-	 * @return javax.swing.JTextField	
+	 * This method initializes variableTextField
+	 * 
+	 * @return javax.swing.JTextField
 	 */
 	private JTextField getVariableTextField() {
 		if (variableTextField == null) {
@@ -373,38 +391,52 @@ public class View extends JFrame {
 	}
 
 	/**
-	 * This method initializes variableCreateButton	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes variableCreateButton
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getVariableCreateButton() {
 		if (variableCreateButton == null) {
 			variableCreateButton = new JButton();
 			variableCreateButton.setText("create");
-			variableCreateButton.addActionListener(new java.awt.event.ActionListener() {
-				@Override
-				public void actionPerformed(final java.awt.event.ActionEvent e) {
-					variableCreate_action();
-				}
-			});
+			variableCreateButton
+					.addActionListener(new java.awt.event.ActionListener() {
+						@Override
+						public void actionPerformed(
+								final java.awt.event.ActionEvent e) {
+							variableCreate_action();
+						}
+					});
 		}
 		return variableCreateButton;
 	}
+
 	protected void variableCreate_action() {
 		final String name = this.getVariableTextField().getText();
-		if (!name.equals(""))this.getFacade().createVariable(name);
+		if (!name.equals(""))
+			this.getFacade().createVariable(name);
 		this.refresh();
 	}
+
 	private void refresh() {
 		int selected = this.getCellList().getSelectedIndex();
 		this.getCellList().setListData(this.getFacade().getExpressions());
-		this.getCellList().setSelectedIndex(selected >= 0 ? selected : (this.getCellList().getModel().getSize() - 1));
+		this.getCellList().setSelectedIndex(
+				selected >= 0 ? selected : (this.getCellList().getModel()
+						.getSize() - 1));
 		selected = this.getVariableList().getSelectedIndex();
 		this.getVariableList().setListData(this.getFacade().getVariables());
-		this.getVariableList().setSelectedIndex(selected >= 0 ? selected : (this.getVariableList().getModel().getSize() - 1));
-		this.getArgument1TextField().setText(firstArgument != null ? this.firstArgument.toString() : "----------");
-		this.getArgument2TextField().setText(secondArgument != null ? this.secondArgument.toString(): "----------");
-		final boolean isSet = this.firstArgument != null && this.secondArgument != null;
+		this.getVariableList().setSelectedIndex(
+				selected >= 0 ? selected : (this.getVariableList().getModel()
+						.getSize() - 1));
+		this.getArgument1TextField().setText(
+				firstArgument != null ? this.firstArgument.toString()
+						: "----------");
+		this.getArgument2TextField().setText(
+				secondArgument != null ? this.secondArgument.toString()
+						: "----------");
+		final boolean isSet = this.firstArgument != null
+				&& this.secondArgument != null;
 		this.getAddButton().setEnabled(isSet);
 		this.getSubtractButton().setEnabled(isSet);
 		this.getMultiplyButton().setEnabled(isSet);
@@ -412,10 +444,11 @@ public class View extends JFrame {
 		this.getVariableTextField().setText("");
 		this.getVariableTextField().grabFocus();
 	}
+
 	/**
-	 * This method initializes mainSplitPane	
-	 * 	
-	 * @return javax.swing.JSplitPane	
+	 * This method initializes mainSplitPane
+	 * 
+	 * @return javax.swing.JSplitPane
 	 */
 	private JSplitPane getMainSplitPane() {
 		if (mainSplitPane == null) {
@@ -427,39 +460,48 @@ public class View extends JFrame {
 		}
 		return mainSplitPane;
 	}
+
 	/**
-	 * This method initializes variablePanel	
-	 * 	
-	 * @return javax.swing.JPanel	
+	 * This method initializes variablePanel
+	 * 
+	 * @return javax.swing.JPanel
 	 */
 	private JPanel getVariablePanel() {
 		if (variablePanel == null) {
 			variablePanel = new JPanel();
 			variablePanel.setLayout(new BorderLayout());
-			variablePanel.setBorder(BorderFactory.createTitledBorder(null, "Variables", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
+			variablePanel.setBorder(BorderFactory.createTitledBorder(null,
+					"Variables", TitledBorder.DEFAULT_JUSTIFICATION,
+					TitledBorder.DEFAULT_POSITION, new Font("Dialog",
+							Font.BOLD, 12), new Color(51, 51, 51)));
 			variablePanel.add(getVariableScrollPane(), BorderLayout.CENTER);
 			variablePanel.add(getUpDownToolBar(), BorderLayout.SOUTH);
 		}
 		return variablePanel;
 	}
+
 	/**
-	 * This method initializes cellPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
+	 * This method initializes cellPanel
+	 * 
+	 * @return javax.swing.JPanel
 	 */
 	private JPanel getCellPanel() {
 		if (cellPanel == null) {
 			cellPanel = new JPanel();
 			cellPanel.setLayout(new BorderLayout());
-			cellPanel.setBorder(BorderFactory.createTitledBorder(null, "Expressions", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
+			cellPanel.setBorder(BorderFactory.createTitledBorder(null,
+					"Expressions", TitledBorder.DEFAULT_JUSTIFICATION,
+					TitledBorder.DEFAULT_POSITION, new Font("Dialog",
+							Font.BOLD, 12), new Color(51, 51, 51)));
 			cellPanel.add(getCellScrollPane(), BorderLayout.CENTER);
 		}
 		return cellPanel;
 	}
+
 	/**
-	 * This method initializes variableScrollPane	
-	 * 	
-	 * @return javax.swing.JScrollPane	
+	 * This method initializes variableScrollPane
+	 * 
+	 * @return javax.swing.JScrollPane
 	 */
 	private JScrollPane getVariableScrollPane() {
 		if (variableScrollPane == null) {
@@ -468,10 +510,11 @@ public class View extends JFrame {
 		}
 		return variableScrollPane;
 	}
+
 	/**
-	 * This method initializes variableList	
-	 * 	
-	 * @return javax.swing.JList	
+	 * This method initializes variableList
+	 * 
+	 * @return javax.swing.JList
 	 */
 	private JList<Variable> getVariableList() {
 		if (variableList == null) {
@@ -479,10 +522,11 @@ public class View extends JFrame {
 		}
 		return variableList;
 	}
+
 	/**
-	 * This method initializes upDownToolBar	
-	 * 	
-	 * @return javax.swing.JToolBar	
+	 * This method initializes upDownToolBar
+	 * 
+	 * @return javax.swing.JToolBar
 	 */
 	private JToolBar getUpDownToolBar() {
 		if (upDownToolBar == null) {
@@ -495,10 +539,11 @@ public class View extends JFrame {
 		}
 		return upDownToolBar;
 	}
+
 	/**
-	 * This method initializes upButton	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes upButton
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getUpButton() {
 		if (upButton == null) {
@@ -513,21 +558,25 @@ public class View extends JFrame {
 		}
 		return upButton;
 	}
+
 	protected void variable_action(final boolean b) {
-		final Variable selected = this.getVariableList().getSelectedValue();	
-		if (selected != null){
-			if(b)this.getFacade().up(selected);
-			else this.getFacade().down(selected);
+		final Variable selected = this.getVariableList().getSelectedValue();
+		if (selected != null) {
+			if (b)
+				this.getFacade().up(selected);
+			else
+				this.getFacade().down(selected);
 			this.variableStatusLabel.setText("");
 			this.refresh();
-		}else{
+		} else {
 			this.variableStatusLabel.setText("Select variable!");
 		}
 	}
+
 	/**
-	 * This method initializes downButton	
-	 * 	
-	 * @return javax.swing.JButton	
+	 * This method initializes downButton
+	 * 
+	 * @return javax.swing.JButton
 	 */
 	private JButton getDownButton() {
 		if (downButton == null) {
@@ -543,4 +592,4 @@ public class View extends JFrame {
 		return downButton;
 	}
 
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+} // @jve:decl-index=0:visual-constraint="10,10"
