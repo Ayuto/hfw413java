@@ -1,14 +1,12 @@
 package view;
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import javax.swing.JFrame;
-import javax.swing.JToolBar;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public abstract class View extends JFrame {
 
