@@ -46,9 +46,6 @@ public interface Component {
 
 	/**
 	 * Returns true if <argument> equals <this>.
-	 * 
-	 * @param argument
-	 * @return
 	 */
 	@Override
 	public boolean equals(Object argument);
