@@ -110,7 +110,10 @@ public class Product extends ComponentCommon {
 	public boolean equals(final Object argument) {
 		if (argument instanceof Product) {
 			final Product argumentAsProduct = (Product) argument;
-			return this.getComponents().equals(argumentAsProduct.getComponents()) && this.getName().equals(argumentAsProduct.getName()) && this.getPrice() == argumentAsProduct.getPrice();
+			return this.getComponents().equals(
+					argumentAsProduct.getComponents())
+					&& this.getName().equals(argumentAsProduct.getName())
+					&& this.getPrice() == argumentAsProduct.getPrice();
 		}
 		return false;
 	}

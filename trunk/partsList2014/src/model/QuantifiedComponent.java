@@ -69,7 +69,10 @@ public class QuantifiedComponent {
 	public boolean equals(final Object argument) {
 		if (argument instanceof QuantifiedComponent) {
 			final QuantifiedComponent argumentAsQualifiedComponent = (QuantifiedComponent) argument;
-			return argumentAsQualifiedComponent.getQuantity() == this.getQuantity() && argumentAsQualifiedComponent.getComponent().equals(this.getComponent());
+			return argumentAsQualifiedComponent.getQuantity() == this
+					.getQuantity()
+					&& argumentAsQualifiedComponent.getComponent().equals(
+							this.getComponent());
 		} else {
 			return false;
 		}

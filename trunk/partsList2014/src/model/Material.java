@@ -46,7 +46,8 @@ public class Material extends ComponentCommon {
 	public boolean equals(final Object argument) {
 		if (argument instanceof Material) {
 			final Material argumentAsMaterial = (Material) argument;
-			return argumentAsMaterial.getName().equals(this.getName()) && argumentAsMaterial.getPrice() == this.getPrice();
+			return argumentAsMaterial.getName().equals(this.getName())
+					&& argumentAsMaterial.getPrice() == this.getPrice();
 		} else {
 			return false;
 		}
