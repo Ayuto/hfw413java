@@ -1,28 +1,25 @@
 package view;
 
-import javax.swing.JPanel;
-
 import java.awt.BorderLayout;
-
-import javax.swing.JSplitPane;
-import javax.swing.BorderFactory;
-import javax.swing.border.TitledBorder;
-
-import java.awt.Font;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.Vector;
 
-import javax.swing.JFrame;
-import javax.swing.JToolBar;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JScrollPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextField;
+import javax.swing.JToolBar;
+import javax.swing.border.TitledBorder;
 
 import model.Component;
 import model.PartsList;
@@ -33,7 +30,7 @@ public class View extends JFrame {
 	final private PartsList manager;
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final String NAME = "Stücklistenverwaltung";
 
 	protected static final String NameCannotBeEmptyText = "Name darf nicht leer sein!"; // @jve:decl-index=0:
@@ -99,8 +96,8 @@ public class View extends JFrame {
 	public View(final PartsList manager) {
 		super(NAME);
 		this.manager = manager;
-		initialize();
-		refresh();
+		this.initialize();
+		this.refresh();
 	}
 
 	private PartsList getManager() {
@@ -113,16 +110,16 @@ public class View extends JFrame {
 		this.setSize(900, 500);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.add(getMainSplitPane(), BorderLayout.CENTER);
-		this.add(statusLabel, BorderLayout.SOUTH);
+		this.add(this.getMainSplitPane(), BorderLayout.CENTER);
+		this.add(this.statusLabel, BorderLayout.SOUTH);
 	}
 
 	private JSplitPane getMainSplitPane() {
 		if (this.mainSplitPane == null) {
 			this.mainSplitPane = new JSplitPane();
 			this.mainSplitPane.setDividerLocation(650);
-			this.mainSplitPane.setRightComponent(getChoicePanel());
-			this.mainSplitPane.setLeftComponent(getProductPanel());
+			this.mainSplitPane.setRightComponent(this.getChoicePanel());
+			this.mainSplitPane.setLeftComponent(this.getProductPanel());
 		}
 		return this.mainSplitPane;
 	}
@@ -132,12 +129,11 @@ public class View extends JFrame {
 			this.productPanel = new JPanel();
 			this.productPanel.setLayout(new BorderLayout());
 			this.productPanel.setBorder(BorderFactory.createTitledBorder(null,
-																		 "Produkte und Materialien",
-																		 TitledBorder.DEFAULT_JUSTIFICATION,
-																		 TitledBorder.DEFAULT_POSITION, 
-																		 new Font("Dialog", Font.BOLD, 12), 
-																		 new Color(51, 51, 51)));
-			this.productPanel.add(getProductSplitPane(), BorderLayout.CENTER);
+					"Produkte und Materialien",
+					TitledBorder.DEFAULT_JUSTIFICATION,
+					TitledBorder.DEFAULT_POSITION, new Font("Dialog",
+							Font.BOLD, 12), new Color(51, 51, 51)));
+			this.productPanel.add(this.getProductSplitPane(), BorderLayout.CENTER);
 		}
 		return this.productPanel;
 	}
@@ -147,13 +143,11 @@ public class View extends JFrame {
 			this.choicePanel = new JPanel();
 			this.choicePanel.setLayout(new BorderLayout());
 			this.choicePanel.setBorder(BorderFactory.createTitledBorder(null,
-																		"Teile-Auswahl", 
-																		TitledBorder.DEFAULT_JUSTIFICATION,
-																		TitledBorder.DEFAULT_POSITION, 
-																		new Font("Dialog", Font.BOLD, 12), 
-																		new Color(51, 51, 51)));
-			this.choicePanel.add(getChoiceToolBar(), BorderLayout.SOUTH);
-			this.choicePanel.add(getChoiceScrollPane(), BorderLayout.CENTER);
+					"Teile-Auswahl", TitledBorder.DEFAULT_JUSTIFICATION,
+					TitledBorder.DEFAULT_POSITION, new Font("Dialog",
+							Font.BOLD, 12), new Color(51, 51, 51)));
+			this.choicePanel.add(this.getChoiceToolBar(), BorderLayout.SOUTH);
+			this.choicePanel.add(this.getChoiceScrollPane(), BorderLayout.CENTER);
 		}
 		return this.choicePanel;
 	}
@@ -162,8 +156,8 @@ public class View extends JFrame {
 		if (this.productSplitPane == null) {
 			this.productSplitPane = new JSplitPane();
 			this.productSplitPane.setDividerLocation(400);
-			this.productSplitPane.setRightComponent(getPartPanel());
-			this.productSplitPane.setLeftComponent(getProductSelectPanel());
+			this.productSplitPane.setRightComponent(this.getPartPanel());
+			this.productSplitPane.setLeftComponent(this.getProductSelectPanel());
 		}
 		return this.productSplitPane;
 	}
@@ -172,57 +166,70 @@ public class View extends JFrame {
 		if (this.productSelectPanel == null) {
 			this.productSelectPanel = new JPanel();
 			this.productSelectPanel.setLayout(new BorderLayout());
-			this.productSelectPanel.add(getProductToolBar(), BorderLayout.NORTH);
-			this.productSelectPanel.add(getPriceChangeToolBar(), BorderLayout.SOUTH);
-			this.productSelectPanel.add(getProductScrollPane(), BorderLayout.CENTER);
+			this.productSelectPanel
+					.add(this.getProductToolBar(), BorderLayout.NORTH);
+			this.productSelectPanel.add(this.getPriceChangeToolBar(),
+					BorderLayout.SOUTH);
+			this.productSelectPanel.add(this.getProductScrollPane(),
+					BorderLayout.CENTER);
 		}
 		return this.productSelectPanel;
 	}
+
 	private JToolBar priceChangeToolBar = null;
+
 	private JToolBar getPriceChangeToolBar() {
-		if (this.priceChangeToolBar == null){
+		if (this.priceChangeToolBar == null) {
 			this.priceChangeToolBar = new JToolBar();
-			this.priceChangeToolBar.add(getPriceChangeButton());
-			this.priceChangeToolBar.add(getPriceChangeTextField());
+			this.priceChangeToolBar.add(this.getPriceChangeButton());
+			this.priceChangeToolBar.add(this.getPriceChangeTextField());
 		}
 		return this.priceChangeToolBar;
 	}
+
 	private JTextField priceChangeTextField = null;
+
 	private JTextField getPriceChangeTextField() {
-		if (this.priceChangeTextField == null){
+		if (this.priceChangeTextField == null) {
 			this.priceChangeTextField = new JTextField();
 		}
 		return this.priceChangeTextField;
 	}
+
 	private JButton priceChangeButton = null;
+
 	private JButton getPriceChangeButton() {
-		if(this.priceChangeButton == null){
+		if (this.priceChangeButton == null) {
 			this.priceChangeButton = new JButton();
 			this.priceChangeButton.setText("Ändere Preis: ");
-			this.priceChangeButton.addActionListener(new ActionListener(){
+			this.priceChangeButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(final ActionEvent e) {
-					priceChanged_action();
+					View.this.priceChanged_action();
 				}
 			});
 		}
 		return this.priceChangeButton;
 	}
+
 	protected void priceChanged_action() {
-		final Component selected = (Component) this.getProductList().getSelectedValue();
-		if (selected != null){
+		final Component selected = this.getProductList()
+				.getSelectedValue();
+		if (selected != null) {
 			try {
-				final int newPrice = Integer.parseInt(this.getPriceChangeTextField().getText());
-				this.getManager().changePrice(selected,newPrice);
+				final int newPrice = Integer.parseInt(this
+						.getPriceChangeTextField().getText());
+				this.getManager().changePrice(selected, newPrice);
 				this.refresh();
 				this.statusLabel.setText("");
-			}catch(final NumberFormatException nfe){
+			} catch (final NumberFormatException nfe) {
 				this.statusLabel.setText(PriceMustBeIntegerText);
 			}
-		}else{
+		} else {
 			this.statusLabel.setText(SelectComponentFirstText);
 		}
 	}
+
 	private JPanel partPanel = null;
 
 	private JPanel getPartPanel() {
@@ -231,7 +238,7 @@ public class View extends JFrame {
 			this.partPanel.setLayout(new BorderLayout());
 			this.partPanel.add(this.getPartSplitPane(), BorderLayout.CENTER);
 		}
-		return partPanel;
+		return this.partPanel;
 	}
 
 	private JSplitPane partSplitPane = null;
@@ -253,30 +260,34 @@ public class View extends JFrame {
 		if (this.materialListPanel == null) {
 			this.materialListPanel = new JPanel();
 			this.materialListPanel.setLayout(new BorderLayout());
-			this.materialListPanel.setBorder(BorderFactory.createTitledBorder(null, 
-																			  "Materialliste", 
-																			  TitledBorder.DEFAULT_JUSTIFICATION,
-																			  TitledBorder.DEFAULT_POSITION, 
-																			  new Font("Dialog", Font.BOLD, 12), 
-																			  new Color(51, 51, 51)));
-			this.materialListPanel.add(this.getMaterialListScrollPane(), BorderLayout.CENTER);
-			this.materialListPanel.add(getPartsToolBar(), BorderLayout.NORTH);
-			this.materialListPanel.add(getOverallPriceToolBar(), BorderLayout.SOUTH);
+			this.materialListPanel.setBorder(BorderFactory.createTitledBorder(
+					null, "Materialliste", TitledBorder.DEFAULT_JUSTIFICATION,
+					TitledBorder.DEFAULT_POSITION, new Font("Dialog",
+							Font.BOLD, 12), new Color(51, 51, 51)));
+			this.materialListPanel.add(this.getMaterialListScrollPane(),
+					BorderLayout.CENTER);
+			this.materialListPanel.add(this.getPartsToolBar(), BorderLayout.NORTH);
+			this.materialListPanel.add(this.getOverallPriceToolBar(),
+					BorderLayout.SOUTH);
 		}
 		return this.materialListPanel;
 	}
+
 	private JToolBar overallPriceToolBar = null;
+
 	private JToolBar getOverallPriceToolBar() {
-		if(this.overallPriceToolBar == null){
+		if (this.overallPriceToolBar == null) {
 			this.overallPriceToolBar = new JToolBar();
 			this.overallPriceToolBar.add(new JLabel(" Gesamtpreis: "));
 			this.overallPriceToolBar.add(this.getOverallPriceTextField());
 		}
 		return this.overallPriceToolBar;
 	}
+
 	private JTextField overallPriceTextField = null;
+
 	private JTextField getOverallPriceTextField() {
-		if (overallPriceTextField == null){
+		if (this.overallPriceTextField == null) {
 			this.overallPriceTextField = new JTextField();
 		}
 		return this.overallPriceTextField;
@@ -305,13 +316,11 @@ public class View extends JFrame {
 		if (this.directPartPanel == null) {
 			this.directPartPanel = new JPanel();
 			this.directPartPanel.setLayout(new BorderLayout());
-			this.directPartPanel.setBorder(BorderFactory.createTitledBorder(null,
-																			"Teile", 
-																			TitledBorder.DEFAULT_JUSTIFICATION,
-																			TitledBorder.DEFAULT_POSITION, 
-																			new Font("Dialog", Font.BOLD, 12), 
-																			new Color(51, 51, 51)));
-			this.directPartPanel.add(getPartsScrollPane(), BorderLayout.CENTER);
+			this.directPartPanel.setBorder(BorderFactory.createTitledBorder(
+					null, "Teile", TitledBorder.DEFAULT_JUSTIFICATION,
+					TitledBorder.DEFAULT_POSITION, new Font("Dialog",
+							Font.BOLD, 12), new Color(51, 51, 51)));
+			this.directPartPanel.add(this.getPartsScrollPane(), BorderLayout.CENTER);
 		}
 		return this.directPartPanel;
 	}
@@ -321,12 +330,12 @@ public class View extends JFrame {
 			this.nameLabel = new JLabel();
 			this.nameLabel.setText("Name: ");
 			this.productToolBar = new JToolBar();
-			this.productToolBar.add(nameLabel);
-			this.productToolBar.add(getNameTextField());
-			this.productToolBar.add(getNewMaterialButton());
-			this.productToolBar.add(getNewProductButton());
+			this.productToolBar.add(this.nameLabel);
+			this.productToolBar.add(this.getNameTextField());
+			this.productToolBar.add(this.getNewMaterialButton());
+			this.productToolBar.add(this.getNewProductButton());
 			this.productToolBar.add(new JLabel(" Preis: "));
-			this.productToolBar.add(getPriceTextField());
+			this.productToolBar.add(this.getPriceTextField());
 		}
 		return this.productToolBar;
 	}
@@ -337,19 +346,20 @@ public class View extends JFrame {
 		if (this.priceTextField == null) {
 			this.priceTextField = new JTextField();
 			this.priceTextField.setText("1");
-			this.priceTextField.addFocusListener(new FocusListener(){
+			this.priceTextField.addFocusListener(new FocusListener() {
 				@Override
 				public void focusGained(final FocusEvent e) {
 				}
+
 				@Override
 				public void focusLost(final FocusEvent e) {
 					try {
-						Integer.parseInt(getPriceTextField().getText());
-					} catch (final NumberFormatException nfe){
-						View.this.priceTextField.setText("1");						
+						Integer.parseInt(View.this.getPriceTextField().getText());
+					} catch (final NumberFormatException nfe) {
+						View.this.priceTextField.setText("1");
 					}
 				}
-				
+
 			});
 		}
 		return this.priceTextField;
@@ -369,18 +379,20 @@ public class View extends JFrame {
 			this.newMaterialButton
 					.addActionListener(new java.awt.event.ActionListener() {
 						@Override
-						public void actionPerformed(final java.awt.event.ActionEvent e) {
-							final String name = getNameTextField().getText();
-							final int price = Integer.parseInt(getPriceTextField().getText());
+						public void actionPerformed(
+								final java.awt.event.ActionEvent e) {
+							final String name = View.this.getNameTextField().getText();
+							final int price = Integer
+									.parseInt(View.this.getPriceTextField().getText());
 							if (!name.equals("")) {
 								try {
-									getManager().createMaterial(name, price);
-									refresh();
+									View.this.getManager().createMaterial(name, price);
+									View.this.refresh();
 								} catch (final Exception ex) {
-									getStatus().setText(ex.getMessage());
+									View.this.getStatus().setText(ex.getMessage());
 								}
 							} else {
-								getStatus().setText(NameCannotBeEmptyText);
+								View.this.getStatus().setText(NameCannotBeEmptyText);
 							}
 						}
 					});
@@ -411,18 +423,20 @@ public class View extends JFrame {
 			this.newProductButton
 					.addActionListener(new java.awt.event.ActionListener() {
 						@Override
-						public void actionPerformed(final java.awt.event.ActionEvent e) {
-							final String name = getNameTextField().getText();
-							final int price = Integer.parseInt(getPriceTextField().getText());
+						public void actionPerformed(
+								final java.awt.event.ActionEvent e) {
+							final String name = View.this.getNameTextField().getText();
+							final int price = Integer
+									.parseInt(View.this.getPriceTextField().getText());
 							if (!name.equals("")) {
 								try {
-									getManager().createProduct(name,price);
-									refresh();
+									View.this.getManager().createProduct(name, price);
+									View.this.refresh();
 								} catch (final Exception ex) {
-									getStatus().setText(ex.getMessage());
+									View.this.getStatus().setText(ex.getMessage());
 								}
 							} else {
-								getStatus().setText(NameCannotBeEmptyText);
+								View.this.getStatus().setText(NameCannotBeEmptyText);
 							}
 						}
 					});
@@ -433,7 +447,7 @@ public class View extends JFrame {
 	private JScrollPane getProductScrollPane() {
 		if (this.productScrollPane == null) {
 			this.productScrollPane = new JScrollPane();
-			this.productScrollPane.setViewportView(getProductList());
+			this.productScrollPane.setViewportView(this.getProductList());
 		}
 		return this.productScrollPane;
 	}
@@ -441,19 +455,26 @@ public class View extends JFrame {
 	private JList<Component> getProductList() {
 		if (this.productList == null) {
 			this.productList = new JList<Component>();
-			this.productList.addMouseListener(new java.awt.event.MouseAdapter() {
-				@Override
-				public void mouseClicked(final java.awt.event.MouseEvent e) {
-					final Component selected = (Component) getProductList()
-							.getSelectedValue();
-					if (selected != null) {
-						getPartsList().setListData(getManager().getParts(selected));
-						getPartsCountTextField().setText(new Integer(getManager().getPartCount(selected)).toString());
-						getMaterialList().setListData(getManager().getMaterialList(selected));
-						getOverallPriceTextField().setText(getManager().getOverallPrice(selected));
-					}
-				}
-			});
+			this.productList
+					.addMouseListener(new java.awt.event.MouseAdapter() {
+						@Override
+						public void mouseClicked(
+								final java.awt.event.MouseEvent e) {
+							final Component selected = View.this.getProductList()
+									.getSelectedValue();
+							if (selected != null) {
+								View.this.getPartsList().setListData(
+										View.this.getManager().getParts(selected));
+								View.this.getPartsCountTextField().setText(
+										new Integer(View.this.getManager().getPartCount(
+												selected)).toString());
+								View.this.getMaterialList().setListData(
+										View.this.getManager().getMaterialList(selected));
+								View.this.getOverallPriceTextField().setText(
+										View.this.getManager().getOverallPrice(selected));
+							}
+						}
+					});
 		}
 		return this.productList;
 	}
@@ -461,7 +482,7 @@ public class View extends JFrame {
 	private JScrollPane getPartsScrollPane() {
 		if (this.partsScrollPane == null) {
 			this.partsScrollPane = new JScrollPane();
-			this.partsScrollPane.setViewportView(getPartsList());
+			this.partsScrollPane.setViewportView(this.getPartsList());
 		}
 		return this.partsScrollPane;
 	}
@@ -478,9 +499,9 @@ public class View extends JFrame {
 			this.countLabel = new JLabel();
 			this.countLabel.setText("Anzahl:");
 			this.choiceToolBar = new JToolBar();
-			this.choiceToolBar.add(countLabel);
-			this.choiceToolBar.add(getCountTextField());
-			this.choiceToolBar.add(getAddButton());
+			this.choiceToolBar.add(this.countLabel);
+			this.choiceToolBar.add(this.getCountTextField());
+			this.choiceToolBar.add(this.getAddButton());
 		}
 		return this.choiceToolBar;
 	}
@@ -488,7 +509,7 @@ public class View extends JFrame {
 	private JScrollPane getChoiceScrollPane() {
 		if (this.choiceScrollPane == null) {
 			this.choiceScrollPane = new JScrollPane();
-			this.choiceScrollPane.setViewportView(getChoiceList());
+			this.choiceScrollPane.setViewportView(this.getChoiceList());
 		}
 		return this.choiceScrollPane;
 	}
@@ -504,31 +525,35 @@ public class View extends JFrame {
 		if (this.addButton == null) {
 			this.addButton = new JButton();
 			this.addButton.setText("Teil hinzufügen");
-			this.addButton.addActionListener(new java.awt.event.ActionListener() {
-				@Override
-				public void actionPerformed(final java.awt.event.ActionEvent e) {
-					try {
-						final int amount = Integer.parseInt(getCountTextField()
-								.getText());
-						final Component whole = (Component) getProductList()
-								.getSelectedValue();
-						final Component part = (Component) getChoiceList()
-								.getSelectedValue();
-						if (whole != null && part != null) {
+			this.addButton
+					.addActionListener(new java.awt.event.ActionListener() {
+						@Override
+						public void actionPerformed(
+								final java.awt.event.ActionEvent e) {
 							try {
-								getManager().addPart(whole, part, amount);
-								refresh();
-							} catch (final Exception ex) {
-								getStatus().setText(ex.getMessage());
+								final int amount = Integer
+										.parseInt(View.this.getCountTextField().getText());
+								final Component whole = View.this.getProductList()
+										.getSelectedValue();
+								final Component part = View.this.getChoiceList()
+										.getSelectedValue();
+								if (whole != null && part != null) {
+									try {
+										View.this.getManager().addPart(whole, part,
+												amount);
+										View.this.refresh();
+									} catch (final Exception ex) {
+										View.this.getStatus().setText(ex.getMessage());
+									}
+								} else {
+									View.this.getStatus().setText(
+											SelectWholeAndPartFirstText);
+								}
+							} catch (final NumberFormatException nfe) {
+								View.this.getStatus().setText(AmountMustBeIntegerText);
 							}
-						} else {
-							getStatus().setText(SelectWholeAndPartFirstText);
 						}
-					} catch (final NumberFormatException nfe) {
-						getStatus().setText(AmountMustBeIntegerText);
-					}
-				}
-			});
+					});
 		}
 		return this.addButton;
 	}
@@ -545,8 +570,8 @@ public class View extends JFrame {
 			this.partsCountLabel = new JLabel();
 			this.partsCountLabel.setText("Anzahl Teile: ");
 			this.partsToolBar = new JToolBar();
-			this.partsToolBar.add(partsCountLabel);
-			this.partsToolBar.add(getPartsCountTextField());
+			this.partsToolBar.add(this.partsCountLabel);
+			this.partsToolBar.add(this.getPartsCountTextField());
 		}
 		return this.partsToolBar;
 	}
