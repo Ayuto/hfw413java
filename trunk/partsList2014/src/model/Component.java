@@ -43,4 +43,12 @@ public interface Component {
 	 * Returns a list of all materials needed to build <this>.
 	 */
 	public MaterialList getMaterialList();
+	
+	/**
+	 * Returns true if <argument> equals <this>.
+	 * @param argument
+	 * @return
+	 */
+	@Override
+	public boolean equals (Object argument);
 }

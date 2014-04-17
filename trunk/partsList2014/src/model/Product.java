@@ -28,8 +28,9 @@ public class Product extends ComponentCommon {
 	@Override
 	public void addPart(final Component part, final int amount)
 			throws Exception {
-		if (part.contains(this))
+		if (part.contains(this)) {
 			throw new Exception(Product.CycleMessage);
+		}
 		final String partName = part.getName();
 		if (this.getComponents().containsKey(partName)) {
 			final QuantifiedComponent oldQuantification = this.getComponents()
@@ -49,14 +50,16 @@ public class Product extends ComponentCommon {
 
 	@Override
 	public boolean contains(final Component component) {
-		if (this.equals(component))
+		if (this.equals(component)) {
 			return true;
+		}
 		final Iterator<QuantifiedComponent> i = this.getComponents().values()
 				.iterator();
 		while (i.hasNext()) {
 			final QuantifiedComponent current = i.next();
-			if (current.contains(component))
+			if (current.contains(component)) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -101,5 +104,14 @@ public class Product extends ComponentCommon {
 			result.add(current.getMaterialList());
 		}
 		return result;
+	}
+
+	@Override
+	public boolean equals(final Object argument) {
+		if (argument instanceof Product) {
+			final Product argumentAsProduct = (Product) argument;
+			return this.getComponents().equals(argumentAsProduct.getComponents()) && this.getName().equals(argumentAsProduct.getName()) && this.getPrice() == argumentAsProduct.getPrice();
+		}
+		return false;
 	}
 }
