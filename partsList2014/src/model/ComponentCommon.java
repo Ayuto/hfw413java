@@ -31,7 +31,5 @@ public abstract class ComponentCommon implements Component {
 	}
 
 	@Override
-	public boolean equals(final Object argument) {
-		return super.equals(argument);
-	}
+	public abstract boolean equals(final Object argument);
 }

@@ -53,8 +53,9 @@ public class QuantifiedComponent {
 	public void addQuantity(final QuantifiedComponent quantifiedComponent) {
 		if (this.getComponent().equals(quantifiedComponent.getComponent())) {
 			this.addQuantity(quantifiedComponent.getQuantity());
-		} else
+		} else {
 			throw new Error(QuantifiedComponent.ADDING_ERROR);
+		}
 	}
 
 	/**
@@ -66,7 +67,12 @@ public class QuantifiedComponent {
 
 	@Override
 	public boolean equals(final Object argument) {
-		return super.equals(argument);
+		if (argument instanceof QuantifiedComponent) {
+			final QuantifiedComponent argumentAsQualifiedComponent = (QuantifiedComponent) argument;
+			return argumentAsQualifiedComponent.getQuantity() == this.getQuantity() && argumentAsQualifiedComponent.getComponent().equals(this.getComponent());
+		} else {
+			return false;
+		}
 	}
 
 	/**

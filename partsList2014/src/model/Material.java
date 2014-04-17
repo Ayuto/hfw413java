@@ -41,4 +41,14 @@ public class Material extends ComponentCommon {
 		result.add(QuantifiedComponent.createQuantifiedComponent(1, this));
 		return MaterialList.create(result);
 	}
+
+	@Override
+	public boolean equals(final Object argument) {
+		if (argument instanceof Material) {
+			final Material argumentAsMaterial = (Material) argument;
+			return argumentAsMaterial.getName().equals(this.getName()) && argumentAsMaterial.getPrice() == this.getPrice();
+		} else {
+			return false;
+		}
+	}
 }
