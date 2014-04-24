@@ -4,14 +4,15 @@ public class Addition extends CompositeExpression {
 
 	private static final String OPERATOR_SYMBOL = "+";
 
-	public static Addition create(Expression first, Expression second) {
+	public static Addition create(final Expression first, final Expression second) {
 		return new Addition(first, second);
 	}
 
-	private Addition(Expression first, Expression second) {
+	private Addition(final Expression first, final Expression second) {
 		super(first, second);
 	}
 
+	@Override
 	public String getOperator() {
 		return Addition.OPERATOR_SYMBOL;
 	}

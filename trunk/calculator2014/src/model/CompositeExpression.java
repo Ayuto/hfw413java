@@ -13,18 +13,16 @@ public abstract class CompositeExpression extends Expression implements
 	private final Expression second;
 	private int value;
 
-	public CompositeExpression(Expression first, Expression second) {
-		if (first.contains(this) || second.contains(this))
+	public CompositeExpression(final Expression first, final Expression second) {
+		if (first.contains(this) || second.contains(this)) {
 			throw new Error(CYCLE_DETECTED_MSG);
-		if (first.equals(DivisionByZero.getInstance())
-				|| second.equals(DivisionByZero.getInstance()))
-			throw new Error(DIVISION_BY_ZERO_MSG);
+		}
 		this.first = first;
 		this.second = second;
 		this.getFirst().register(this);
 		this.getSecond().register(this);
 		this.value = this.calculate();
-	}
+		}
 
 	@Override
 	public void update() {
@@ -36,22 +34,24 @@ public abstract class CompositeExpression extends Expression implements
 
 	public abstract String getOperator();
 
+	@Override
 	public int getValue() {
-		return value;
+		return this.value;
 	}
 
 	protected Expression getFirst() {
-		return first;
+		return this.first;
 	}
 
 	protected Expression getSecond() {
-		return second;
+		return this.second;
 	}
 
 	@Override
-	public boolean contains(Expression argument) {
-		if (this.equals(argument))
+	public boolean contains(final Expression argument) {
+		if (this.equals(argument)) {
 			return true;
+		}
 		return (this.getFirst().contains(this) || this.getSecond().contains(
 				this));
 	}
