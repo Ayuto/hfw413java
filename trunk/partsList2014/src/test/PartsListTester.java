@@ -18,6 +18,8 @@ public class PartsListTester {
 	private Material m3;
 
 	private Product p0;
+	private Product p00;
+	private Product p000;
 	private Product p1;
 	private Product p2;
 	private Product p3;
@@ -30,6 +32,13 @@ public class PartsListTester {
 		this.m3 = Material.create("m3", 3);
 
 		this.p0 = Product.create("p0", 50);
+		
+		this.p00 = Product.create("p00", 10);
+		this.p00.addPart(this.p0, 2);
+		
+		this.p000 = Product.create("p000", 25);
+		this.p000.addPart(this.p00, 1);
+		this.p000.addPart(this.p0, 5);
 
 		this.p1 = Product.create("p1", 5);
 		this.p1.addPart(this.m1, 1);
@@ -56,6 +65,8 @@ public class PartsListTester {
 		Assert.assertEquals(2, this.m2.getPrice());
 		Assert.assertEquals(3, this.m3.getPrice());
 		Assert.assertEquals(50, this.p0.getPrice());
+		Assert.assertEquals(110, this.p00.getPrice());
+		Assert.assertEquals(385, this.p000.getPrice());
 		Assert.assertEquals(19, this.p1.getPrice());
 		Assert.assertEquals(74, this.p2.getPrice());
 		Assert.assertEquals(5 * this.p1.getPrice() + 2 * this.p2.getPrice() + 1
@@ -83,6 +94,12 @@ public class PartsListTester {
 		// p0 MaterialList
 		expected = new Vector<QuantifiedComponent>();
 		Assert.assertEquals(expected, this.p0.getMaterialList().getData());
+		
+		// p00 MaterialList
+		Assert.assertEquals(expected, this.p00.getMaterialList().getData());
+		
+		// p000 MaterialList
+		Assert.assertEquals(expected, this.p000.getMaterialList().getData());
 
 		// p1 MaterialList
 		expected = new Vector<QuantifiedComponent>();
