@@ -1,17 +1,24 @@
 package model;
 
+/**
+ * A binary subtraction with two Expressions as arguments.
+ */
 public class Subtraction extends CompositeExpression {
 
 	private static final String OPERATOR_SYMBOL = "-";
 
-	public static Subtraction create(Expression first, Expression second) {
+	/**
+	 * Creates and returns a Division with two arguments and the value <first> minus <second>.
+	 */
+	public static Subtraction create(final Expression first, final Expression second) {
 		return new Subtraction(first, second);
 	}
 
-	private Subtraction(Expression first, Expression second) {
+	private Subtraction(final Expression first, final Expression second) {
 		super(first, second);
 	}
 
+	@Override
 	public String getOperator() {
 		return Subtraction.OPERATOR_SYMBOL;
 	}

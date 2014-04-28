@@ -1,9 +1,15 @@
 package model;
 
+/**
+ * A binary division with two expressions as arguments.
+ */
 public class Division extends CompositeExpression {
 
 	private static final String OPERATOR_SYMBOL = "/";
 
+	/**
+	 * Creates and returns a Division with two arguments and the value <first> divided by <second>.
+	 */
 	public static Division create(final Expression first, final Expression second) {
 		return new Division(first, second);
 	}
@@ -20,7 +26,7 @@ public class Division extends CompositeExpression {
 	@Override
 	public int calculate() {
 		if (this.getSecond().getValue() == 0) {
-			throw DivisionByZeroException.create(DIVISION_BY_ZERO_MSG);
+			throw DivisionByZeroException.create();
 		}
 		return this.getFirst().getValue() / this.getSecond().getValue();
 	}
