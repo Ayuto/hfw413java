@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * A compositeExpression is an expression with two arguments.
+ */
 public abstract class CompositeExpression extends Expression implements
 		Observer {
 
@@ -7,12 +10,16 @@ public abstract class CompositeExpression extends Expression implements
 	private static final String EXPRESSION_OPEN_BRACKET = "(";
 	private static final String EXPRESSION_CLOSE_BRACKET = ")";
 	private static final String EQUALITY_SIGN = "=";
-	public static final String DIVISION_BY_ZERO_MSG = "Devision by zero detected! You can not devide by zero";
+	
 
 	private final Expression first;
 	private final Expression second;
 	private int value;
 
+	/**
+	 * Constructor of CompositeExpression. Calculates the value and registers <this> to both arguments.
+	 * Throws an Error if one of the arguments contains <this>.
+	 */
 	public CompositeExpression(final Expression first, final Expression second) {
 		if (first.contains(this) || second.contains(this)) {
 			throw new Error(CYCLE_DETECTED_MSG);
@@ -30,8 +37,14 @@ public abstract class CompositeExpression extends Expression implements
 		this.notifyObservers();
 	}
 
+	/**
+	 * Calculates the value of <this>.
+	 */
 	public abstract int calculate();
 
+	/**
+	 * Returns the Operator of <this>.
+	 */
 	public abstract String getOperator();
 
 	@Override

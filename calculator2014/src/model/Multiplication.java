@@ -1,17 +1,24 @@
 package model;
 
+/**
+ * A binary multiplication with two expressions as arguments.
+ */
 public class Multiplication extends CompositeExpression {
 
 	private static final String OPERATOR_SYMBOL = "*";
 
-	public static Multiplication create(Expression first, Expression second) {
+	/**
+	 * Creates a Multiplication with the two arguments <first> and <second> and returns it.
+	 */
+	public static Multiplication create(final Expression first, final Expression second) {
 		return new Multiplication(first, second);
 	}
 
-	private Multiplication(Expression first, Expression second) {
+	private Multiplication(final Expression first, final Expression second) {
 		super(first, second);
 	}
 
+	@Override
 	public String getOperator() {
 		return Multiplication.OPERATOR_SYMBOL;
 	}

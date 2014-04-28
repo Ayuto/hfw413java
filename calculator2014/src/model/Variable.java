@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * A unary Expression with a value.
+ */
 public class Variable extends Expression {
 
 	private static final int InitialVariableValue = 0;
@@ -7,6 +10,9 @@ public class Variable extends Expression {
 	private static final String ValueCloseBracket = ")";
 	private static final int IncrementValue = 1;
 
+	/**
+	 * Creates a Variable with the name <name>, the value <InitialVariableValue> and returns it.
+	 */
 	public static Variable createVariable(final String name) {
 		return new Variable(name, InitialVariableValue);
 	}
@@ -29,16 +35,23 @@ public class Variable extends Expression {
 				+ ValueCloseBracket;
 	}
 
+	/**
+	 * Increases the value of <this> by <IncrementValue>.
+	 */
 	public void up() {
 		this.setValue(this.getValue() + IncrementValue);
 		this.notifyObservers();
 	}
 
+	/**
+	 * Decreases the value of <this> by <IncrementValue>.
+	 */
 	public void down() {
 		this.setValue(this.getValue() - IncrementValue);
 		this.notifyObservers();
 	}
 
+	@Override
 	public int getValue() {
 		return this.value;
 	}
@@ -48,7 +61,7 @@ public class Variable extends Expression {
 	}
 
 	@Override
-	public boolean contains(Expression argument) {
+	public boolean contains(final Expression argument) {
 		return this.equals(argument);
 	}
 }
