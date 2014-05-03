@@ -214,6 +214,29 @@ public class CalculatorTest {
 	}
 	
 	@Test
+	public void testToString() {
+		Assert.assertEquals("a(5)", a.toString());
+		Assert.assertEquals("b(3)", b.toString());
+		Assert.assertEquals("c(-2)", c.toString());
+		Assert.assertEquals("d(-5)", d.toString());
+		
+		Addition aa = Addition.create(a, a);
+		Assert.assertEquals("(a(5)+a(5)=10)", aa.toString());
+		
+		Subtraction ab = Subtraction.create(a, b);
+		Assert.assertEquals("(a(5)-b(3)=2)", ab.toString());
+		
+		Multiplication ac = Multiplication.create(a, c);
+		Assert.assertEquals("(a(5)*c(-2)=-10)", ac.toString());
+		
+		Division ad = Division.create(a, d);
+		Assert.assertEquals("(a(5)/d(-5)=-1)", ad.toString());
+
+		Addition aaa = Addition.create(aa, a);
+		Assert.assertEquals("((a(5)+a(5)=10)+a(5)=15)", aaa.toString());
+	}
+	
+	@Test
 	public void testMixed()
 	{
 		Addition aa = Addition.create(a, a);
