@@ -65,8 +65,8 @@ public abstract class CompositeExpression extends Expression implements
 		if (this.equals(argument)) {
 			return true;
 		}
-		return (this.getFirst().contains(this) || this.getSecond().contains(
-				this));
+		return (this.getFirst().contains(argument) || this.getSecond().contains(
+				argument));
 	}
 
 	@Override

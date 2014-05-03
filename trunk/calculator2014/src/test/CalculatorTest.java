@@ -212,4 +212,39 @@ public class CalculatorTest {
 		} catch (final DivisionByZeroException e) {
 		}
 	}
+	
+	@Test
+	public void testMixed()
+	{
+		Addition aa = Addition.create(a, a);
+		Subtraction aab = Subtraction.create(aa, b);
+		
+		// (5+5)-3
+		Assert.assertEquals(7, aab.getValue());
+		
+		Division aac = Division.create(aa, c);
+		// (5+5)/(-2)
+		Assert.assertEquals(-5, aac.getValue());
+		
+		Multiplication aacd = Multiplication.create(aac, d);
+		// ((5+5)/(-2))*(-5)
+		Assert.assertEquals(25, aacd.getValue());
+	}
+	
+	@Test
+	public void testContains()
+	{
+		Assert.assertEquals(true, a.contains(a));
+		Assert.assertEquals(false, a.contains(b));
+		
+		// 5+5
+		Addition aa = Addition.create(a, a);
+		Assert.assertEquals(true, aa.contains(aa));
+		Assert.assertEquals(true, aa.contains(a));
+		Assert.assertEquals(false, aa.contains(b));
+		
+		// (5+5)+3
+		Addition aab = Addition.create(aa, b);
+		Assert.assertEquals(true, aab.contains(aa));
+	}
 }
