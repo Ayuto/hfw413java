@@ -4,7 +4,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
-public class Product extends ComponentCommon {
+import observer.Observer;
+import cache.CacheState;
+import cache.NothingCached;
+import events.Event;
+import events.EventVisitor;
+import events.PriceChangedEvent;
+import events.StructureChangedEvent;
+
+public class Product extends ComponentCommon implements Observer {
 
 	private static final String CycleMessage = "Zyklen sind in der Aufbaustruktur nicht erlaubt!";
 
@@ -18,11 +26,13 @@ public class Product extends ComponentCommon {
 	}
 
 	private final HashMap<String, QuantifiedComponent> components;
+	private CacheState cacheState;
 
 	protected Product(final String name, final int price,
 			final HashMap<String, QuantifiedComponent> components) {
 		super(name, price);
 		this.components = components;
+		this.setCacheState(NothingCached.create(this));
 	}
 
 	@Override
@@ -31,6 +41,7 @@ public class Product extends ComponentCommon {
 		if (part.contains(this)) {
 			throw new Exception(Product.CycleMessage);
 		}
+		part.register(this);
 		final String partName = part.getName();
 		if (this.getComponents().containsKey(partName)) {
 			final QuantifiedComponent oldQuantification = this.getComponents()
@@ -42,6 +53,9 @@ public class Product extends ComponentCommon {
 							QuantifiedComponent.createQuantifiedComponent(
 									amount, part));
 		}
+		Event event = StructureChangedEvent.create();
+		this.notifyObservers(event);
+		this.update(event);
 	}
 
 	private HashMap<String, QuantifiedComponent> getComponents() {
@@ -80,9 +94,11 @@ public class Product extends ComponentCommon {
 		}
 		return result;
 	}
-
-	@Override
-	public int getPrice() {
+	
+	/**
+	 * Calculates the current price and returns it.
+	 */
+	public int calculatePrice() {
 		int result = super.getPrice();
 		final Iterator<QuantifiedComponent> subComponents = this
 				.getComponents().values().iterator();
@@ -92,9 +108,22 @@ public class Product extends ComponentCommon {
 		}
 		return result;
 	}
+	
+	@Override
+	public void setPrice(int price) {
+		super.setPrice(price);
+		this.update(PriceChangedEvent.create());
+	}
 
 	@Override
-	public MaterialList getMaterialList() {
+	public int getPrice() {
+		return this.getCacheState().getPrice();
+	}
+	
+	/**
+	 * Calculates the current list with all materials needed to build <this> and returns it.
+	 */
+	public MaterialList calculateMaterialList() {
 		final Iterator<QuantifiedComponent> i = this.getDirectParts()
 				.iterator();
 		final MaterialList result = MaterialList
@@ -107,6 +136,11 @@ public class Product extends ComponentCommon {
 	}
 
 	@Override
+	public MaterialList getMaterialList() {
+		return this.getCacheState().getMaterialList();
+	}
+
+	@Override
 	public boolean equals(final Object argument) {
 		if (argument instanceof Product) {
 			final Product argumentAsProduct = (Product) argument;
@@ -116,5 +150,28 @@ public class Product extends ComponentCommon {
 					&& this.getPrice() == argumentAsProduct.getPrice();
 		}
 		return false;
+	}
+
+	@Override
+	public void update(Event event) {
+		event.accept(new EventVisitor() {
+			@Override
+			public void handleStructureChangedEvent(Event event) {
+				getCacheState().structureChanged();
+			}
+			
+			@Override
+			public void handlePriceChangedEvent(Event event) {
+				getCacheState().priceChanged();
+			}
+		});
+	}
+
+	public CacheState getCacheState() {
+		return cacheState;
+	}
+
+	public void setCacheState(CacheState cacheState) {
+		this.cacheState = cacheState;
 	}
 }
