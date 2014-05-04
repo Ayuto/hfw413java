@@ -2,6 +2,8 @@ package model;
 
 import java.util.Vector;
 
+import observer.Observer;
+
 public interface Component {
 
 	/**
@@ -43,6 +45,16 @@ public interface Component {
 	 * Returns a list of all materials needed to build <this>.
 	 */
 	public MaterialList getMaterialList();
+	
+	/**
+	 * Registers an Observer on <this>.
+	 */
+	public void register(Observer o);
+
+	/**
+	 * Deregisters an Observer on <this>.
+	 */
+	public void deregister(Observer o);
 
 	/**
 	 * Returns true if <argument> equals <this>.

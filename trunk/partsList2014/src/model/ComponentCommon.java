@@ -1,6 +1,9 @@
 package model;
 
-public abstract class ComponentCommon implements Component {
+import events.PriceChangedEvent;
+import observer.Observee;
+
+public abstract class ComponentCommon extends Observee implements Component {
 
 	private final String name;
 	private int price;
@@ -18,6 +21,7 @@ public abstract class ComponentCommon implements Component {
 	@Override
 	public void setPrice(final int price) {
 		this.price = price;
+		this.notifyObservers(PriceChangedEvent.create());
 	}
 
 	@Override
