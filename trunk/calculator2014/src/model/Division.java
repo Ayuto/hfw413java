@@ -14,7 +14,7 @@ public class Division extends CompositeExpression {
 		return new Division(first, second);
 	}
 
-	protected Division(final Expression first, final Expression second) {
+	private Division(final Expression first, final Expression second) {
 		super(first, second);
 	}
 
