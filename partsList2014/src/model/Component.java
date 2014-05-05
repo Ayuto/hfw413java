@@ -45,7 +45,7 @@ public interface Component {
 	 * Returns a list of all materials needed to build <this>.
 	 */
 	public MaterialList getMaterialList();
-	
+
 	/**
 	 * Registers an Observer on <this>.
 	 */

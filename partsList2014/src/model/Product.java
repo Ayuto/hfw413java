@@ -53,7 +53,7 @@ public class Product extends ComponentCommon implements Observer {
 							QuantifiedComponent.createQuantifiedComponent(
 									amount, part));
 		}
-		Event event = StructureChangedEvent.create();
+		final Event event = StructureChangedEvent.create();
 		this.notifyObservers(event);
 		this.update(event);
 	}
@@ -94,7 +94,7 @@ public class Product extends ComponentCommon implements Observer {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Calculates the current price and returns it.
 	 */
@@ -108,9 +108,9 @@ public class Product extends ComponentCommon implements Observer {
 		}
 		return result;
 	}
-	
+
 	@Override
-	public void setPrice(int price) {
+	public void setPrice(final int price) {
 		super.setPrice(price);
 		this.update(PriceChangedEvent.create());
 	}
@@ -119,9 +119,10 @@ public class Product extends ComponentCommon implements Observer {
 	public int getPrice() {
 		return this.getCacheState().getPrice();
 	}
-	
+
 	/**
-	 * Calculates the current list with all materials needed to build <this> and returns it.
+	 * Calculates the current list with all materials needed to build <this> and
+	 * returns it.
 	 */
 	public MaterialList calculateMaterialList() {
 		final Iterator<QuantifiedComponent> i = this.getDirectParts()
@@ -153,25 +154,31 @@ public class Product extends ComponentCommon implements Observer {
 	}
 
 	@Override
-	public void update(Event event) {
+	public void update(final Event event) {
 		event.accept(new EventVisitor() {
 			@Override
-			public void handleStructureChangedEvent(Event event) {
-				getCacheState().structureChanged();
+			public void handleStructureChangedEvent(final Event event) {
+				Product.this.getCacheState().structureChanged();
 			}
-			
+
 			@Override
-			public void handlePriceChangedEvent(Event event) {
-				getCacheState().priceChanged();
+			public void handlePriceChangedEvent(final Event event) {
+				Product.this.getCacheState().priceChanged();
 			}
 		});
 	}
 
+	/**
+	 * Returns the current cache state
+	 */
 	public CacheState getCacheState() {
-		return cacheState;
+		return this.cacheState;
 	}
 
-	public void setCacheState(CacheState cacheState) {
+	/**
+	 * Sets the current cache state to <cacheState>
+	 */
+	public void setCacheState(final CacheState cacheState) {
 		this.cacheState = cacheState;
 	}
 }
