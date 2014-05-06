@@ -1,4 +1,4 @@
-package model;
+package automaton.model;
 
 /**
  * A state transition from a state by a character to a state.
@@ -6,13 +6,17 @@ package model;
 public class StateTransition {
 	
 	/**
-	 * Creates a state transition.
+	 * Creates a state transition. State {@code <from>} and state {@code <to>} should belong to the same automaton.
 	 * @param from The starting state.
 	 * @param to The ending state.
 	 * @param by The needed input.
 	 * @return The created state transition.
+	 * @throws IllegalStateTransitionException If state {@code <from>} and state {@code <to>} do not belong to the same automaton.
 	 */
-	public static StateTransition create (State from, State to, char by) {
+	public static StateTransition create (State from, State to, char by) throws IllegalStateTransitionException{
+		if (!(from.getOut().equals(to.getOut()))){
+			throw new IllegalStateTransitionException();
+		}
 		return new StateTransition(from, to, by);
 	}
 

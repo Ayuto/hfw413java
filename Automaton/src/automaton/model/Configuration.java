@@ -1,10 +1,10 @@
-package model;
+package automaton.model;
 
 import java.util.Iterator;
 
 /**
  * A current configuration of an automaton with a collection of all current
- * states and an input string.
+ * states and an input string. All current states should always belong to {@code <out>}!
  */
 public class Configuration {
 
@@ -50,7 +50,7 @@ public class Configuration {
 		Iterator<State> iterator = this.getStates().iterator();
 		while (iterator.hasNext()) {
 			State current = iterator.next();
-			result.add(current.get(c));
+			result.addAll(current.get(c));
 		}
 		return Configuration.create(getOut(), result, input.substring(1));
 	}
