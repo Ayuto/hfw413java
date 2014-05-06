@@ -4,7 +4,8 @@ import java.util.Iterator;
 
 /**
  * A current configuration of an automaton with a collection of all current
- * states and an input string. All current states should always belong to {@code <out>}!
+ * states and an input string. All current states should always belong to
+ * {@code <out>}!
  */
 public class Configuration {
 

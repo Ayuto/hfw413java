@@ -3,12 +3,15 @@ package expressions;
 import java.util.Collection;
 import java.util.Iterator;
 
-public abstract class Composite extends RegularExpression {
+/**
+ * A CompositeExpression is an abstract class for all expressions out of others.
+ */
+public abstract class CompositeExpression extends RegularExpression {
 
 	private final Collection<RegularExpression> parts;
-	
-	public Composite (Collection<RegularExpression> parts, boolean optional, boolean iterated) {
-		super(optional, iterated);
+
+	public CompositeExpression(Collection<RegularExpression> parts) {
+		super();
 		this.parts = parts;
 	}
 
@@ -16,6 +19,13 @@ public abstract class Composite extends RegularExpression {
 		return parts;
 	}
 	
+	public void add(RegularExpression ex) {
+		if (ex.contains(this)) {
+			throw new CycleException();
+		}
+		this.getParts().add(ex);
+	}
+
 	@Override
 	public boolean contains(RegularExpression ex) {
 		if (this.equals(ex))

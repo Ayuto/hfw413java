@@ -1,5 +1,7 @@
 package expressions;
 
+import java.util.HashSet;
+
 public class RegularExpressionFacade {
 
 	public static RegularExpressionFacade create() {
@@ -7,50 +9,52 @@ public class RegularExpressionFacade {
 	}
 
 	/**
-	 * @return RegularBaseExpression, the language of which is {c} 
+	 * @return RegularBaseExpression, the language of which is {c}
 	 */
 	public RegularExpression createBaseExpression(final char c) {
-		//TODO
 		System.out.println("Base:" + c);
-		return DummyExpression.create();
+		return BaseExpression.create(c);
 	}
 
 	/**
 	 * @return RegularExpression, the language of which is the empty set
 	 */
 	public RegularExpression createChoiceExpression() {
-		//TODO
 		System.out.println("Choice");
-		return DummyExpression.create();
+		return Choice.create(new HashSet<RegularExpression>());
 	}
+
 	/**
 	 * @return RegularExpression, the language of which is {""}
 	 */
 	public RegularExpression createSequenceExpression() {
-		//TODO
 		System.out.println("Sequence");
-		return DummyExpression.create();
+		return Sequence.create(new HashSet<RegularExpression>());
 	}
 
-	/**Adds the containee as a direct subexpression to the container. 
-	 * Order of addition is significant!
-	 * @param container The whole
-	 * @param containee The part
+	/**
+	 * Adds the containee as a direct subexpression to the container. Order of
+	 * addition is significant!
+	 * 
+	 * @param container
+	 *            The whole
+	 * @param containee
+	 *            The part
 	 */
-	public void add(final RegularExpression container, final RegularExpression containee) {
-		//TODO
+	public void add(final RegularExpression container,
+			final RegularExpression containee) {
+		container.add(containee);
 		System.out.println("add");
 	}
 
 	public void setIterated(final RegularExpression expression) {
-		//TODO
+		expression.setIterated(true);
 		System.out.println("iterated");
 	}
 
 	public void setOptional(final RegularExpression result) {
-		//TODO
+		result.setOptional(true);
 		System.out.println("optional");
 	}
-
 
 }

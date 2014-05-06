@@ -2,16 +2,18 @@ package expressions;
 
 import automaton.model.Automaton;
 
-public class Element extends RegularExpression {
+/**
+ * A BaseExpression is the expression for just one character.
+ */
+public class BaseExpression extends RegularExpression {
 
-	public static Element create (char c, boolean optional, boolean iterated) {
-		return new Element(c, optional, iterated);
+	public static BaseExpression create(char c) {
+		return new BaseExpression(c);
 	}
-	
+
 	private final char character;
-	
-	private Element(char c, boolean optional, boolean iterated) {
-		super(optional, iterated);
+
+	private BaseExpression(char c) {
 		this.character = c;
 	}
 
@@ -27,6 +29,11 @@ public class Element extends RegularExpression {
 	@Override
 	public boolean contains(RegularExpression ex) {
 		return this.equals(ex);
+	}
+
+	@Override
+	public void add(RegularExpression ex) {
+		throw new UnsupportedOperationException();
 	}
 
 }
