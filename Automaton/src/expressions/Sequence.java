@@ -1,27 +1,33 @@
 package expressions;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import automaton.model.Automaton;
 
-public class Sequence extends Composite {
+/**
+ * A Sequence is a expression for one RegularExpression after another.
+ */
+public class Sequence extends CompositeExpression {
 
-	public static Sequence create (Collection<RegularExpression> parts, boolean optional, boolean iterated) {
-		if (parts.isEmpty()) {
-			throw new EmptySequenceException();
-		}
-		return new Sequence(parts, optional, iterated);
+	public static Sequence create(Collection<RegularExpression> parts) {
+		return new Sequence(parts);
 	}
-	
-	private Sequence(Collection<RegularExpression> parts, boolean optional,
-			boolean iterated) {
-		super(parts, optional, iterated);
+
+	private Sequence(Collection<RegularExpression> parts) {
+		super(parts);
 	}
 
 	@Override
 	protected Automaton toBaseAutomaton() {
-		// TODO Auto-generated method stub
-		return null;
+		Automaton result = Automaton.create();
+		result.setOptional(true);
+		Iterator<RegularExpression> iterator = this.getParts().iterator();
+		while (iterator.hasNext()) {
+			RegularExpression current = iterator.next();
+			result.sequence(current.toAutomaton());
+		}
+		return result;
 	}
 
 }

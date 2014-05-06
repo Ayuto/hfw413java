@@ -1,41 +1,42 @@
 package expressions;
-import java.util.Random;
 
 import automaton.model.Automaton;
 
+/**
+ * An abstract class for all RegularExpressions. A RegularExpression can be
+ * optional or/and iterated.
+ */
 public abstract class RegularExpression {
-	
+
 	private boolean optional;
 	private boolean iterated;
-	
-	public RegularExpression(boolean optional, boolean iterated) {
-		this.optional = optional;
-		this.iterated = iterated;
-	}
-	
+
 	protected abstract Automaton toBaseAutomaton();
-	
+
 	public Automaton toAutomaton() {
 		Automaton result = this.toBaseAutomaton();
 		if (this.isIterated()) {
-			// TODO handle iterated
+			result.iterated();
 		}
-		if (this.isOptional()) {
-			// TODO handle optional
-		}
+		result.setOptional(this.isOptional());
 		return result;
 	}
 	
+	public abstract void add (RegularExpression ex);
+
+	/**
+	 * Returns true only if {@code <this>} contains the regularExpression
+	 * {@code <ex>}.
+	 */
 	public abstract boolean contains(RegularExpression ex);
 
 	/**
 	 * @param text
-	 * @return true if and only if the text 
-	 * belongs to the language of the receiver.
+	 * @return true if and only if the text belongs to the language of the
+	 *         receiver.
 	 */
 	public boolean check(final String text) {
-		// TODO 
-		return new Random().nextBoolean();
+		return this.toAutomaton().recognizes(text);
 	}
 
 	public boolean isOptional() {
@@ -53,30 +54,4 @@ public abstract class RegularExpression {
 	public void setIterated(boolean iterated) {
 		this.iterated = iterated;
 	}
-
-}
-
-//TODO Just for testing; remove in final implementation
-class DummyExpression extends RegularExpression {
-
-	public DummyExpression() {
-		super(false, false);
-	}
-
-	public static RegularExpression create() {
-		return new DummyExpression();
-	}
-
-	@Override
-	protected Automaton toBaseAutomaton() {
-		// TODO Just for testing!
-		return null;
-	}
-
-	@Override
-	public boolean contains(RegularExpression ex) {
-		// TODO Just for testing!
-		return false;
-	}
-	
 }

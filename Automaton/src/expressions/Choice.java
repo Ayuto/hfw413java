@@ -5,16 +5,17 @@ import java.util.Iterator;
 
 import automaton.model.Automaton;
 
-public class Choice extends Composite {
+/**
+ * A Choice is a RegularExpression for one expression or another.
+ */
+public class Choice extends CompositeExpression {
 
-	public static Choice create(Collection<RegularExpression> parts,
-			boolean optional, boolean iterated) {
-		return new Choice(parts, optional, iterated);
+	public static Choice create(Collection<RegularExpression> parts) {
+		return new Choice(parts);
 	}
 
-	private Choice(Collection<RegularExpression> parts, boolean optional,
-			boolean iterated) {
-		super(parts, optional, iterated);
+	private Choice(Collection<RegularExpression> parts) {
+		super(parts);
 	}
 
 	@Override

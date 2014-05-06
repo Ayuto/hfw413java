@@ -1,7 +1,6 @@
 package automaton.model;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -27,10 +26,11 @@ public class Automaton {
 		return automaton;
 	}
 
-	private final State start;
-	private final State end;
+	private State start;
+	private State end;
 	private final StateCollection states;
 	private final Collection<StateTransition> delta;
+	private boolean optional;
 
 	private Automaton() {
 		this.start = State.create(this);
@@ -51,6 +51,9 @@ public class Automaton {
 	 *         word {@code<input>}
 	 */
 	public boolean recognizes(String input) {
+		if (this.isOptional() && input.isEmpty()) {
+			return true;
+		}
 		return Configuration.create(this, StateCollection.create(start), input)
 				.run().isEndConfiguration();
 	}
@@ -77,39 +80,63 @@ public class Automaton {
 		return to.fetchPredecessors();
 	}
 
-	public Automaton choice(Automaton argument) {
-		Automaton result = Automaton.create();
-		result.getStates().addAll(this.getStates());
-		result.getStates().addAll(argument.getStates());
-		createEmptySuccessorTransition(result.getStart(), this.getStart());
-		createEmptySuccessorTransition(result.getStart(), argument.getStart());
-		createEmptyPredecessorTransition(this.getEnd(), result.getEnd());
-		createEmptyPredecessorTransition(argument.getEnd(), result.getEnd());
-		return result;
+	/**
+	 * Changes the receiver to the choice of itself or {@code <argument>}.
+	 */
+	public void choice(Automaton argument) {
+		this.getStart().createEmptyTransitionTo(argument.getStart());
+		this.getEnd().createEmptyTransitionFrom(argument.getEnd());
+		argument.getStates().changeAutomaton(this);
+		this.getStates().addAll(argument.getStates());
+		this.setOptional(this.isOptional() || argument.isOptional());
 	}
 
-	private void createEmptyPredecessorTransition(State state1, State state2) {
-		Iterator<StateTransition> state1Predecessors = state1
-				.fetchPredecessors().iterator();
-		while (state1Predecessors.hasNext()) {
-			StateTransition current = state1Predecessors.next();
-			state1.getOut()
-					.getDelta()
-					.add(StateTransition.create(current.getFrom(), state2,
-							current.getBy()));
+	/**
+	 * Changes the receiver to the sequence of the receiver and afterwards the
+	 * automaton {@code <argument>}.
+	 */
+	public void sequence(Automaton argument) {
+		this.getEnd().createEmptyTransitionTo(argument.getStart());
+		if (this.isOptional()) {
+			this.getStart().createEmptyTransitionTo(argument.getStart());
 		}
+		if (argument.isOptional()) {
+			argument.getEnd().createEmptyTransitionFrom(this.getEnd());
+		}
+		argument.getStates().changeAutomaton(this);
+		this.getStates().addAll(argument.getStates());
+		this.setEnd(argument.getEnd());
+		this.setOptional(this.isOptional() && argument.isOptional());
 	}
 
-	private void createEmptySuccessorTransition(State state1, State state2) {
-		Iterator<StateTransition> state2Transitions = state2.fetchSuccessors()
-				.iterator();
-		while (state2Transitions.hasNext()) {
-			StateTransition current = state2Transitions.next();
-			state1.getOut()
-					.getDelta()
-					.add(StateTransition.create(state1, current.getTo(),
-							current.getBy()));
-		}
+	/**
+	 * Changes the receiver that it represents its own iteration.
+	 */
+	public void iterated() {
+		this.getStart().createEmptyTransitionFrom(this.getEnd());
+	}
+
+	/**
+	 * Deletes states which are not necessary for the automaton to work.
+	 */
+	public void normalize() {
+		StateCollection check1 = StateCollection.create(this.getStart())
+				.checkBeginning();
+		check1.add(this.getStart());
+		check1.add(this.getEnd());
+		StateCollection check2 = StateCollection.create(this.getEnd())
+				.checkEnd();
+		check2.add(this.getStart());
+		check2.add(this.getEnd());
+		this.getStates().check(check1, check2);
+	}
+
+	public void setStart(State start) {
+		this.start = start;
+	}
+
+	public void setEnd(State end) {
+		this.end = end;
 	}
 
 	/**
@@ -139,5 +166,13 @@ public class Automaton {
 	 */
 	public Collection<StateTransition> getDelta() {
 		return delta;
+	}
+
+	public boolean isOptional() {
+		return optional;
+	}
+
+	public void setOptional(boolean optional) {
+		this.optional = optional;
 	}
 }
