@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.5" icons="true" automaticImage="JPEG" always-add-relationships="false" 
   generalizations="true" realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" language="java" name="model.Automaton" project="Automaton" file="/Automaton/src/model/Automaton.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="580" y="153"/>    
+  <class id="1" language="java" name="automaton.model.Configuration" project="AutomatonAndRegEx" 
+    file="/AutomatonAndRegEx/src/automaton/model/Configuration.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="159" y="115"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="false" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="model.Configuration" project="Automaton" 
-    file="/Automaton/src/model/Configuration.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="189" y="154"/>    
+  <class id="2" language="java" name="automaton.model.Automaton" project="AutomatonAndRegEx" 
+    file="/AutomatonAndRegEx/src/automaton/model/Automaton.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="654" y="119"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="false" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="model.State" project="Automaton" file="/Automaton/src/model/State.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="533" y="448"/>    
+  <class id="3" language="java" name="automaton.model.StateCollection" project="AutomatonAndRegEx" 
+    file="/AutomatonAndRegEx/src/automaton/model/StateCollection.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="160" y="401"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="false" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="model.StateTransition" project="Automaton" 
-    file="/Automaton/src/model/StateTransition.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="886" y="360"/>    
+  <class id="4" language="java" name="automaton.model.State" project="AutomatonAndRegEx" 
+    file="/AutomatonAndRegEx/src/automaton/model/State.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="645" y="401"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="false" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="model.StateCollection" project="Automaton" 
-    file="/Automaton/src/model/StateCollection.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="201" y="458"/>    
+  <class id="5" language="java" name="automaton.model.StateTransition" project="AutomatonAndRegEx" 
+    file="/AutomatonAndRegEx/src/automaton/model/StateTransition.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="997" y="230"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="false" static="true"/>      
@@ -47,87 +47,87 @@
     </display>  
   </class>  
   <association id="6">    
-    <bendpoint x="495" y="324"/>    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="7" name="start"/>      
-      <multiplicity id="8" minimum="0" maximum="1"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="7" name="delta"/>      
+      <multiplicity id="8" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
+    <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="9">    
-    <bendpoint x="609" y="313"/>    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="10" name="end"/>      
+      <attribute id="10" name="states"/>      
       <multiplicity id="11" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="12">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="13" name="data"/>      
-      <multiplicity id="14" minimum="0" maximum="2147483647"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="13" name="out"/>      
+      <multiplicity id="14" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="15">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="16" name="from"/>      
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="16" name="states"/>      
       <multiplicity id="17" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="18">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="19" name="states"/>      
+    <bendpoint x="822" y="343"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="19" name="from"/>      
       <multiplicity id="20" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
+    <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="21">    
-    <bendpoint x="823" y="441"/>    
-    <bendpoint x="716" y="482"/>    
-    <bendpoint x="656" y="482"/>    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="22" name="to"/>      
-      <multiplicity id="23" minimum="0" maximum="1"/>    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="22" name="data"/>      
+      <multiplicity id="23" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
+    <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="24">    
+    <bendpoint x="600" y="280"/>    
     <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="25" name="out"/>      
+      <attribute id="25" name="end"/>      
       <multiplicity id="26" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
+    <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="27">    
-    <bendpoint x="540" y="317"/>    
-    <end type="SOURCE" refId="3" navigable="false">      
+    <end type="SOURCE" refId="4" navigable="false">      
       <attribute id="28" name="out"/>      
       <multiplicity id="29" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="30">    
+    <bendpoint x="723" y="249"/>    
     <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="31" name="states"/>      
+      <attribute id="31" name="start"/>      
       <multiplicity id="32" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
+    <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="33">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="34" name="delta"/>      
-      <multiplicity id="35" minimum="0" maximum="2147483647"/>    
+    <bendpoint x="834" y="415"/>    
+    <bendpoint x="780" y="417"/>    
+    <bendpoint x="750" y="422"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="34" name="to"/>      
+      <multiplicity id="35" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  

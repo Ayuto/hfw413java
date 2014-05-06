@@ -1,4 +1,4 @@
-package model;
+package automaton.model;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -46,12 +46,8 @@ public class StateCollection {
 	 * Adds the collection {@code <states>} to the collection.
 	 * @param states Collection to be added to the collection.
 	 */
-	public void add(StateCollection states) {
-		Iterator<State> iterator = states.iterator();
-		while(iterator.hasNext()) {
-			State current = iterator.next();
-			this.add(current);
-		}
+	public void addAll(StateCollection states) {
+		this.getData().addAll(states.getData());
 	}
 	
 	/**
