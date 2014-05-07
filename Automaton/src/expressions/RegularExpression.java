@@ -18,10 +18,12 @@ public abstract class RegularExpression {
 		if (this.isIterated()) {
 			result.iterated();
 		}
-		result.setOptional(this.isOptional());
 		return result;
 	}
 	
+	/**
+	 * Adds the RegularExpression {@code <ex>} to the container of the receiver.
+	 */
 	public abstract void add (RegularExpression ex);
 
 	/**
