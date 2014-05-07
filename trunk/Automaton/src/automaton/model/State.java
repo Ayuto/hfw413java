@@ -125,6 +125,20 @@ public class State {
 	}
 
 	/**
+	 * Removes all Transitions with the receiver as start or end state.
+	 */
+	public void removeAllTransitions() {
+		Iterator<StateTransition> iterator = this.getOut().getDelta()
+				.iterator();
+		while (iterator.hasNext()) {
+			StateTransition current = iterator.next();
+			if (current.getFrom().equals(this) || current.getTo().equals(this)) {
+				iterator.remove();
+			}
+		}
+	}
+
+	/**
 	 * Checks whether {@code <this>} is an endstate.
 	 * 
 	 * @return true only if {@code <this>} is an endstate.
@@ -139,16 +153,5 @@ public class State {
 
 	public void setOut(Automaton out) {
 		this.out = out;
-	}
-
-	public void removeAllTransitions() {
-		Iterator<StateTransition> iterator = this.getOut().getDelta()
-				.iterator();
-		while (iterator.hasNext()) {
-			StateTransition current = iterator.next();
-			if (current.getFrom().equals(this) || current.getTo().equals(this)) {
-				iterator.remove();
-			}
-		}
 	}
 }
