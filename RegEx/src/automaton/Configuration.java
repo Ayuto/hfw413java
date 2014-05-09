@@ -21,8 +21,8 @@ public class Configuration {
 	 *            The input of the configuration.
 	 * @return The created configuration.
 	 */
-	public static Configuration create(final Automaton out, final StateCollection states,
-			final String input) {
+	public static Configuration create(final Automaton out,
+			final StateCollection states, final String input) {
 		return new Configuration(out, states, input);
 	}
 
@@ -30,7 +30,8 @@ public class Configuration {
 	private final StateCollection states;
 	private final String input;
 
-	private Configuration(final Automaton out, final StateCollection states, final String input) {
+	private Configuration(final Automaton out, final StateCollection states,
+			final String input) {
 		this.out = out;
 		this.states = states;
 		this.input = input;
@@ -53,7 +54,8 @@ public class Configuration {
 			final State current = iterator.next();
 			result.addAll(current.get(c));
 		}
-		return Configuration.create(this.getOut(), result, this.input.substring(1));
+		return Configuration.create(this.getOut(), result,
+				this.input.substring(1));
 	}
 
 	/**

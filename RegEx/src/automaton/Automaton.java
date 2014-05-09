@@ -55,8 +55,9 @@ public class Automaton {
 		if (this.isOptional() && input.isEmpty()) {
 			return true;
 		}
-		return Configuration.create(this, StateCollection.create(this.start), input)
-				.run().isEndConfiguration();
+		return Configuration
+				.create(this, StateCollection.create(this.start), input).run()
+				.isEndConfiguration();
 	}
 
 	/**
@@ -67,7 +68,7 @@ public class Automaton {
 	 * @return Collection of all successor statetransitions.
 	 */
 	public Collection<StateTransition> fetchSuccessors(final State from) {
-		return from.fetchSuccessors();
+		return from.fetchSuccessorTransitions();
 	}
 
 	/**
@@ -78,7 +79,7 @@ public class Automaton {
 	 * @return Collection of all predecessor statetransitions.
 	 */
 	public Collection<StateTransition> fetchPredecessors(final State to) {
-		return to.fetchPredecessors();
+		return to.fetchPredecessorTransitions();
 	}
 
 	/**
@@ -102,7 +103,7 @@ public class Automaton {
 		}
 		this.setEnd(argument.getEnd());
 	}
-	
+
 	/**
 	 * Changes the receiver to the choice of the receiver and the argument.
 	 */
@@ -111,16 +112,29 @@ public class Automaton {
 		argument.getStart().createEmptyTransitionFrom(this.getStart());
 		argument.getEnd().createEmptyTransitionTo(this.getEnd());
 	}
-	
+
+	/**
+	 * Deletes all not necessary states of the receiver including all
+	 * transitions of these states.
+	 */
+	public void normalizeStates() {
+		final StateCollection reachableFromBeginning = StateCollection.create(
+				this.getStart()).checkBeginning();
+		final StateCollection reachableFromEnd = StateCollection.create(
+				this.getEnd()).checkEnding();
+		this.getStates().checkAllStatesAndDeleteIfNessesary(reachableFromEnd, reachableFromBeginning);
+	}
+
 	private void addStatesAndTransitionsOf(final Automaton automaton) {
 		final Iterator<State> iterator = automaton.getStates().iterator();
-		while(iterator.hasNext()){
+		while (iterator.hasNext()) {
 			final State current = iterator.next();
 			current.setOut(this);
 			this.getStates().add(current);
 		}
-		final Iterator<StateTransition> transitions = automaton.getDelta().iterator();
-		while(transitions.hasNext()){
+		final Iterator<StateTransition> transitions = automaton.getDelta()
+				.iterator();
+		while (transitions.hasNext()) {
 			final StateTransition current = transitions.next();
 			this.getDelta().add(current);
 		}
