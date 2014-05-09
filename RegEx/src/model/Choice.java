@@ -24,6 +24,9 @@ public class Choice extends CompositeExpression{
 		final Iterator<RegularExpression> iterator = this.getParts().iterator();
 		while (iterator.hasNext()){
 			final RegularExpression current = iterator.next();
+			if (current.isOptional()){
+				result.setOptional(true);
+			}
 			result.choice(current.toAutomaton());
 		}
 		return result;
@@ -33,9 +36,17 @@ public class Choice extends CompositeExpression{
 	public boolean equals(final Object argument) {
 		if (argument instanceof Choice){
 			final Choice argumentAsChoice = (Choice) argument;
-			return this.isIterated()==argumentAsChoice.isIterated()&&this.getParts().equals(argumentAsChoice.getParts());
+			return this.isIterated() == argumentAsChoice.isIterated() && this.isOptional() == argumentAsChoice.isOptional() && this.getParts().equals(argumentAsChoice.getParts());
 		}
 		return false;
+	}
+
+	@Override
+	public void add(final RegularExpression argument) {
+		if (argument.contains(this)) {
+			throw new CycleException();
+		}
+		this.getParts().add(argument);
 	}
 
 }

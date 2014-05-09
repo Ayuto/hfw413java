@@ -94,6 +94,12 @@ public class Automaton {
 	public void sequence(final Automaton argument) {
 		this.addStatesAndTransitionsOf(argument);
 		this.getEnd().createEmptyTransitionTo(argument.getStart());
+		if (this.isOptional()) {
+			argument.getStart().createEmptyTransitionFrom(this.getStart());
+		}
+		if (argument.isOptional()) {
+			this.getEnd().createEmptyTransitionTo(argument.getEnd());
+		}
 		this.setEnd(argument.getEnd());
 	}
 	
