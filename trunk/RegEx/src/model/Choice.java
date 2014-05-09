@@ -5,6 +5,9 @@ import java.util.Iterator;
 
 import automaton.Automaton;
 
+/**
+ * A Choice is a CompositeExpression which accepts all parts.
+ */
 public class Choice extends CompositeExpression{
 	
 	public static Choice create(final Collection<RegularExpression> parts){

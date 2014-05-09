@@ -5,6 +5,9 @@ import java.util.Iterator;
 
 import automaton.Automaton;
 
+/**
+ * A Sequence is a CompositeExpression which represents the sequence of all parts.
+ */
 public class Sequence extends CompositeExpression{
 
 	public static Sequence create(final Collection<RegularExpression> parts){

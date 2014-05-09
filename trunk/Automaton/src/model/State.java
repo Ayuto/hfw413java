@@ -1,4 +1,4 @@
-package automaton;
+package model;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -62,7 +62,6 @@ public class State {
 
 	/**
 	 * Calculates all transitions starting at the receiver.
-	 * 
 	 * @return A collection with all calculated transitions.
 	 */
 	public Collection<StateTransition> fetchSuccessors() {
@@ -94,38 +93,6 @@ public class State {
 			}
 		}
 		return result;
-	}
-
-	/**
-	 * Creates an empty Transition from the receiver to the argument in the
-	 * Automaton of the receiver.
-	 */
-	public void createEmptyTransitionTo(final State to) {
-		final Iterator<StateTransition> iterator = this.fetchPredecessors()
-				.iterator();
-		while (iterator.hasNext()) {
-			final StateTransition current = iterator.next();
-			this.getOut()
-					.getDelta()
-					.add(StateTransition.create(current.getFrom(), to,
-							current.getBy()));
-		}
-	}
-
-	/**
-	 * Creates an empty Transition from the argument to the receiver in the
-	 * Automaton of the receiver.
-	 */
-	public void createEmptyTransitionFrom(final State from) {
-		final Iterator<StateTransition> iterator = this.fetchSuccessors()
-				.iterator();
-		while (iterator.hasNext()) {
-			final StateTransition current = iterator.next();
-			this.getOut()
-					.getDelta()
-					.add(StateTransition.create(from, current.getTo(),
-							current.getBy()));
-		}
 	}
 
 	/**
