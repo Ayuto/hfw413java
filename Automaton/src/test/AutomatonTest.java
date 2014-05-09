@@ -1,10 +1,10 @@
-package automaton;
+package test;
+
+import model.Automaton;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import automaton.Automaton;
 
 
 public class AutomatonTest {
@@ -13,7 +13,6 @@ public class AutomatonTest {
 	private Automaton m2;
 	private Automaton m3;
 	private Automaton m4;
-	private Automaton m5;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -23,10 +22,6 @@ public class AutomatonTest {
 		this.m3.getStart().add('a', this.m3.getStart());
 		this.m4 = Automaton.create('b');
 		this.m4.getStart().add('a', this.m4.getStart());
-		this.m5 = Automaton.create('a');
-		this.m5.getStart().add('b', this.m5.getEnd());
-		this.m5.setOptional(true);
-		this.m5.iterate();
 	}
 
 	@Test
@@ -42,7 +37,6 @@ public class AutomatonTest {
 		Assert.assertFalse(this.m4.recognizes(""));
 		Assert.assertTrue(this.m4.recognizes("aaaaaab"));
 		Assert.assertFalse(this.m4.recognizes("aaba"));
-		Assert.assertTrue(this.m5.recognizes("abbbaaaaabaabba"));
 	}
 
 }
