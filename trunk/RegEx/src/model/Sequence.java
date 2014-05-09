@@ -20,11 +20,13 @@ public class Sequence extends CompositeExpression{
 
 	@Override
 	public Automaton toBaseAutomaton() {
+		final Automaton result = Automaton.create();
+		result.setOptional(true);
 		final Iterator<RegularExpression> iterator = this.getParts().iterator();
-		final Automaton result = iterator.next().toAutomaton();
 		while (iterator.hasNext()){
 			final RegularExpression current = iterator.next();
 			result.sequence(current.toAutomaton());
+			result.setOptional(result.isOptional() && current.isOptional());
 		}
 		return result;
 	}
@@ -33,9 +35,17 @@ public class Sequence extends CompositeExpression{
 	public boolean equals(final Object argument) {
 		if (argument instanceof Sequence){
 			final Sequence argumentAsSequence = (Sequence) argument;
-			return this.isIterated()==argumentAsSequence.isIterated()&&this.getParts().equals(argumentAsSequence);
+			return this.isIterated() == argumentAsSequence.isIterated() && this.isOptional() == argumentAsSequence.isOptional() && this.getParts().equals(argumentAsSequence);
 		}
 		return false;
+	}
+
+	@Override
+	public void add(final RegularExpression argument) {
+		if (argument.contains(this)) {
+			throw new CycleException();
+		}
+		this.getParts().add(argument);
 	}
 	
 	

@@ -7,9 +7,13 @@ import automaton.Automaton;
  */
 public class BaseExpression extends RegularExpression{
 
+	public static BaseExpression create (final char c) {
+		return new BaseExpression(c);
+	}
+	
 	final private char c;
 
-	public BaseExpression(final char c) {
+	private BaseExpression(final char c) {
 		this.c = c;	
 	}
 
@@ -31,8 +35,13 @@ public class BaseExpression extends RegularExpression{
 	public boolean equals(final Object argument) {
 		if (argument instanceof BaseExpression){
 			final BaseExpression argumentAsBaseExpression = (BaseExpression) argument;
-			return this.isIterated() == argumentAsBaseExpression.isIterated()&&this.getC()==argumentAsBaseExpression.getC();
+			return this.isIterated() == argumentAsBaseExpression.isIterated() && this.isOptional() == argumentAsBaseExpression.isOptional() && this.getC()==argumentAsBaseExpression.getC();
 		}
 		return false;
+	}
+
+	@Override
+	public void add(final RegularExpression argument) {
+		throw new UnsupportedOperationException("You can not add a expression to a elementary Expression.");
 	}
 }
