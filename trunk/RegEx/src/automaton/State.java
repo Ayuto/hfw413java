@@ -65,7 +65,7 @@ public class State {
 	 * 
 	 * @return A collection with all calculated transitions.
 	 */
-	public Collection<StateTransition> fetchSuccessors() {
+	public Collection<StateTransition> fetchSuccessorTransitions() {
 		final Collection<StateTransition> result = new LinkedList<StateTransition>();
 		final Iterator<StateTransition> iterator = this.getOut().getDelta()
 				.iterator();
@@ -83,7 +83,7 @@ public class State {
 	 * 
 	 * @return The collection of all calculated transitions.
 	 */
-	public Collection<StateTransition> fetchPredecessors() {
+	public Collection<StateTransition> fetchPredecessorTransitions() {
 		final Collection<StateTransition> result = new LinkedList<StateTransition>();
 		final Iterator<StateTransition> iterator = this.getOut().getDelta()
 				.iterator();
@@ -97,12 +97,44 @@ public class State {
 	}
 
 	/**
+	 * Calculates all states with a transition from the receiver to them.
+	 * 
+	 * @return A StateCollection with all the calculated states.
+	 */
+	public StateCollection fetchSuccessors() {
+		final StateCollection result = StateCollection.create();
+		final Iterator<StateTransition> iterator = this
+				.fetchSuccessorTransitions().iterator();
+		while (iterator.hasNext()) {
+			final StateTransition current = iterator.next();
+			result.add(current.getTo());
+		}
+		return result;
+	}
+
+	/**
+	 * Calculates all states with a transition from them to the receiver.
+	 * 
+	 * @return A StateCollection with all the calculated states.
+	 */
+	public StateCollection fetchPredecessors() {
+		final StateCollection result = StateCollection.create();
+		final Iterator<StateTransition> iterator = this
+				.fetchPredecessorTransitions().iterator();
+		while (iterator.hasNext()) {
+			final StateTransition current = iterator.next();
+			result.add(current.getFrom());
+		}
+		return result;
+	}
+
+	/**
 	 * Creates an empty Transition from the receiver to the argument in the
 	 * Automaton of the receiver.
 	 */
 	public void createEmptyTransitionTo(final State to) {
-		final Iterator<StateTransition> iterator = this.fetchPredecessors()
-				.iterator();
+		final Iterator<StateTransition> iterator = this
+				.fetchPredecessorTransitions().iterator();
 		while (iterator.hasNext()) {
 			final StateTransition current = iterator.next();
 			this.getOut()
@@ -117,14 +149,27 @@ public class State {
 	 * Automaton of the receiver.
 	 */
 	public void createEmptyTransitionFrom(final State from) {
-		final Iterator<StateTransition> iterator = this.fetchSuccessors()
-				.iterator();
+		final Iterator<StateTransition> iterator = this
+				.fetchSuccessorTransitions().iterator();
 		while (iterator.hasNext()) {
 			final StateTransition current = iterator.next();
 			this.getOut()
 					.getDelta()
 					.add(StateTransition.create(from, current.getTo(),
 							current.getBy()));
+		}
+	}
+
+	/**
+	 * Deletes all transitions of the Automaton of the receiver which starting or ending in the receiver.
+	 */
+	public void deleteAllTransitions() {
+		final Iterator<StateTransition> iterator = this.getOut().getDelta().iterator();
+		while(iterator.hasNext()) {
+			final StateTransition current = iterator.next();
+			if (current.getFrom().equals(this) || current.getTo().equals(this)) {
+				iterator.remove();
+			}
 		}
 	}
 

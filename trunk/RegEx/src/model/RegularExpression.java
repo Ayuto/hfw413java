@@ -23,6 +23,7 @@ public abstract class RegularExpression {
 		if (this.isIterated()){
 			result.iterate();
 		}
+		result.setOptional(this.isOptional());
 		return result;
 	}
 	

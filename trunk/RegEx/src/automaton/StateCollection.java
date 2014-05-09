@@ -76,4 +76,60 @@ public class StateCollection {
 	private Collection<State> getData() {
 		return this.data;
 	}
+
+	/**
+	 * Calculates all states which are in the receiver and all states which are
+	 * reachable out of the states in the receiver
+	 * 
+	 * @return The StateCollection with all the calculated states.
+	 */
+	public StateCollection checkBeginning() {
+		final int beginSize = this.getData().size();
+		final Iterator<State> iterator = this.iterator();
+		while (iterator.hasNext()) {
+			final State current = iterator.next();
+			this.addAll(current.fetchSuccessors());
+		}
+		if (beginSize == this.getData().size()) {
+			return this;
+		}
+		return this.checkBeginning();
+	}
+
+	/**
+	 * Checks all states in the receiver. If the state is also in both arguments
+	 * it will stay in the StateCollection, otherwise it will be deleted and all
+	 * transitions of these states will be deleted, too.
+	 * @param reachableFromBeginning 
+	 */
+	public void checkAllStatesAndDeleteIfNessesary(
+			final StateCollection argument1, final StateCollection argument2) {
+		final Iterator<State> iterator = this.iterator();
+		while (iterator.hasNext()) {
+			final State current = iterator.next();
+			if (!(argument1.contains(current) && argument2.contains(current))) {
+				current.deleteAllTransitions();
+				iterator.remove();
+			}
+		}
+	}
+
+	/**
+	 * Calculates all states which are in the receiver and all states out of
+	 * whom the states of the receiver are reachable.
+	 * 
+	 * @return The StateCollection with all the calculated states.
+	 */
+	public StateCollection checkEnding() {
+		final int beginSize = this.getData().size();
+		final Iterator<State> iterator = this.iterator();
+		while (iterator.hasNext()) {
+			final State current = iterator.next();
+			this.addAll(current.fetchPredecessors());
+		}
+		if (beginSize == this.getData().size()) {
+			return this;
+		}
+		return this.checkEnding();
+	}
 }
