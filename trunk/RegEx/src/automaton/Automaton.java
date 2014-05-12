@@ -91,6 +91,7 @@ public class Automaton {
 
 	/**
 	 * Changes the receiver to the sequence of the receiver and the argument.
+	 * There might be sideeffects on the argument.
 	 */
 	public void sequence(final Automaton argument) {
 		this.addStatesAndTransitionsOf(argument);
@@ -106,6 +107,7 @@ public class Automaton {
 
 	/**
 	 * Changes the receiver to the choice of the receiver and the argument.
+	 * There might be sideeffects on the argument.
 	 */
 	public void choice(final Automaton argument) {
 		this.addStatesAndTransitionsOf(argument);
