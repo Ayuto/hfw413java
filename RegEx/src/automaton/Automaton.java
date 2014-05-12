@@ -126,6 +126,19 @@ public class Automaton {
 				this.getEnd()).checkEnding();
 		this.getStates().checkAllStatesAndDeleteIfNessesary(reachableFromEnd, reachableFromBeginning);
 	}
+	
+	@Override
+	public boolean equals(final Object argument) {
+		if (argument instanceof Automaton) {
+			final Automaton argumentAsAutomaton = (Automaton) argument;
+			return this.getStart().equals(argumentAsAutomaton.getStart()) 
+					&& this.getEnd().equals(argumentAsAutomaton.getEnd()) 
+					&& this.getStates().equals(argumentAsAutomaton.getStates()) 
+					&& this.getDelta().equals(argumentAsAutomaton.getDelta()) 
+					&& (this.isOptional() == argumentAsAutomaton.isOptional());
+		}
+		return false;
+	}
 
 	private void addStatesAndTransitionsOf(final Automaton automaton) {
 		final Iterator<State> iterator = automaton.getStates().iterator();

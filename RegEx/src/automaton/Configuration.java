@@ -89,6 +89,17 @@ public class Configuration {
 		}
 		return false;
 	}
+	
+	@Override
+	public boolean equals(final Object argument) {
+		if (argument instanceof Configuration) {
+			final Configuration argumentAsConfiguration = (Configuration) argument;
+			return this.getOut().equals(argumentAsConfiguration.getOut())
+					&& this.getStates().equals(argumentAsConfiguration.getStates())
+					&& this.getInput().equals(argumentAsConfiguration.getInput());
+		}
+		return false;
+	}
 
 	public Automaton getOut() {
 		return this.out;

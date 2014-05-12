@@ -72,6 +72,15 @@ public class StateCollection {
 	public boolean contains(final State s) {
 		return this.getData().contains(s);
 	}
+	
+	@Override
+	public boolean equals(final Object argument) {
+		if (argument instanceof StateCollection) {
+			final StateCollection argumentAsStateCollection = (StateCollection) argument;
+			return this.getData().equals(argumentAsStateCollection.getData());
+		}
+		return false;
+	}
 
 	private Collection<State> getData() {
 		return this.data;

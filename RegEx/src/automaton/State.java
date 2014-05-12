@@ -181,6 +181,11 @@ public class State {
 	public boolean isEndState() {
 		return this.equals(this.getOut().getEnd());
 	}
+	
+	@Override
+	public boolean equals(final Object obj) {
+		return super.equals(obj);
+	}
 
 	public Automaton getOut() {
 		return this.out;
