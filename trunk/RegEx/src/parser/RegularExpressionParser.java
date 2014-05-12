@@ -1,6 +1,6 @@
 package parser;
-import model.RegularExpression;
-import model.RegularExpressionFacade;
+import expressions.RegularExpression;
+import expressions.RegularExpressionFacade;
 
 
 public class RegularExpressionParser {
