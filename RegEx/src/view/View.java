@@ -10,7 +10,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 
-import model.RegularExpression;
+import expressions.RegularExpression;
 import parser.RegularExpressionParser;
 import parser.RegularExpressionParserException;
 

@@ -1,4 +1,4 @@
-package model;
+package expressions;
 
 public class CycleException extends RuntimeException {
 
