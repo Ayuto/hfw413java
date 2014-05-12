@@ -35,7 +35,7 @@ public class BaseExpression extends RegularExpression{
 	public boolean equals(final Object argument) {
 		if (argument instanceof BaseExpression){
 			final BaseExpression argumentAsBaseExpression = (BaseExpression) argument;
-			return this.isIterated() == argumentAsBaseExpression.isIterated() && this.isOptional() == argumentAsBaseExpression.isOptional() && this.getC()==argumentAsBaseExpression.getC();
+			return this.baseEquals(argumentAsBaseExpression) && this.getC()==argumentAsBaseExpression.getC();
 		}
 		return false;
 	}

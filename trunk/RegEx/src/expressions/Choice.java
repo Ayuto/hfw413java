@@ -36,7 +36,7 @@ public class Choice extends CompositeExpression{
 	public boolean equals(final Object argument) {
 		if (argument instanceof Choice){
 			final Choice argumentAsChoice = (Choice) argument;
-			return this.isIterated() == argumentAsChoice.isIterated() && this.isOptional() == argumentAsChoice.isOptional() && this.getParts().equals(argumentAsChoice.getParts());
+			return this.compositeEquals(argumentAsChoice);
 		}
 		return false;
 	}

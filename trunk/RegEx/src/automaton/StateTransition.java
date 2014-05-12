@@ -30,6 +30,17 @@ public class StateTransition {
 		this.to = to;
 		this.by = by;
 	}
+	
+	@Override
+	public boolean equals(final Object argument) {
+		if (argument instanceof StateTransition) {
+			final StateTransition argumentAsStateTransition = (StateTransition) argument;
+			return this.getFrom().equals(argumentAsStateTransition.getFrom())
+					&& this.getTo().equals(argumentAsStateTransition.getTo())
+					&& (this.getBy() == argumentAsStateTransition.getBy());
+		}
+		return false;
+	}
 
 	public State getFrom() {
 		return this.from;

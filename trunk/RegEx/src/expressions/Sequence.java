@@ -35,7 +35,7 @@ public class Sequence extends CompositeExpression{
 	public boolean equals(final Object argument) {
 		if (argument instanceof Sequence){
 			final Sequence argumentAsSequence = (Sequence) argument;
-			return this.isIterated() == argumentAsSequence.isIterated() && this.isOptional() == argumentAsSequence.isOptional() && this.getParts().equals(argumentAsSequence);
+			return this.compositeEquals(argumentAsSequence);
 		}
 		return false;
 	}
