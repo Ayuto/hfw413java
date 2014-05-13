@@ -32,10 +32,10 @@ public class BaseExpression extends RegularExpression{
 	}
 
 	@Override
-	public boolean equals(final Object argument) {
-		if (argument instanceof BaseExpression){
+	public boolean baseEquals(final RegularExpression argument) {
+		if (argument instanceof BaseExpression) {
 			final BaseExpression argumentAsBaseExpression = (BaseExpression) argument;
-			return this.baseEquals(argumentAsBaseExpression) && this.getC()==argumentAsBaseExpression.getC();
+			return this.getC() == argumentAsBaseExpression.getC();
 		}
 		return false;
 	}

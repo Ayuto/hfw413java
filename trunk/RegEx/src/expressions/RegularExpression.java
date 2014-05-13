@@ -39,12 +39,16 @@ public abstract class RegularExpression {
 	 */
 	public abstract void add(RegularExpression argument);
 	
-	public boolean baseEquals(final RegularExpression argument) {
-		return (this.isIterated() == argument.isIterated()) && (this.isOptional() == argument.isOptional()); 
-	}
+	public abstract boolean baseEquals(final RegularExpression argument);
 	
 	@Override
-	public abstract boolean equals(final Object argument);
+	public boolean equals(final Object argument) {
+		if (argument instanceof RegularExpression) {
+			final RegularExpression argumentAsRegularExpression = (RegularExpression) argument;
+			return this.isIterated() == argumentAsRegularExpression.isIterated() && this.isOptional() == argumentAsRegularExpression.isOptional() && this.baseEquals(argumentAsRegularExpression);
+		}
+		return false;
+	}
 	
 	/**
 	 * @param text
