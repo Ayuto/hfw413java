@@ -13,10 +13,6 @@ public abstract class CompositeExpression extends RegularExpression{
 	public CompositeExpression(final Collection<RegularExpression> parts){
 		this.parts = parts;
 	}
-	
-	public boolean compositeEquals(final CompositeExpression argument) {
-		return this.baseEquals(argument) && this.getParts().equals(argument.getParts());
-	}
 
 	@Override
 	public boolean contains(final RegularExpression argument) {

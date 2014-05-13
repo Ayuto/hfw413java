@@ -33,10 +33,10 @@ public class Choice extends CompositeExpression{
 	}
 
 	@Override
-	public boolean equals(final Object argument) {
-		if (argument instanceof Choice){
+	public boolean baseEquals(final RegularExpression argument) {
+		if (argument instanceof Choice) {
 			final Choice argumentAsChoice = (Choice) argument;
-			return this.compositeEquals(argumentAsChoice);
+			return this.getParts().equals(argumentAsChoice.getParts());
 		}
 		return false;
 	}
