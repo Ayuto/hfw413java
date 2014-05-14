@@ -14,6 +14,9 @@ public class RegularExpressionTester {
 	private RegularExpression e3;
 	private RegularExpression e4;
 	private RegularExpression e5;
+	private RegularExpression e6;
+	private RegularExpression e7;
+	private RegularExpression e8;
 
 	@Before
 	public void setUp() throws Exception {
@@ -22,6 +25,9 @@ public class RegularExpressionTester {
 		this.e3 = RegularExpressionParser.create("(ab)+").parse();
 		this.e4 = RegularExpressionParser.create("[]").parse();
 		this.e5 = RegularExpressionParser.create("[ab]*").parse();
+		this.e6 = RegularExpressionParser.create("(10[10]*)").parse();
+		this.e7 = RegularExpressionParser.create("(01[10]+)").parse();
+		this.e8 = RegularExpressionParser.create("([ab]+.[cd]*/ef)").parse();
 	}
 
 	@Test
@@ -90,5 +96,58 @@ public class RegularExpressionTester {
 		Assert.assertTrue(this.e5.check("aaaabbbbbbbaaa"));
 		Assert.assertFalse(this.e5.check("aaaabbdbbbbbaaa"));
 		Assert.assertFalse(this.e5.check("Hugo"));
+	}
+	
+	@Test
+	public void testE6(){
+		Assert.assertFalse(this.e6.check(""));
+		Assert.assertFalse(this.e6.check("1"));
+		Assert.assertFalse(this.e6.check("0"));
+		Assert.assertFalse(this.e6.check("01"));
+		Assert.assertFalse(this.e6.check("010"));
+		Assert.assertTrue(this.e6.check("10"));
+		Assert.assertTrue(this.e6.check("100"));
+		Assert.assertTrue(this.e6.check("101"));
+		Assert.assertTrue(this.e6.check("10110"));
+		Assert.assertTrue(this.e6.check("100111001"));
+		Assert.assertFalse(this.e6.check("10000001+"));
+		Assert.assertFalse(this.e6.check("101000102"));
+	}
+	
+	@Test
+	public void testE7(){
+		Assert.assertFalse(this.e7.check(""));
+		Assert.assertFalse(this.e7.check("1"));
+		Assert.assertFalse(this.e7.check("0"));
+		Assert.assertFalse(this.e7.check("10"));
+		Assert.assertFalse(this.e7.check("01"));
+		Assert.assertFalse(this.e7.check("001"));
+		Assert.assertFalse(this.e7.check("110"));
+		Assert.assertFalse(this.e7.check("100"));
+		Assert.assertFalse(this.e7.check("101"));
+		Assert.assertTrue(this.e7.check("010"));
+		Assert.assertTrue(this.e7.check("011"));
+		Assert.assertTrue(this.e7.check("0110"));
+		Assert.assertTrue(this.e7.check("0101"));
+		Assert.assertTrue(this.e7.check("01001"));
+	}
+	
+	@Test
+	public void testE8(){
+		Assert.assertFalse(this.e8.check(""));
+		Assert.assertFalse(this.e8.check("./ef"));
+		Assert.assertFalse(this.e8.check("./"));
+		Assert.assertFalse(this.e8.check("."));
+		Assert.assertFalse(this.e8.check("b./"));
+		Assert.assertFalse(this.e8.check("b.c/"));
+		Assert.assertFalse(this.e8.check(".cddccddccc/ef"));
+		Assert.assertTrue(this.e8.check("a./ef"));
+		Assert.assertTrue(this.e8.check("ab./ef"));
+		Assert.assertTrue(this.e8.check("b.c/ef"));
+		Assert.assertTrue(this.e8.check("a.cddccddccc/ef"));
+		Assert.assertTrue(this.e8.check("ab.d/ef"));
+		Assert.assertTrue(this.e8.check("ba.dc/ef"));
+		Assert.assertTrue(this.e8.check("b./ef"));
+		Assert.assertTrue(this.e8.check("abb.cddcc/ef"));
 	}
 }

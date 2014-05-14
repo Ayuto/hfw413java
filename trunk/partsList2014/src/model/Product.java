@@ -41,7 +41,6 @@ public class Product extends ComponentCommon implements Observer {
 		if (part.contains(this)) {
 			throw new Exception(Product.CycleMessage);
 		}
-		part.register(this);
 		final String partName = part.getName();
 		if (this.getComponents().containsKey(partName)) {
 			final QuantifiedComponent oldQuantification = this.getComponents()
@@ -52,6 +51,7 @@ public class Product extends ComponentCommon implements Observer {
 					.put(partName,
 							QuantifiedComponent.createQuantifiedComponent(
 									amount, part));
+			part.register(this);
 		}
 		final Event event = StructureChangedEvent.create();
 		this.notifyObservers(event);
