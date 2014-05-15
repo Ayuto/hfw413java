@@ -52,4 +52,9 @@ public class Material extends ComponentCommon {
 			return false;
 		}
 	}
+
+	@Override
+	public int containsHowOften(Component component) {
+		return this.equals(component) ? 1 : 0;
+	}
 }

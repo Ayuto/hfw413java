@@ -181,4 +181,21 @@ public class Product extends ComponentCommon implements Observer {
 	public void setCacheState(final CacheState cacheState) {
 		this.cacheState = cacheState;
 	}
+
+	@Override
+	public int containsHowOften(Component component) {
+		if (this.equals(component))
+			return 1;
+		
+		int result = 0;
+		
+		Iterator<QuantifiedComponent> i = this.getComponents().values().iterator();
+		while(i.hasNext())
+		{
+			QuantifiedComponent current = i.next();
+			result += current.containsHowOften(component);
+		}
+		
+		return result;
+	}
 }

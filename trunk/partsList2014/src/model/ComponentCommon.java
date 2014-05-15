@@ -36,4 +36,9 @@ public abstract class ComponentCommon extends Observee implements Component {
 
 	@Override
 	public abstract boolean equals(final Object argument);
+	
+	@Override
+	public int isBuiltInHowOften(Component component) {
+		return component.containsHowOften(this);
+	}
 }
