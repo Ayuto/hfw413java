@@ -30,7 +30,7 @@ public class QuantifiedComponent {
 		return this.component;
 	}
 
-	private int getQuantity() {
+	public int getQuantity() {
 		return this.quantity;
 	}
 
@@ -96,8 +96,8 @@ public class QuantifiedComponent {
 	 * Returns the materiallist of <this>.
 	 */
 	public MaterialList getMaterialList() {
-		final MaterialList result = this.getComponent().getMaterialList();
-		result.multiply(this.getQuantity());
+		MaterialList result = this.getComponent().getMaterialList();
+		result = result.multiply(this.getQuantity());
 		return result;
 	}
 

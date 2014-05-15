@@ -116,26 +116,12 @@ public class PartsListTester {
 		Assert.assertEquals(expected, this.p2.getMaterialList().getData());
 
 		// p3 MaterialList
-		final MaterialList result = MaterialList
-				.create(new Vector<QuantifiedComponent>());
-		MaterialList list = this.p1.getMaterialList();
-		list.multiply(5);
-		result.add(list);
-		list = this.p2.getMaterialList();
-		list.multiply(2);
-		result.add(list);
-		list = this.m1.getMaterialList();
-		result.add(list);
-		Assert.assertEquals(result.getData(), this.p3.getMaterialList()
-				.getData());
+		MaterialList list = this.p1.getMaterialList().multiply(5).add(this.p2.getMaterialList().multiply(2)).add(this.m1.getMaterialList());
+		Assert.assertEquals(list, this.p3.getMaterialList());
 
 		// p4 MaterialList
-		result.multiply(10);
-		list = this.m2.getMaterialList();
-		list.multiply(2);
-		result.add(list);
-		Assert.assertEquals(result.getData(), this.p4.getMaterialList()
-				.getData());
+		list = list.multiply(10).add(this.m2.getMaterialList().multiply(2));
+		Assert.assertEquals(list, this.p4.getMaterialList());
 	}
 
 }

@@ -19,26 +19,31 @@ public class MaterialList {
 	}
 
 	/**
-	 * Multiplies the amount of a components this <this> with the factor
+	 * Multiplies the amount of a component <this> with the factor
 	 * <value>.
 	 */
-	public void multiply(final int value) {
+	public MaterialList multiply(final int value) {
+		final MaterialList result = MaterialList.create(new Vector<QuantifiedComponent>());
 		final Iterator<QuantifiedComponent> i = this.getData().iterator();
 		while (i.hasNext()) {
 			final QuantifiedComponent current = i.next();
-			current.multiplyQuantity(value);
+			result.add(QuantifiedComponent.createQuantifiedComponent(current.getQuantity()*value, current.getComponent()));
 		}
+		return result;
 	}
 
 	/**
 	 * Adds the components from <list> to <this>.
 	 */
-	public void add(final MaterialList list) {
+	public MaterialList add(final MaterialList list) {
+		final MaterialList result = MaterialList.create(new Vector<QuantifiedComponent>());
+		result.getData().addAll(this.getData());
 		final Iterator<QuantifiedComponent> i = list.getData().iterator();
 		while (i.hasNext()) {
 			final QuantifiedComponent current = i.next();
-			this.add(current);
+			result.add(current);
 		}
+		return result;
 	}
 
 	/**
@@ -62,5 +67,14 @@ public class MaterialList {
 	 */
 	public Vector<QuantifiedComponent> getData() {
 		return this.data;
+	}
+	
+	@Override
+	public boolean equals(final Object argument) {
+		if (argument instanceof MaterialList) {
+			final MaterialList argumentAsMaterialList = (MaterialList) argument;
+			return this.getData().equals(argumentAsMaterialList.getData());
+		}
+		return false;
 	}
 }
