@@ -24,8 +24,8 @@ public class Multiplication extends CompositeExpression {
 	}
 
 	@Override
-	public int calculate() {
-		return this.getFirst().getValue() * this.getSecond().getValue();
+	public IntValue calculate() {
+		return this.getFirst().getValue().multiply(this.getSecond().getValue());
 	}
 
 }

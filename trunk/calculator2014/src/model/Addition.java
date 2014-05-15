@@ -24,7 +24,7 @@ public class Addition extends CompositeExpression {
 	}
 
 	@Override
-	public int calculate() {
-		return this.getFirst().getValue() + this.getSecond().getValue();
+	public IntValue calculate() {
+		return this.getFirst().getValue().add(this.getSecond().getValue());
 	}
 }
