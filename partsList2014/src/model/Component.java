@@ -61,4 +61,14 @@ public interface Component {
 	 */
 	@Override
 	public boolean equals(Object argument);
+	
+	/**
+	 * Returns how often <this> contains <component>.
+	 */
+	public int containsHowOften(Component component);
+	
+	/**
+	 * Returns how often <this> is built in <component>.
+	 */
+	public int isBuiltInHowOften(Component component);
 }

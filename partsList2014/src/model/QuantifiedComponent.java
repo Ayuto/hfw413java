@@ -114,4 +114,8 @@ public class QuantifiedComponent {
 	public int getPrice() {
 		return this.getComponent().getPrice() * this.getQuantity();
 	}
+
+	public int containsHowOften(Component component) {
+		return this.getComponent().containsHowOften(component) * this.getQuantity();
+	}
 }
