@@ -20,10 +20,10 @@ public class State {
 		return new State(out);
 	}
 
-	private Automaton out;
+	private final Automaton out;
 
 	private State(final Automaton out) {
-		this.setOut(out);
+		this.out = out;
 	}
 
 	/**
@@ -106,9 +106,5 @@ public class State {
 
 	public Automaton getOut() {
 		return this.out;
-	}
-
-	public void setOut(final Automaton out) {
-		this.out = out;
 	}
 }
