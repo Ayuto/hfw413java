@@ -24,11 +24,11 @@ public class Division extends CompositeExpression {
 	}
 
 	@Override
-	public int calculate() {
-		if (this.getSecond().getValue() == 0) {
-			throw DivisionByZeroException.create();
+	public IntValue calculate() {
+		if (this.getSecond().getValue().equals(0)) {
+			return new IntValue("Division by zero!");
 		}
-		return this.getFirst().getValue() / this.getSecond().getValue();
+		
+		return this.getFirst().getValue().divide(this.getSecond().getValue());
 	}
-
 }

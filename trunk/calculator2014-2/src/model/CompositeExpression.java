@@ -14,7 +14,7 @@ public abstract class CompositeExpression extends Expression implements
 
 	private final Expression first;
 	private final Expression second;
-	private int value;
+	private IntValue value;
 
 	/**
 	 * Constructor of CompositeExpression. Calculates the value and registers <this> to both arguments.
@@ -40,7 +40,7 @@ public abstract class CompositeExpression extends Expression implements
 	/**
 	 * Calculates the value of <this>.
 	 */
-	public abstract int calculate();
+	public abstract IntValue calculate();
 
 	/**
 	 * Returns the Operator of <this>.
@@ -48,7 +48,7 @@ public abstract class CompositeExpression extends Expression implements
 	public abstract String getOperator();
 
 	@Override
-	public int getValue() {
+	public IntValue getValue() {
 		return this.value;
 	}
 
@@ -73,6 +73,6 @@ public abstract class CompositeExpression extends Expression implements
 	public String toString() {
 		return EXPRESSION_OPEN_BRACKET + this.getFirst().toString()
 				+ this.getOperator() + this.getSecond().toString()
-				+ EQUALITY_SIGN + this.getValue() + EXPRESSION_CLOSE_BRACKET;
+				+ EQUALITY_SIGN + this.getValue().toString() + EXPRESSION_CLOSE_BRACKET;
 	}
 }
