@@ -8,7 +8,7 @@ public abstract class Expression extends Observee {
 	/**
 	 * Returns the current value of the expression.
 	 */
-	public abstract int getValue();
+	public abstract IntValue getValue();
 
 	/**
 	 * Returns true only when <this> contains the expression <argument>.

@@ -1,15 +1,15 @@
 package test;
 
+import model.Addition;
+import model.Division;
+import model.IntValue;
+import model.Multiplication;
+import model.Subtraction;
+import model.Variable;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import model.Addition;
-import model.DivisionByZeroException;
-import model.Subtraction;
-import model.Division;
-import model.Multiplication;
-import model.Variable;
 
 public class CalculatorTest {
 
@@ -17,6 +17,7 @@ public class CalculatorTest {
 	private Variable b; 
 	private Variable c; 
 	private Variable d;
+	private Variable z;
 	
 	@Before
 	public void setUp() {
@@ -24,6 +25,7 @@ public class CalculatorTest {
 		b = Variable.createVariable("b");
 		c = Variable.createVariable("c");
 		d = Variable.createVariable("d");
+		z = Variable.createVariable("z");
 		
 		for (int i = 0; i < 5; i++){
 			a.up();
@@ -41,49 +43,49 @@ public class CalculatorTest {
 	
 	@Test
 	public void testVariable() {
-		Assert.assertEquals(5, a.getValue());
-		Assert.assertEquals(3, b.getValue());
-		Assert.assertEquals(-2, c.getValue());
-		Assert.assertEquals(-5, d.getValue());
+		Assert.assertEquals(new IntValue(5), a.getValue());
+		Assert.assertEquals(new IntValue(3), b.getValue());
+		Assert.assertEquals(new IntValue(-2), c.getValue());
+		Assert.assertEquals(new IntValue(-5), d.getValue());
 	}
 	
 	@Test
 	public void testAddition() {
 		Addition aa = Addition.create(a, a);
 		// 5+5
-		Assert.assertEquals(10, aa.getValue());
+		Assert.assertEquals(new IntValue(10), aa.getValue());
 		
 		Addition ab = Addition.create(a, b);
 		// 5+3
-		Assert.assertEquals(8, ab.getValue());
+		Assert.assertEquals(new IntValue(8), ab.getValue());
 		
 		Addition ac = Addition.create(a, c);
 		// 5+(-2)
-		Assert.assertEquals(3, ac.getValue());
+		Assert.assertEquals(new IntValue(3), ac.getValue());
 		
 		Addition ad = Addition.create(a, d);
 		// 5+(-5)
-		Assert.assertEquals(0, ad.getValue());
+		Assert.assertEquals(new IntValue(0), ad.getValue());
 		
 		Addition cd = Addition.create(c, d);
 		// (-2)+(-5)
-		Assert.assertEquals(-7, cd.getValue());
+		Assert.assertEquals(new IntValue(-7), cd.getValue());
 		
 		Addition aaa = Addition.create(aa, a);
 		// (5+5)+5
-		Assert.assertEquals(15, aaa.getValue());
+		Assert.assertEquals(new IntValue(15), aaa.getValue());
 		
 		a.up();
 		// 6+6
-		Assert.assertEquals(12, aa.getValue());
+		Assert.assertEquals(new IntValue(12), aa.getValue());
 		// 6+3
-		Assert.assertEquals(9, ab.getValue());
+		Assert.assertEquals(new IntValue(9), ab.getValue());
 		// 6+(-2)
-		Assert.assertEquals(4, ac.getValue());
+		Assert.assertEquals(new IntValue(4), ac.getValue());
 		// 6+(-5)
-		Assert.assertEquals(1, ad.getValue());
+		Assert.assertEquals(new IntValue(1), ad.getValue());
 		// (6+6)+6
-		Assert.assertEquals(18, aaa.getValue());
+		Assert.assertEquals(new IntValue(18), aaa.getValue());
 	}
 	
 	@Test
@@ -91,78 +93,78 @@ public class CalculatorTest {
 	{
 		Subtraction aa = Subtraction.create(a, a);
 		// 5-5
-		Assert.assertEquals(0, aa.getValue());
+		Assert.assertEquals(new IntValue(0), aa.getValue());
 		
 		Subtraction ab = Subtraction.create(a, b);
 		// 5-3
-		Assert.assertEquals(2, ab.getValue());
+		Assert.assertEquals(new IntValue(2), ab.getValue());
 		
 		Subtraction ac = Subtraction.create(a, c);
 		// 5-(-2)
-		Assert.assertEquals(7, ac.getValue());
+		Assert.assertEquals(new IntValue(7), ac.getValue());
 		
 		Subtraction ad = Subtraction.create(a, d);
 		// 5-(-5)
-		Assert.assertEquals(10, ad.getValue());
+		Assert.assertEquals(new IntValue(10), ad.getValue());
 		
 		Subtraction cd = Subtraction.create(c, d);
 		// (-2)-(-5)
-		Assert.assertEquals(3, cd.getValue());
+		Assert.assertEquals(new IntValue(3), cd.getValue());
 		
 		Subtraction aaa = Subtraction.create(aa, a);
 		// (5-5)-5
-		Assert.assertEquals(-5, aaa.getValue());
+		Assert.assertEquals(new IntValue(-5), aaa.getValue());
 		
 		a.up();
 		// 6-6
-		Assert.assertEquals(0, aa.getValue());
+		Assert.assertEquals(new IntValue(0), aa.getValue());
 		// 6-3
-		Assert.assertEquals(3, ab.getValue());
+		Assert.assertEquals(new IntValue(3), ab.getValue());
 		// 6-(-2)
-		Assert.assertEquals(8, ac.getValue());
+		Assert.assertEquals(new IntValue(8), ac.getValue());
 		// 6-(-5)
-		Assert.assertEquals(11, ad.getValue());
+		Assert.assertEquals(new IntValue(11), ad.getValue());
 		// (6-6)-6
-		Assert.assertEquals(-6, aaa.getValue());
+		Assert.assertEquals(new IntValue(-6), aaa.getValue());
 	}
 	
 	@Test
     public void testMultiplication() {
 	Multiplication aa = Multiplication.create(a, a);
 		// 5*5
-	    Assert.assertEquals(25, aa.getValue());
+	    Assert.assertEquals(new IntValue(25), aa.getValue());
 	   
 	    Multiplication ab = Multiplication.create(a, b);
 	    // 5*3
-	    Assert.assertEquals(15, ab.getValue());
+	    Assert.assertEquals(new IntValue(15), ab.getValue());
 	   
 	    Multiplication ac = Multiplication.create(a, c);
 	    // 5*(-2)
-	    Assert.assertEquals(-10, ac.getValue());
+	    Assert.assertEquals(new IntValue(-10), ac.getValue());
 	   
 	    Multiplication ad = Multiplication.create(a, d);
 	    // 5*(-5)
-	    Assert.assertEquals(-25, ad.getValue());
+	    Assert.assertEquals(new IntValue(-25), ad.getValue());
 	   
 	    Multiplication cd = Multiplication.create(c, d);
 	    // (-2)*(-5)
-	    Assert.assertEquals(10, cd.getValue());
+	    Assert.assertEquals(new IntValue(10), cd.getValue());
 	   
 	    Multiplication aac = Multiplication.create(aa, c);
 	    // (5*5)*(-2)
-	    Assert.assertEquals(-50, aac.getValue());
+	    Assert.assertEquals(new IntValue(-50), aac.getValue());
 
 	    a.up();
 	    // 6*6
-		Assert.assertEquals(36, aa.getValue());
+		Assert.assertEquals(new IntValue(36), aa.getValue());
 		// 6*3
-		Assert.assertEquals(18, ab.getValue());
+		Assert.assertEquals(new IntValue(18), ab.getValue());
 		// 6*(-2)
-		Assert.assertEquals(-12, ac.getValue());
+		Assert.assertEquals(new IntValue(-12), ac.getValue());
 		// 6*(-5)
-		Assert.assertEquals(-30, ad.getValue());
+		Assert.assertEquals(new IntValue(-30), ad.getValue());
 		// (6*6)*(-2)
-		Assert.assertEquals(-72, aac.getValue());
+		Assert.assertEquals(new IntValue(-72), aac.getValue());
 	}
 
 	
@@ -171,46 +173,43 @@ public class CalculatorTest {
 	{
 		Division aa = Division.create(a, a);
 		// 5/5
-		Assert.assertEquals(1, aa.getValue());
+		Assert.assertEquals(new IntValue(1), aa.getValue());
 		
 		Division ab = Division.create(a, b);
 		// 5/3
-		Assert.assertEquals(1, ab.getValue());
+		Assert.assertEquals(new IntValue(1), ab.getValue());
 		
 		Division ac = Division.create(a, c);
 		// 5/(-2)
-		Assert.assertEquals(-2, ac.getValue());
+		Assert.assertEquals(new IntValue(-2), ac.getValue());
 		
 		Division ad = Division.create(a, d);
 		// 5/(-5)
-		Assert.assertEquals(-1, ad.getValue());
+		Assert.assertEquals(new IntValue(-1), ad.getValue());
 		
 		Division cd = Division.create(c, d);
 		// (-2)/(-5)
-		Assert.assertEquals(0, cd.getValue());
+		Assert.assertEquals(new IntValue(0), cd.getValue());
 		
 		Division aaa = Division.create(aa, a);
 		// (5/5)/5
-		Assert.assertEquals(0, aaa.getValue());
+		Assert.assertEquals(new IntValue(0), aaa.getValue());
 		
 		a.up();
 		// 6/6
-		Assert.assertEquals(1, aa.getValue());
+		Assert.assertEquals(new IntValue(1), aa.getValue());
 		// 6/3
-		Assert.assertEquals(2, ab.getValue());
+		Assert.assertEquals(new IntValue(2), ab.getValue());
 		// 6/(-2)
-		Assert.assertEquals(-3, ac.getValue());
+		Assert.assertEquals(new IntValue(-3), ac.getValue());
 		// 6/(-5)
-		Assert.assertEquals(-1, ad.getValue());
+		Assert.assertEquals(new IntValue(-1), ad.getValue());
 		// (6/6)/6
-		Assert.assertEquals(0, aaa.getValue());
-
+		Assert.assertEquals(new IntValue(0), aaa.getValue());
+		
 		// 6/0
-		try {
-			Division.create(a, Variable.createVariable("NULL"));
-			Assert.fail();
-		} catch (final DivisionByZeroException e) {
-		}
+		Division a0 = Division.create(a, z);
+		Assert.assertFalse(a0.getValue().isValid());
 	}
 	
 	@Test
@@ -243,15 +242,15 @@ public class CalculatorTest {
 		Subtraction aab = Subtraction.create(aa, b);
 		
 		// (5+5)-3
-		Assert.assertEquals(7, aab.getValue());
+		Assert.assertEquals(new IntValue(7), aab.getValue());
 		
 		Division aac = Division.create(aa, c);
 		// (5+5)/(-2)
-		Assert.assertEquals(-5, aac.getValue());
+		Assert.assertEquals(new IntValue(-5), aac.getValue());
 		
 		Multiplication aacd = Multiplication.create(aac, d);
 		// ((5+5)/(-2))*(-5)
-		Assert.assertEquals(25, aacd.getValue());
+		Assert.assertEquals(new IntValue(25), aacd.getValue());
 	}
 	
 	@Test

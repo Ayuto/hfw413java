@@ -18,11 +18,11 @@ public class Variable extends Expression {
 	}
 
 	private final String name;
-	private int value;
+	private IntValue value;
 
 	private Variable(final String name, final int initialValue) {
 		this.name = name;
-		this.setValue(initialValue);
+		this.setValue(new IntValue(initialValue));
 	}
 
 	private String getName() {
@@ -39,7 +39,7 @@ public class Variable extends Expression {
 	 * Increases the value of <this> by <IncrementValue>.
 	 */
 	public void up() {
-		this.setValue(this.getValue() + IncrementValue);
+		this.setValue(this.getValue().add(IncrementValue));
 		this.notifyObservers();
 	}
 
@@ -47,16 +47,16 @@ public class Variable extends Expression {
 	 * Decreases the value of <this> by <IncrementValue>.
 	 */
 	public void down() {
-		this.setValue(this.getValue() - IncrementValue);
+		this.setValue(this.getValue().subtract(IncrementValue));
 		this.notifyObservers();
 	}
 
 	@Override
-	public int getValue() {
+	public IntValue getValue() {
 		return this.value;
 	}
 
-	private void setValue(final int newValue) {
+	private void setValue(final IntValue newValue) {
 		this.value = newValue;
 	}
 
