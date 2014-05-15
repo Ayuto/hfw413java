@@ -59,7 +59,6 @@ public class ExpressionFacade {
 		this.getExpressions().add(newMultiplication);
 	}
 
-	// TODO handle DivisionByZeroException
 	public void createDivide(final Expression firstArgument,
 			final Expression secondArgument) {
 		final Expression newDivision = Division.create(firstArgument, secondArgument);
