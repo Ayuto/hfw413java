@@ -127,11 +127,11 @@ public class Product extends ComponentCommon implements Observer {
 	public MaterialList calculateMaterialList() {
 		final Iterator<QuantifiedComponent> i = this.getDirectParts()
 				.iterator();
-		final MaterialList result = MaterialList
+		MaterialList result = MaterialList
 				.create(new Vector<QuantifiedComponent>());
 		while (i.hasNext()) {
 			final QuantifiedComponent current = i.next();
-			result.add(current.getMaterialList());
+			result = result.add(current.getMaterialList());
 		}
 		return result;
 	}
