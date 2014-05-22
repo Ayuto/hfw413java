@@ -21,4 +21,6 @@ public abstract class Expression extends Observee {
 	 * @throws Error if a cycle was detected.
 	 */
 	public abstract void substitute(final Variable variable, final Expression expression);
+	
+	public abstract Expression copy();
 }

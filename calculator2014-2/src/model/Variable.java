@@ -64,8 +64,14 @@ public class Variable extends Expression {
 	public boolean contains(final Expression argument) {
 		return this.equals(argument);
 	}
+	
+	@Override
+	public Expression copy() {
+		return this;
+	}
 
 	@Override
 	public void substitute(final Variable variable, final Expression expression) {
+		//expression.notifyObservers();
 	}
 }

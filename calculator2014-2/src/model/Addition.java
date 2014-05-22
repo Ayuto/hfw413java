@@ -27,4 +27,12 @@ public class Addition extends CompositeExpression {
 	public IntValue calculate() {
 		return this.getFirst().getValue().add(this.getSecond().getValue());
 	}
+	
+	@Override
+	public Expression copy() {
+		Addition newExpression = Addition.create(this.getFirst().copy(), this.getSecond().copy());
+		newExpression.getFirst().register(newExpression);
+		newExpression.getSecond().register(newExpression);
+		return newExpression;
+	}
 }

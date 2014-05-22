@@ -27,5 +27,12 @@ public class Multiplication extends CompositeExpression {
 	public IntValue calculate() {
 		return this.getFirst().getValue().multiply(this.getSecond().getValue());
 	}
-
+	
+	@Override
+	public Expression copy() {
+		Multiplication newExpression = Multiplication.create(this.getFirst().copy(), this.getSecond().copy());
+		newExpression.getFirst().register(newExpression);
+		newExpression.getFirst().register(newExpression);
+		return newExpression;
+	}
 }
