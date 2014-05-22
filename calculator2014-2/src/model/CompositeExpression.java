@@ -6,14 +6,14 @@ package model;
 public abstract class CompositeExpression extends Expression implements
 		Observer {
 
-	private static final String CYCLE_DETECTED_MSG = "Cycle detected!!!";
+	public static final String CYCLE_DETECTED_MSG = "Cycle detected!!!";
 	private static final String EXPRESSION_OPEN_BRACKET = "(";
 	private static final String EXPRESSION_CLOSE_BRACKET = ")";
 	private static final String EQUALITY_SIGN = "=";
 	
 
-	private final Expression first;
-	private final Expression second;
+	private Expression first;
+	private Expression second;
 	private IntValue value;
 
 	/**
@@ -30,6 +30,14 @@ public abstract class CompositeExpression extends Expression implements
 		this.getSecond().register(this);
 		this.value = this.calculate();
 		}
+
+	public void setFirst(Expression first) {
+		this.first = first;
+	}
+
+	public void setSecond(Expression second) {
+		this.second = second;
+	}
 
 	@Override
 	public void update() {
@@ -74,5 +82,26 @@ public abstract class CompositeExpression extends Expression implements
 		return EXPRESSION_OPEN_BRACKET + this.getFirst().toString()
 				+ this.getOperator() + this.getSecond().toString()
 				+ EQUALITY_SIGN + this.getValue().toString() + EXPRESSION_CLOSE_BRACKET;
+	}
+	
+	public void substitute(final Variable variable, final Expression expression)
+	{
+		if (this.getFirst().equals(variable)) {
+			this.setFirst(expression);
+			expression.register(this);
+		}
+		else {
+			this.getFirst().substitute(variable, expression);
+		}
+		
+		if (this.getSecond().equals(variable))
+		{
+			this.setSecond(expression);
+			expression.register(this);
+		}
+		else {
+			this.getSecond().substitute(variable, expression);
+		}
+		this.update();
 	}
 }
