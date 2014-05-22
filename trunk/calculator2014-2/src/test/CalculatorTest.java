@@ -269,4 +269,47 @@ public class CalculatorTest {
 		Addition aab = Addition.create(aa, b);
 		Assert.assertEquals(true, aab.contains(aa));
 	}
+	
+	@Test
+	public void testSubstitute()
+	{
+		// (5+5)
+		Addition aa = Addition.create(a, a);
+		
+		// (5+5)+3
+		Addition aab = Addition.create(aa,  b);
+		
+		// (-2+-2)+3
+		aab.substitute(a, c);
+		
+		Assert.assertEquals(new IntValue(-1), aab.getValue());
+		
+		// (-2+-2)+-5
+		aab.substitute(b, d);
+		
+		Assert.assertEquals(new IntValue(-9), aab.getValue());
+		
+		// aab = (-2+-2)+-6
+		d.down();
+		
+		Assert.assertEquals(new IntValue(-10), aab.getValue());
+		
+		// aab = (-1+-1)+-6
+		c.up();
+		
+		Assert.assertEquals(new IntValue(-8), aab.getValue());
+		
+		// (5+3)
+		Addition ab = Addition.create(a, b);
+		
+		// aab = (-1+-1)+(5+3)
+		aab.substitute(d, ab);
+		
+		Assert.assertEquals(new IntValue(6), aab.getValue());
+		
+		// aab = (-1+-1)+(6+3)
+		a.up();
+
+		Assert.assertEquals(new IntValue(7), aab.getValue());
+	}
 }
