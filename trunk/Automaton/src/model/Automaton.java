@@ -40,6 +40,7 @@ public class Automaton {
 		states.add(this.end);
 		this.states = states;
 		this.delta = new LinkedList<StateTransition>();
+		this.setOptional(false);
 	}
 
 	/**
