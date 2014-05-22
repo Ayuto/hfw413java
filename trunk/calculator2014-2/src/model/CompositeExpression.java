@@ -33,10 +33,12 @@ public abstract class CompositeExpression extends Expression implements
 
 	public void setFirst(Expression first) {
 		this.first = first;
+		this.notifyObservers();
 	}
 
 	public void setSecond(Expression second) {
 		this.second = second;
+		this.notifyObservers();
 	}
 
 	@Override
@@ -86,21 +88,18 @@ public abstract class CompositeExpression extends Expression implements
 	
 	public void substitute(final Variable variable, final Expression expression)
 	{
+		Expression newExpression = expression.copy();
 		if (this.getFirst().equals(variable)) {
-			this.setFirst(expression);
-			expression.register(this);
-		}
-		else {
-			this.getFirst().substitute(variable, expression);
+			this.setFirst(newExpression);
+			variable.deregister(this);
+			newExpression.register(this);
 		}
 		
 		if (this.getSecond().equals(variable))
 		{
-			this.setSecond(expression);
-			expression.register(this);
-		}
-		else {
-			this.getSecond().substitute(variable, expression);
+			this.setSecond(newExpression);
+			variable.deregister(this);
+			newExpression.register(this);
 		}
 		this.update();
 	}

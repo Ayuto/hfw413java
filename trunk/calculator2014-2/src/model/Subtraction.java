@@ -27,4 +27,12 @@ public class Subtraction extends CompositeExpression {
 	public IntValue calculate() {
 		return this.getFirst().getValue().subtract(this.getSecond().getValue());
 	}
+	
+	@Override
+	public Expression copy() {
+		Subtraction newExpression = Subtraction.create(this.getFirst().copy(), this.getSecond().copy());
+		newExpression.getFirst().register(newExpression);
+		newExpression.getSecond().register(newExpression);
+		return newExpression;
+	}
 }

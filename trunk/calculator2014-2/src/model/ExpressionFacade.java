@@ -51,12 +51,6 @@ public class ExpressionFacade {
 		this.getExpressions().add(newExpression);
 	}
 	public void substitute(final Variable variable, final Expression expression) {
-		if (expression.contains(variable))
-			throw new Error(CompositeExpression.CYCLE_DETECTED_MSG);
-		
-		this.getVariables().remove(variable);
-		this.getExpressions().remove(variable);
-		
 		Iterator<Expression> iter = this.getExpressions().iterator();
 		while (iter.hasNext())
 		{

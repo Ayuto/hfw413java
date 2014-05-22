@@ -31,4 +31,12 @@ public class Division extends CompositeExpression {
 		
 		return this.getFirst().getValue().divide(this.getSecond().getValue());
 	}
+	
+	@Override
+	public Expression copy() {
+		Division newExpression = Division.create(this.getFirst().copy(), this.getSecond().copy());
+		newExpression.getFirst().register(newExpression);
+		newExpression.getSecond().register(newExpression);
+		return newExpression;
+	}
 }
