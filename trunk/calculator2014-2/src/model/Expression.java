@@ -16,7 +16,7 @@ public abstract class Expression extends Observee {
 	public abstract boolean contains(Expression argument);
 
 	/**
-	 * Subsitutes <variable> with <expression>.
+	 * Substitutes <variable> with <expression> recursively.
 	 * 
 	 * @throws Error if a cycle was detected.
 	 */
