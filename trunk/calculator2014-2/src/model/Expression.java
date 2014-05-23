@@ -22,5 +22,8 @@ public abstract class Expression extends Observee {
 	 */
 	public abstract void substitute(final Variable variable, final Expression expression);
 	
+	/**
+	 * Creates a deep copy of the expression. Variables are not copied!
+	 */
 	public abstract Expression copy();
 }
