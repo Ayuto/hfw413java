@@ -72,6 +72,5 @@ public class Variable extends Expression {
 
 	@Override
 	public void substitute(final Variable variable, final Expression expression) {
-		//expression.notifyObservers();
 	}
 }
