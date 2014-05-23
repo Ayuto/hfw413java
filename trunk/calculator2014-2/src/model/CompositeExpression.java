@@ -94,6 +94,9 @@ public abstract class CompositeExpression extends Expression implements
 			variable.deregister(this);
 			newExpression.register(this);
 		}
+		else {
+			this.getFirst().substitute(variable, expression);
+		}
 		
 		if (this.getSecond().equals(variable))
 		{
@@ -101,6 +104,10 @@ public abstract class CompositeExpression extends Expression implements
 			variable.deregister(this);
 			newExpression.register(this);
 		}
+		else {
+			this.getSecond().substitute(variable, expression);
+		}
+		
 		this.update();
 	}
 }

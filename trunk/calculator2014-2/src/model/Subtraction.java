@@ -30,9 +30,6 @@ public class Subtraction extends CompositeExpression {
 	
 	@Override
 	public Expression copy() {
-		Subtraction newExpression = Subtraction.create(this.getFirst().copy(), this.getSecond().copy());
-		newExpression.getFirst().register(newExpression);
-		newExpression.getSecond().register(newExpression);
-		return newExpression;
+		return Subtraction.create(this.getFirst().copy(), this.getSecond().copy());
 	}
 }

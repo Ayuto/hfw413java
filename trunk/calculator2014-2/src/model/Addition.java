@@ -30,9 +30,6 @@ public class Addition extends CompositeExpression {
 	
 	@Override
 	public Expression copy() {
-		Addition newExpression = Addition.create(this.getFirst().copy(), this.getSecond().copy());
-		newExpression.getFirst().register(newExpression);
-		newExpression.getSecond().register(newExpression);
-		return newExpression;
+		return Addition.create(this.getFirst().copy(), this.getSecond().copy());
 	}
 }
