@@ -30,9 +30,6 @@ public class Multiplication extends CompositeExpression {
 	
 	@Override
 	public Expression copy() {
-		Multiplication newExpression = Multiplication.create(this.getFirst().copy(), this.getSecond().copy());
-		newExpression.getFirst().register(newExpression);
-		newExpression.getFirst().register(newExpression);
-		return newExpression;
+		return Multiplication.create(this.getFirst().copy(), this.getSecond().copy());
 	}
 }
