@@ -1,6 +1,7 @@
 package test;
 
 import model.Automaton;
+import model.State;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,6 +17,8 @@ public class AutomatonTest {
 	private Automaton m3;
 	
 	private Automaton m4;
+	
+	private Automaton m5;
 
 	
 	@Before
@@ -25,12 +28,21 @@ public class AutomatonTest {
 		this.m2 = Automaton.create('a');
 		
 		this.m3 = Automaton.create('a');
-		
 		this.m3.getStart().add('a', this.m3.getStart());
 		
 		this.m4 = Automaton.create('b');
-		
 		this.m4.getStart().add('a', this.m4.getStart());
+		
+		this.m5 = Automaton.create();
+		State z1 = State.create(m5);
+		State z2 = State.create(m5);
+		State z3 = State.create(m5);
+		this.m5.getStart().add('0', z1);
+		z1.add('1', z2);
+		z1.add('0', z3);
+		z2.add('1', this.m5.getEnd());
+		z3.add('0', z2);
+		z3.add('1', z2);
 	}
 
 	@Test
@@ -87,6 +99,20 @@ public class AutomatonTest {
 		Assert.assertFalse(this.m4.recognizes("aababbb"));
 		Assert.assertFalse(this.m4.recognizes("aaaaaabb"));
 		Assert.assertFalse(this.m4.recognizes("Hugo"));
+		
+		
+		Assert.assertFalse(this.m5.recognizes(""));
+		Assert.assertFalse(this.m5.recognizes("0"));
+		Assert.assertFalse(this.m5.recognizes("01"));
+		Assert.assertTrue(this.m5.recognizes("011"));
+		Assert.assertTrue(this.m5.recognizes("0011"));
+		Assert.assertFalse(this.m5.recognizes("001"));
+		Assert.assertFalse(this.m5.recognizes("0110"));
+		Assert.assertTrue(this.m5.recognizes("0001"));
+		Assert.assertFalse(this.m5.recognizes("00011"));
+		Assert.assertFalse(this.m5.recognizes("010101"));
+		Assert.assertFalse(this.m5.recognizes("111000"));
+		Assert.assertFalse(this.m5.recognizes("Hugo"));
 	}
 
 }
