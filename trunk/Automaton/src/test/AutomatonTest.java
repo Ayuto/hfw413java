@@ -19,6 +19,8 @@ public class AutomatonTest {
 	private Automaton m4;
 	
 	private Automaton m5;
+	
+	private Automaton m6;
 
 	
 	@Before
@@ -34,15 +36,30 @@ public class AutomatonTest {
 		this.m4.getStart().add('a', this.m4.getStart());
 		
 		this.m5 = Automaton.create();
-		State z1 = State.create(m5);
-		State z2 = State.create(m5);
-		State z3 = State.create(m5);
+		final State z1 = State.create(this.m5);
+		final State z2 = State.create(this.m5);
+		final State z3 = State.create(this.m5);
 		this.m5.getStart().add('0', z1);
 		z1.add('1', z2);
 		z1.add('0', z3);
 		z2.add('1', this.m5.getEnd());
 		z3.add('0', z2);
 		z3.add('1', z2);
+		
+		this.m6 = Automaton.create();
+		final State a1 = State.create(this.m6);
+		final State a2 = State.create(this.m6);
+		final State a3 = State.create(this.m6);
+		this.m6.getStart().add('0', this.m6.getStart());
+		this.m6.getStart().add('1', a1);
+		a1.add('0', this.m6.getStart());
+		a1.add('1', a2);
+		a2.add('0', this.m6.getStart());
+		a2.add('1', a3);
+		a3.add('0', this.m6.getStart());
+		a3.add('1', this.m6.getEnd());
+		this.m6.getEnd().add('0', this.m6.getEnd());
+		this.m6.getEnd().add('1', this.m6.getEnd());
 	}
 
 	@Test
@@ -113,6 +130,24 @@ public class AutomatonTest {
 		Assert.assertFalse(this.m5.recognizes("010101"));
 		Assert.assertFalse(this.m5.recognizes("111000"));
 		Assert.assertFalse(this.m5.recognizes("Hugo"));
+		
+		
+		Assert.assertFalse(this.m6.recognizes(""));
+		Assert.assertFalse(this.m6.recognizes("0"));
+		Assert.assertFalse(this.m6.recognizes("1"));
+		Assert.assertFalse(this.m6.recognizes("01"));
+		Assert.assertFalse(this.m6.recognizes("101"));
+		Assert.assertFalse(this.m6.recognizes("10111"));
+		Assert.assertFalse(this.m6.recognizes("011101"));
+		Assert.assertFalse(this.m6.recognizes("0111"));
+		Assert.assertTrue(this.m6.recognizes("01111"));
+		Assert.assertFalse(this.m6.recognizes("11011"));
+		Assert.assertFalse(this.m6.recognizes("11101110111"));
+		Assert.assertTrue(this.m6.recognizes("1111"));
+		Assert.assertTrue(this.m6.recognizes("1111100"));
+		Assert.assertFalse(this.m6.recognizes("010101"));
+		Assert.assertFalse(this.m6.recognizes("111000"));
+		Assert.assertFalse(this.m6.recognizes("Hugo"));
 	}
 
 }
