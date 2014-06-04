@@ -16,8 +16,14 @@ public class StateTransition {
 	 * @param by
 	 *            The needed input.
 	 * @return The created state transition.
+	 * @throws NotMatchingAutomatonsException if the automaton of from
+	 *         is not the same as the automaton of to.
 	 */
-	public static StateTransition create(final State from, final State to, final char by) {
+	public static StateTransition create(final State from, final State to,
+			final char by) throws NotMatchingAutomatonsException {
+		if (!from.getOut().equals(to.getOut())) {
+			throw new NotMatchingAutomatonsException();
+		}
 		return new StateTransition(from, to, by);
 	}
 

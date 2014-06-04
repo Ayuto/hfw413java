@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 
 /**
@@ -21,16 +23,22 @@ public class Configuration {
 	 *            The input of the configuration.
 	 * @return The created configuration.
 	 */
-	public static Configuration create(final Automaton out, final StateCollection states,
+	public static Configuration create(final Automaton out, final Collection<State> states,
 			final String input) {
 		return new Configuration(out, states, input);
 	}
+	
+	public static Configuration create(final Automaton out, final String input) {
+		final Collection<State> start = new HashSet<State>();
+		start.add(out.getStart());
+		return Configuration.create(out, start, input);
+	}
 
 	private final Automaton out;
-	private final StateCollection states;
+	private final Collection<State> states;
 	private final String input;
 
-	private Configuration(final Automaton out, final StateCollection states, final String input) {
+	private Configuration(final Automaton out, final Collection<State> states, final String input) {
 		this.out = out;
 		this.states = states;
 		this.input = input;
@@ -46,7 +54,7 @@ public class Configuration {
 		if (this.getInput().length() == 0) {
 			return this;
 		}
-		final StateCollection result = StateCollection.create();
+		final Collection<State> result = new HashSet<State>();
 		final char c = this.getInput().charAt(0);
 		final Iterator<State> iterator = this.getStates().iterator();
 		while (iterator.hasNext()) {
@@ -92,7 +100,7 @@ public class Configuration {
 		return this.out;
 	}
 
-	public StateCollection getStates() {
+	public Collection<State> getStates() {
 		return this.states;
 	}
 
