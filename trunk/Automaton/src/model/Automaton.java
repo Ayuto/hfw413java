@@ -1,7 +1,7 @@
 package model;
 
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.HashSet;
 
 /**
  * A nondeterministic finite automaton for not empty input Strings, with ONE
@@ -22,24 +22,28 @@ public class Automaton {
 	 */
 	public static Automaton create(final char c) {
 		final Automaton automaton = new Automaton();
-		automaton.getStart().add(c, automaton.getEnd());
+		try {
+			automaton.getStart().add(c, automaton.getEnd());
+		} catch (final NotMatchingAutomatonsException e) {
+			System.out.println("Shouldn't happen here...");
+			e.printStackTrace();
+		}
 		return automaton;
 	}
 
-	private State start;
-	private State end;
-	private final StateCollection states;
+	private final State start;
+	private final State end;
+	private final Collection<State> states;
 	private final Collection<StateTransition> delta;
 	private boolean optional;
 
 	private Automaton() {
 		this.start = State.create(this);
 		this.end = State.create(this);
-		final StateCollection states = StateCollection.create();
-		states.add(this.start);
-		states.add(this.end);
-		this.states = states;
-		this.delta = new LinkedList<StateTransition>();
+		this.states = new HashSet<State>();
+		this.states.add(this.start);
+		this.states.add(this.end);
+		this.delta = new HashSet<StateTransition>();
 		this.setOptional(false);
 	}
 
@@ -55,8 +59,7 @@ public class Automaton {
 		if (this.isOptional() && input.isEmpty()) {
 			return true;
 		}
-		return Configuration.create(this, StateCollection.create(this.start), input)
-				.run().isEndConfiguration();
+		return Configuration.create(this, input).run().isEndConfiguration();
 	}
 
 	/**
@@ -81,14 +84,6 @@ public class Automaton {
 		return to.fetchPredecessors();
 	}
 
-	public void setStart(final State start) {
-		this.start = start;
-	}
-
-	public void setEnd(final State end) {
-		this.end = end;
-	}
-
 	/**
 	 * Returns the startstate.
 	 */
@@ -106,7 +101,7 @@ public class Automaton {
 	/**
 	 * Returns the collection of all states of the automaton {@code<this>}.
 	 */
-	public StateCollection getStates() {
+	public Collection<State> getStates() {
 		return this.states;
 	}
 
@@ -118,10 +113,21 @@ public class Automaton {
 		return this.delta;
 	}
 
+	/**
+	 * Getter for the optional state of the receiver.
+	 * 
+	 * @return True only if the receiver is a optional automaton.
+	 */
 	public boolean isOptional() {
 		return this.optional;
 	}
 
+	/**
+	 * Setter for the optional state of the receiver.
+	 * 
+	 * @param optional
+	 *            new optional state of the receiver.
+	 */
 	public void setOptional(final boolean optional) {
 		this.optional = optional;
 	}

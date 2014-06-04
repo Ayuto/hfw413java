@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -34,8 +35,9 @@ public class State {
 	 *            Input of the new transition.
 	 * @param s
 	 *            New state after the input of {@code <c>}.
+	 * @throws NotMatchingAutomatonsException If the state s is not from the same automaton as the receiver.
 	 */
-	public void add(final char c, final State s) {
+	public void add(final char c, final State s) throws NotMatchingAutomatonsException {
 		this.getOut().getDelta().add(StateTransition.create(this, s, c));
 	}
 
@@ -47,8 +49,8 @@ public class State {
 	 *            The given input.
 	 * @return The StateCollection with all reachable states.
 	 */
-	public StateCollection get(final char c) {
-		final StateCollection result = StateCollection.create();
+	public Collection<State> get(final char c) {
+		final Collection<State> result = new HashSet<State>();
 		final Iterator<StateTransition> iterator = this.getOut().getDelta()
 				.iterator();
 		while (iterator.hasNext()) {
@@ -93,6 +95,11 @@ public class State {
 			}
 		}
 		return result;
+	}
+	
+	@Override
+	public boolean equals(final Object obj) {
+		return super.equals(obj);
 	}
 
 	/**
