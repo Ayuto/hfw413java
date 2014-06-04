@@ -10,7 +10,7 @@ public abstract class CompositeExpression extends RegularExpression{
 	
 	final private Collection<RegularExpression> parts;
 
-	public CompositeExpression(final Collection<RegularExpression> parts){
+	protected CompositeExpression(final Collection<RegularExpression> parts){
 		this.parts = parts;
 	}
 
@@ -31,5 +31,13 @@ public abstract class CompositeExpression extends RegularExpression{
 
 	public Collection<RegularExpression> getParts() {
 		return this.parts;
+	}
+	
+	@Override
+	public void add(final RegularExpression argument) throws CycleException {
+		if (argument.contains(this)) {
+			throw new CycleException();
+		}
+		this.getParts().add(argument);
 	}
 }

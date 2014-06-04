@@ -13,7 +13,7 @@ public abstract class RegularExpression {
 	/**
 	 * Returns the base automaton of the receiver which ignores the iterated state.
 	 */
-	public abstract Automaton toBaseAutomaton();
+	protected abstract Automaton toBaseAutomaton();
 	
 	/**
 	 * Returns the automaton of the receiver.
@@ -37,9 +37,9 @@ public abstract class RegularExpression {
 	 * @throws UnsupportedOperationException if the receiver is a BaseExpression
 	 * @throws CycleException if the argument contains already the receiver.
 	 */
-	public abstract void add(RegularExpression argument);
+	public abstract void add(RegularExpression argument) throws CycleException;
 	
-	public abstract boolean baseEquals(final RegularExpression argument);
+	protected abstract boolean baseEquals(final RegularExpression argument);
 	
 	@Override
 	public boolean equals(final Object argument) {

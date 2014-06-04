@@ -18,7 +18,7 @@ public class BaseExpression extends RegularExpression{
 	}
 
 	@Override
-	public Automaton toBaseAutomaton() {
+	protected Automaton toBaseAutomaton() {
 		return Automaton.create(this.getC());
 	}
 
@@ -32,7 +32,7 @@ public class BaseExpression extends RegularExpression{
 	}
 
 	@Override
-	public boolean baseEquals(final RegularExpression argument) {
+	protected boolean baseEquals(final RegularExpression argument) {
 		if (argument instanceof BaseExpression) {
 			final BaseExpression argumentAsBaseExpression = (BaseExpression) argument;
 			return this.getC() == argumentAsBaseExpression.getC();

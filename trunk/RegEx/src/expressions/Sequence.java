@@ -32,22 +32,11 @@ public class Sequence extends CompositeExpression{
 	}
 
 	@Override
-	public boolean baseEquals(final RegularExpression argument) {
+	protected boolean baseEquals(final RegularExpression argument) {
 		if (argument instanceof Sequence) {
 			final Sequence argumentAsSequence = (Sequence) argument;
 			return this.getParts().equals(argumentAsSequence.getParts());
 		}
 		return false;
 	}
-
-	@Override
-	public void add(final RegularExpression argument) {
-		if (argument.contains(this)) {
-			throw new CycleException();
-		}
-		this.getParts().add(argument);
-	}
-	
-	
-
 }
