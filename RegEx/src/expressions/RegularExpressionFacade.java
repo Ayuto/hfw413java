@@ -37,7 +37,11 @@ public class RegularExpressionFacade {
 	 * @param containee The part
 	 */
 	public void add(final RegularExpression container, final RegularExpression containee) {
-		container.add(containee);
+		try {
+			container.add(containee);
+		} catch (final CycleException e) {
+			e.printStackTrace();
+		}
 		System.out.println("add");
 	}
 
