@@ -17,6 +17,7 @@ public class RegularExpressionTester {
 	private RegularExpression e6;
 	private RegularExpression e7;
 	private RegularExpression e8;
+	private RegularExpression e9;
 
 	@Before
 	public void setUp() throws Exception {
@@ -28,6 +29,7 @@ public class RegularExpressionTester {
 		this.e6 = RegularExpressionParser.create("(10[10]*)").parse();
 		this.e7 = RegularExpressionParser.create("(01[10]+)").parse();
 		this.e8 = RegularExpressionParser.create("([ab]+.[cd]*/ef)").parse();
+		this.e9 = RegularExpressionParser.create("(abc[])").parse();
 	}
 
 	@Test
@@ -149,5 +151,51 @@ public class RegularExpressionTester {
 		Assert.assertTrue(this.e8.check("ba.dc/ef"));
 		Assert.assertTrue(this.e8.check("b./ef"));
 		Assert.assertTrue(this.e8.check("abb.cddcc/ef"));
+	}
+	
+	@Test
+	public void testE9() {
+		Assert.assertFalse(this.e9.check(""));
+		Assert.assertFalse(this.e9.check("abc"));
+		Assert.assertFalse(this.e9.check("ab"));
+		Assert.assertFalse(this.e9.check("a"));
+		Assert.assertFalse(this.e9.check("./ef"));
+		Assert.assertFalse(this.e9.check("./"));
+		Assert.assertFalse(this.e9.check("."));
+		Assert.assertFalse(this.e9.check("b./"));
+		Assert.assertFalse(this.e9.check("b.c/"));
+		Assert.assertFalse(this.e9.check(".cddccddccc/ef"));
+		Assert.assertFalse(this.e9.check("a./ef"));
+		Assert.assertFalse(this.e9.check("ab./ef"));
+		Assert.assertFalse(this.e9.check("b.c/ef"));
+		Assert.assertFalse(this.e9.check("a.cddccddccc/ef"));
+		Assert.assertFalse(this.e9.check("ab.d/ef"));
+		Assert.assertFalse(this.e9.check("ba.dc/ef"));
+		Assert.assertFalse(this.e9.check("b./ef"));
+		Assert.assertFalse(this.e9.check("abb.cddcc/ef"));
+		Assert.assertFalse(this.e4.check(""));
+		Assert.assertFalse(this.e4.check("a"));
+		Assert.assertFalse(this.e4.check("b"));
+		Assert.assertFalse(this.e4.check(" "));
+		Assert.assertFalse(this.e4.check("c"));
+		Assert.assertFalse(this.e4.check("aa"));
+		Assert.assertFalse(this.e4.check("bb"));
+		Assert.assertFalse(this.e4.check("hugo"));
+		Assert.assertFalse(this.e4.check("ist"));
+		Assert.assertFalse(this.e4.check("vielleicht"));
+		Assert.assertFalse(this.e4.check("doof"));
+		Assert.assertFalse(this.e4.check("helloWorld"));
+		Assert.assertFalse(this.e2.check("bb"));
+		Assert.assertFalse(this.e2.check("bbb"));
+		Assert.assertFalse(this.e2.check("ba"));
+		Assert.assertFalse(this.e7.check(""));
+		Assert.assertFalse(this.e7.check("1"));
+		Assert.assertFalse(this.e7.check("0"));
+		Assert.assertFalse(this.e7.check("10"));
+		Assert.assertFalse(this.e7.check("01"));
+		Assert.assertFalse(this.e7.check("001"));
+		Assert.assertFalse(this.e7.check("110"));
+		Assert.assertFalse(this.e7.check("100"));
+		Assert.assertFalse(this.e7.check("101"));
 	}
 }
