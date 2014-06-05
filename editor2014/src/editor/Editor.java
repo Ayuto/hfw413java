@@ -78,6 +78,7 @@ public class Editor {
 		try {
 			this.getCommandHistory().pop().undo();
 		} catch (EmptyStackException e) {
+			System.out.println("There is nothing to undo...");
 		}
 	}
 	private Stack<Command> getCommandHistory() {
@@ -86,92 +87,87 @@ public class Editor {
 	/**
 	 * An abstract interface for all Commands.
 	 */
-	private interface Command {
+	private abstract class Command {
+		private boolean executed = false;
 		/**
 		 * Executes the command and sets a flag that this command has been executed.
 		 */
-		void execute();
+		public void execute() {
+			if (this.executed) 
+				return;
+			this.executeMethod();
+			this.executed = true;
+		}
+		protected abstract void executeMethod();
 		/**
 		 * Undos the command if the command has been executed before.
 		 */
-		void undo();
+		public void undo() {
+			if (!this.executed)
+				return;
+			this.undoMethod();
+			this.executed = false;
+		}
+		protected abstract void undoMethod();
 	}
 	/**
 	 * A Command for a position movement to the left.
 	 */
-	private class LeftCommand implements Command {
-		private boolean executed = false;
+	private class LeftCommand extends Command {
 		@Override
-		public void execute() {
-			if (this.executed) return;
-			this.executed = true;
+		protected void executeMethod() {
 			if (Editor.this.getPosition() > 0) Editor.this.setPosition(Editor.this.getPosition() - 1);
 		}
 		@Override
-		public void undo() {
-			if (!this.executed) return;
+		protected void undoMethod() {
 			new RightCommand().execute();
 		}
 	}
 	/**
 	 * A Command for a position movement to the right.
 	 */
-	private class RightCommand implements Command {
-		private boolean executed = false;
+	private class RightCommand extends Command {
 		@Override
-		public void execute() {
-			if (this.executed) return;
-			this.executed = true;
+		protected void executeMethod() {
 			if (Editor.this.getPosition() < Editor.this.getText().length()) Editor.this.setPosition(Editor.this.getPosition() + 1);
 		}
 		@Override
-		public void undo() {
-			if (!this.executed) return;
+		protected void undoMethod() {
 			new LeftCommand().execute();
 		}
 	}
 	/**
 	 * A Command for adding a new line to the text.
 	 */
-	private class NewLineCommand implements Command {
-		private boolean executed = false;
+	private class NewLineCommand extends Command {
 		@Override
-		public void execute() {
-			if (this.executed) return;
-			this.executed = true;
+		protected void executeMethod() {
 			Editor.this.getText().insert(Editor.this.getPosition(), "\n");
 			Editor.this.setPosition(Editor.this.getPosition() + 1);
 		}
 		@Override
-		public void undo() {
-			if (!this.executed) return;
+		protected void undoMethod() {
 			new DeleteLeftCommand().execute();
 		}
 	}
 	/**
 	 * A Command for switching the shift mode.
 	 */
-	private class ShiftCommand implements Command {
-		private boolean executed = false;
+	private class ShiftCommand extends Command {
 		@Override
-		public void execute() {
-			if (this.executed) return;
-			this.executed = true;
+		protected void executeMethod() {
 			Editor.this.setShiftMode(!Editor.this.getShiftMode());
 		}
 		@Override
-		public void undo() {
-			if (!this.executed) return;
-			this.executed = false;
-			this.execute();
+		protected void undoMethod() {
+			Editor.this.setShiftMode(!Editor.this.getShiftMode());
 		}
 	}
 	/**
 	 * A Command for adding a character to the text.
 	 */
-	private class KeyTypedCommand implements Command {
+	private class KeyTypedCommand extends Command {
 		private char c;
-		private boolean executed = false;
 		/**
 		 * Creates a Command for adding the given character to the text.
 		 * @param c Given character to be added to the text. 
@@ -180,55 +176,45 @@ public class Editor {
 			this.c = c;
 		}
 		@Override
-		public void execute() {
-			if (this.executed) return;
-			this.executed = true;
+		protected void executeMethod() {
 			Editor.this.getText().insert(Editor.this.getPosition(), Editor.this.getShiftMode()?this.c:Character.toLowerCase(this.c));
 			Editor.this.setPosition(Editor.this.getPosition() + 1);
 		}
 		@Override
-		public void undo() {
-			if (!this.executed) return;
+		protected void undoMethod() {
 			new DeleteLeftCommand().execute();
 		}
 	}
 	/**
 	 * A Command for deleting the character to the left of the current position.
 	 */
-	private class DeleteLeftCommand implements Command {
+	private class DeleteLeftCommand extends Command {
 		private char deleted = 0;
-		private boolean executed = false;
 		@Override
-		public void execute() {
-			if (this.executed) return;
-			this.executed = true;
+		protected void executeMethod() {
 			this.deleted = Editor.this.getText().charAt(Editor.this.getPosition() - 1);
 			Editor.this.getText().deleteCharAt(Editor.this.getPosition() - 1);
 			Editor.this.setPosition(Editor.this.getPosition() - 1);
 		}
 		@Override
-		public void undo() {
-			if (!this.executed) return;
+		protected void undoMethod() {
 			new KeyTypedCommand(this.deleted).execute();
 		}
 	}
 	/**
 	 * A Command for deleting the character to the right of the current position.
 	 */
-	private class DeleteRightCommand implements Command {
-		private boolean executed = false;
+	private class DeleteRightCommand extends Command {
 		private char deleted = 0;
 		@Override
-		public void execute() {
-			if (this.executed) return;
-			this.executed = true;
+		protected void executeMethod() {
 			this.deleted = Editor.this.getText().charAt(Editor.this.getPosition());
 			Editor.this.getText().deleteCharAt(Editor.this.getPosition());
 		}
 		@Override
-		public void undo() {
-			if (! this.executed) return;
+		protected void undoMethod() {
 			new KeyTypedCommand(this.deleted).execute();
-		}
+			new LeftCommand().execute();
+			}
 	}
 }
