@@ -107,12 +107,30 @@ public class Editor {
 		}
 	}
 	public void copy() {
-		this.copiedText = this.getText().substring(this.getSecondPosition(), this.getFirstPosition());
+		int first, second;
+		if (this.getFirstPosition() > this.getSecondPosition()) {
+			first = this.getSecondPosition();
+			second = this.getFirstPosition();
+		}
+		else {
+			second = this.getSecondPosition();
+			first = this.getFirstPosition();
+		}
+		this.copiedText = this.getText().substring(first, second);
 	}
 	public void cut() {
-		this.copiedText = this.getText().substring(this.getFirstPosition(), this.getSecondPosition());
-		this.text = this.text.delete(this.getFirstPosition(), this.getSecondPosition());
-		this.setPosition(this.getFirstPosition());
+		int first, second;
+		if (this.getFirstPosition() > this.getSecondPosition()) {
+			first = this.getSecondPosition();
+			second = this.getFirstPosition();
+		}
+		else {
+			second = this.getSecondPosition();
+			first = this.getFirstPosition();
+		}
+		this.copiedText = this.getText().substring(first, second);
+		this.text = this.text.delete(first, second);
+		this.setPosition(first);
 	}
 	public void paste() {
 		if (this.copiedText == null)
@@ -191,7 +209,7 @@ public class Editor {
 		protected void executeMethod() {
 			if (Editor.this.getPosition() < Editor.this.getText().length()) {
 				if (Editor.this.getShiftMode()){
-					Editor.this.setSecondPosition(Editor.this.getSecondPosition() + 1);
+					Editor.this.setFirstPosition(Editor.this.getFirstPosition() + 1);
 				}else{
 					Editor.this.setPosition(Editor.this.getPosition() + 1);
 				}
