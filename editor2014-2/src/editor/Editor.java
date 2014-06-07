@@ -107,48 +107,14 @@ public class Editor {
 		}
 	}
 	public void copy() {
-		int first, second;
-		if (this.getFirstPosition() > this.getSecondPosition()) {
-			first = this.getSecondPosition();
-			second = this.getFirstPosition();
-		}
-		else {
-			second = this.getSecondPosition();
-			first = this.getFirstPosition();
-		}
-		this.copiedText = this.getText().substring(first, second);
+		this.undoCommand(new CopyCommand());
 	}
 	public void cut() {
-		int first, second;
-		if (this.getFirstPosition() > this.getSecondPosition()) {
-			first = this.getSecondPosition();
-			second = this.getFirstPosition();
-		}
-		else {
-			second = this.getSecondPosition();
-			first = this.getFirstPosition();
-		}
-		this.copiedText = this.getText().substring(first, second);
-		this.text = this.text.delete(first, second);
-		this.setPosition(first);
+		this.undoCommand(new CutCommand());
 	}
 	public void paste() {
-		if (this.copiedText == null)
-		{
-			System.out.println("Nothing to paste...");
-			return;
-		}
-		
-		if (this.getFirstPosition() == this.getSecondPosition())
-		{
-			this.text.insert(this.getPosition(), this.copiedText);
-		}
-		else
-		{
-			this.text = this.text.replace(this.getFirstPosition(), this.getSecondPosition(), this.copiedText);
-		}
+		this.undoCommand(new PasteCommand());
 	}
-	
 	private Stack<Command> getCommandHistory() {
 		return this.commandHistory;
 	}
@@ -300,5 +266,69 @@ public class Editor {
 			new KeyTypedCommand(this.deleted).execute();
 			new LeftCommand().execute();
 			}
+	}
+	private class CopyCommand extends Command {
+		@Override
+		protected void executeMethod() {
+
+			int first, second;
+			if (Editor.this.getFirstPosition() > Editor.this.getSecondPosition()) {
+				first = Editor.this.getSecondPosition();
+				second = Editor.this.getFirstPosition();
+			}
+			else {
+				second = Editor.this.getSecondPosition();
+				first = Editor.this.getFirstPosition();
+			}
+			Editor.this.copiedText = Editor.this.getText().substring(first, second);
+		}
+		@Override
+		protected void undoMethod() {
+			Editor.this.copiedText = null;
+		}
+	}
+	private class CutCommand extends Command {
+		@Override
+		protected void executeMethod() {
+			int first, second;
+			if (Editor.this.getFirstPosition() > Editor.this.getSecondPosition()) {
+				first = Editor.this.getSecondPosition();
+				second = Editor.this.getFirstPosition();
+			}
+			else {
+				second = Editor.this.getSecondPosition();
+				first = Editor.this.getFirstPosition();
+			}
+			Editor.this.copiedText = Editor.this.getText().substring(first, second);
+			Editor.this.text = Editor.this.text.delete(first, second);
+			Editor.this.setPosition(first);
+		}
+		@Override
+		protected void undoMethod() {
+			new PasteCommand().execute();
+		}
+	}
+	private class PasteCommand extends Command {
+		@Override
+		protected void executeMethod() {
+			if (Editor.this.copiedText == null)
+			{
+				System.out.println("Nothing to paste...");
+				return;
+			}
+			
+			if (Editor.this.getFirstPosition() == Editor.this.getSecondPosition())
+			{
+				Editor.this.text.insert(Editor.this.getPosition(), Editor.this.copiedText);
+			}
+			else
+			{
+				Editor.this.text = Editor.this.text.replace(Editor.this.getFirstPosition(), Editor.this.getSecondPosition(), Editor.this.copiedText);
+			}
+		}
+		@Override
+		protected void undoMethod() {
+				Editor.this.text = Editor.this.getText().delete(Editor.this.getPosition(), Editor.this.getPosition() + copiedText.length());
+		}
 	}
 }
