@@ -34,12 +34,12 @@ public class Automaton {
 	private boolean optional;
 
 	private Automaton() {
+		final StateCollection states = StateCollection.create();
+		this.states = states;
 		this.start = State.create(this);
 		this.end = State.create(this);
-		final StateCollection states = StateCollection.create();
 		states.add(this.start);
 		states.add(this.end);
-		this.states = states;
 		this.delta = new LinkedList<StateTransition>();
 	}
 

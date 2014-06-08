@@ -65,6 +65,14 @@ public class StateCollection {
 	public Iterator<State> iterator() {
 		return this.getData().iterator();
 	}
+	
+	/**
+	 * Calculates the amount of states which are currently in the receivers collection.
+	 * @return The amount of states which are currently in the receivers collection.
+	 */
+	public int size() {
+		return this.getData().size();
+	}
 
 	/**
 	 * Returns true only if the collection contains the given state.
@@ -93,18 +101,19 @@ public class StateCollection {
 	 * @return The StateCollection with all the calculated states.
 	 */
 	public StateCollection checkBeginning() {
-		final int beginSize = this.getData().size();
+		StateCollection result = StateCollection.create();
+		result.addAll(this);
 		final Iterator<State> iterator = this.iterator();
 		while (iterator.hasNext()) {
 			final State current = iterator.next();
-			this.addAll(current.fetchSuccessors());
+			result.addAll(current.fetchSuccessors());
 		}
-		if (beginSize == this.getData().size()) {
-			return this;
+		if (this.size() == result.size()) {
+			return result;
 		}
-		return this.checkBeginning();
+		return result.checkBeginning();
 	}
-
+	
 	/**
 	 * Checks all states in the receiver. If the state is also in both arguments
 	 * it will stay in the StateCollection, otherwise it will be deleted and all
@@ -130,15 +139,16 @@ public class StateCollection {
 	 * @return The StateCollection with all the calculated states.
 	 */
 	public StateCollection checkEnding() {
-		final int beginSize = this.getData().size();
+		StateCollection result = StateCollection.create();
+		result.addAll(this);
 		final Iterator<State> iterator = this.iterator();
 		while (iterator.hasNext()) {
 			final State current = iterator.next();
-			this.addAll(current.fetchPredecessors());
+			result.addAll(current.fetchPredecessors());
 		}
-		if (beginSize == this.getData().size()) {
-			return this;
+		if (this.size() == result.size()) {
+			return result;
 		}
-		return this.checkEnding();
+		return result.checkEnding();
 	}
 }

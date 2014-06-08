@@ -24,6 +24,7 @@ public class State {
 
 	private State(final Automaton out) {
 		this.setOut(out);
+		this.getOut().getStates().add(this);
 	}
 
 	/**
