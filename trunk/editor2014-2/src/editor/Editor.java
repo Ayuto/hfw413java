@@ -80,9 +80,6 @@ public class Editor {
 	private boolean getShiftMode() {
 		return this.shiftMode;
 	}
-	// TODO
-	// Warum wird die UndoHistory gelšscht?
-	// TODO
 	public void undoCommand(Command command)
 	{
 		this.getCommandHistory().push(command);
@@ -109,7 +106,7 @@ public class Editor {
 		}
 	}
 	public void restore(EditorState state) {
-		this.text = state.textData;
+		this.text.replace(0, this.text.length(), state.textData);
 		this.firstPosition = state.firstPositionData;
 		this.secondPosition = state.secondPositionData;
 		this.shiftMode = state.shiftModeData;
@@ -301,7 +298,7 @@ public class Editor {
 		EditorState oldState;
 		@Override
 		protected void executeMethod() {
-			this.oldState = new EditorState(Editor.this.getText(), Editor.this.getFirstPosition(), Editor.this.getSecondPosition(), Editor.this.getShiftMode(), Editor.this.copiedText);
+			this.oldState = new EditorState(Editor.this.getEditorText(), Editor.this.getFirstPosition(), Editor.this.getSecondPosition(), Editor.this.getShiftMode(), Editor.this.copiedText);
 			int first, second;
 			if (Editor.this.getFirstPosition() > Editor.this.getSecondPosition()) {
 				first = Editor.this.getSecondPosition();
@@ -329,7 +326,7 @@ public class Editor {
 				System.out.println("Nothing to paste...");
 				return;
 			}
-			this.oldState = new EditorState(Editor.this.getText(), Editor.this.getFirstPosition(), Editor.this.getSecondPosition(), Editor.this.getShiftMode(), Editor.this.copiedText);
+			this.oldState = new EditorState(Editor.this.getEditorText(), Editor.this.getFirstPosition(), Editor.this.getSecondPosition(), Editor.this.getShiftMode(), Editor.this.copiedText);
 			if (Editor.this.getFirstPosition() == Editor.this.getSecondPosition())
 			{
 				Editor.this.text.insert(Editor.this.getPosition(), Editor.this.copiedText);
@@ -338,6 +335,7 @@ public class Editor {
 			{
 				Editor.this.text = Editor.this.text.replace(Editor.this.getFirstPosition(), Editor.this.getSecondPosition(), Editor.this.copiedText);
 			}
+			Editor.this.setPosition(Editor.this.getPosition() + Editor.this.copiedText.length());
 		}
 		@Override
 		protected void undoMethod() {
@@ -347,12 +345,12 @@ public class Editor {
 		}
 	}
 	private class EditorState {		
-		private StringBuffer textData;
+		private String textData;
 		private int firstPositionData;
 		private int secondPositionData;
 		private boolean shiftModeData;
 		private String copiedTextData;		
-		private EditorState(StringBuffer textData, int firstPositionData, int secondPositionData,
+		private EditorState(String textData, int firstPositionData, int secondPositionData,
 				boolean shiftModeData, String copiedTextData) {
 			this.textData = textData;
 			this.firstPositionData = firstPositionData;
