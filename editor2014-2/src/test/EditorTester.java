@@ -460,13 +460,13 @@ public class EditorTester {
 	@Test
 	public void testCutPaste() {
 		// aabbccd
-		this.editor.keyTyped('a');
-		this.editor.keyTyped('a');
-		this.editor.keyTyped('b');
-		this.editor.keyTyped('b');
-		this.editor.keyTyped('c');
-		this.editor.keyTyped('c');
-		this.editor.keyTyped('d');
+		this.editor.keyTyped('A');
+		this.editor.keyTyped('A');
+		this.editor.keyTyped('B');
+		this.editor.keyTyped('B');
+		this.editor.keyTyped('C');
+		this.editor.keyTyped('C');
+		this.editor.keyTyped('D');
 		
 		Assert.assertEquals("aabbccd", this.editor.getEditorText());
 		
@@ -534,13 +534,13 @@ public class EditorTester {
 	@Test
 	public void testCopyPaste() {
 		// aabbccd|
-		this.editor.keyTyped('a');
-		this.editor.keyTyped('a');
+		this.editor.keyTyped('A');
+		this.editor.keyTyped('A');
+		this.editor.keyTyped('B');
 		this.editor.keyTyped('b');
-		this.editor.keyTyped('b');
-		this.editor.keyTyped('c');
-		this.editor.keyTyped('c');
-		this.editor.keyTyped('d');
+		this.editor.keyTyped('C');
+		this.editor.keyTyped('C');
+		this.editor.keyTyped('D');
 		
 		Assert.assertEquals("aabbccd", this.editor.getEditorText());
 		
