@@ -25,67 +25,91 @@ public class Editor {
 		this.commandHistory = new Stack<Command>();
 		this.undoHistory = new Stack<Command>();
 	}
+	
 	private Stack<Command> getUndoHistory() {
 		return this.undoHistory;
 	}
+	
+	private Stack<Command> getCommandHistory() {
+		return this.commandHistory;
+	}
+	
 	private StringBuffer getText() {
 		return this.text;
 	}
+	
 	public int getPosition() {
 		return this.getFirstPosition();
 	}
+	
 	private int getFirstPosition() {
 		return this.firstPosition;
 	}
+	
 	private void setPosition(int position) {
 		this.setFirstPosition(position);
 		this.setSecondPosition(position);
 	}
+	
 	private void setFirstPosition(int position) {
 		this.firstPosition = position;
 	}
+	
 	public int getSecondPosition() {
 		return this.secondPosition;
 	}
+	
 	private void setSecondPosition(int position) {
 		this.secondPosition = position;
 	}
+	
 	public String getEditorText() {
 		return this.getText().toString();
 	}
+	
 	public void keyTyped(final Character c) {
 		this.undoCommand(new KeyTypedCommand(c));
 	}
+	
 	public void deleteLeft() {
 		this.undoCommand(new DeleteLeftCommand());
 	}
+	
 	public void deleteRight() {
 		this.undoCommand(new DeleteRightCommand());
 	}
+	
 	public void left() {
 		this.undoCommand(new LeftCommand());
 	}
+	
 	public void right() {
 		this.undoCommand(new RightCommand());
 	}
+	
 	public void newLine() {
 		this.undoCommand(new NewLineCommand());
 	}
+	
 	public void shift() {
 		this.undoCommand(new ShiftCommand());
 	}
+	
 	private void setShiftMode(boolean b) {
 		this.shiftMode = b;
 	}
+	
 	private boolean getShiftMode() {
 		return this.shiftMode;
 	}
+	
 	public void undoCommand(Command command)
 	{
 		this.getCommandHistory().push(command);
 		command.execute();
 		this.getUndoHistory().clear();
 	}
+	
 	public void undo() {
 		try {
 			Command command = this.getCommandHistory().pop();
@@ -95,6 +119,7 @@ public class Editor {
 			System.out.println("There is nothing to undo...");
 		}
 	}
+	
 	public void redo() {
 		try {
 			Command command = this.getUndoHistory().pop();
@@ -105,6 +130,7 @@ public class Editor {
 			System.out.println("Nothing to redo...");
 		}
 	}
+	
 	public void restore(EditorState state) {
 		this.text.replace(0, this.text.length(), state.textData);
 		this.firstPosition = state.firstPositionData;
@@ -112,23 +138,28 @@ public class Editor {
 		this.shiftMode = state.shiftModeData;
 		this.copiedText = state.copiedTextData;
 	}
+	
 	public void copy() {
 		this.undoCommand(new CopyCommand());
 	}
+	
 	public void cut() {
 		this.undoCommand(new CutCommand());
 	}
+	
 	public void paste() {
 		this.undoCommand(new PasteCommand());
 	}
-	private Stack<Command> getCommandHistory() {
-		return this.commandHistory;
-	}
+	
 	/**
 	 * An abstract interface for all Commands.
 	 */
 	private abstract class Command {
 		private boolean executed = false;
+		
+		protected abstract void executeMethod();
+		protected abstract void undoMethod();
+		
 		/**
 		 * Executes the command and sets a flag that this command has been executed.
 		 */
@@ -138,7 +169,7 @@ public class Editor {
 			this.executeMethod();
 			this.executed = true;
 		}
-		protected abstract void executeMethod();
+
 		/**
 		 * Undos the command if the command has been executed before.
 		 */
@@ -152,8 +183,8 @@ public class Editor {
 		public void redo() {
 			this.execute();
 		}
-		protected abstract void undoMethod();
 	}
+	
 	/**
 	 * A Command for a position movement to the left.
 	 */
@@ -168,11 +199,13 @@ public class Editor {
 				}
 			}
 		}
+		
 		@Override
 		protected void undoMethod() {
 			new RightCommand().execute();
 		}
 	}
+	
 	/**
 	 * A Command for a position movement to the right.
 	 */
@@ -187,11 +220,13 @@ public class Editor {
 				}
 			}
 		}
+		
 		@Override
 		protected void undoMethod() {
 			new LeftCommand().execute();
 		}
 	}
+	
 	/**
 	 * A Command for adding a new line to the text.
 	 */
@@ -201,11 +236,13 @@ public class Editor {
 			Editor.this.getText().insert(Editor.this.getPosition(), "\n");
 			Editor.this.setPosition(Editor.this.getPosition() + 1);
 		}
+		
 		@Override
 		protected void undoMethod() {
 			new DeleteLeftCommand().execute();
 		}
 	}
+	
 	/**
 	 * A Command for switching the shift mode.
 	 */
@@ -214,6 +251,7 @@ public class Editor {
 		protected void executeMethod() {
 			Editor.this.setShiftMode(!Editor.this.getShiftMode());
 		}
+		
 		@Override
 		protected void undoMethod() {
 			Editor.this.setShiftMode(!Editor.this.getShiftMode());
@@ -224,6 +262,7 @@ public class Editor {
 	 */
 	private class KeyTypedCommand extends Command {
 		private char c;
+		
 		/**
 		 * Creates a Command for adding the given character to the text.
 		 * @param c Given character to be added to the text. 
@@ -231,16 +270,19 @@ public class Editor {
 		private KeyTypedCommand (char c) {
 			this.c = c;
 		}
+		
 		@Override
 		protected void executeMethod() {
 			Editor.this.getText().insert(Editor.this.getPosition(), Editor.this.getShiftMode()?this.c:Character.toLowerCase(this.c));
 			Editor.this.setPosition(Editor.this.getPosition() + 1);
 		}
+		
 		@Override
 		protected void undoMethod() {
 			new DeleteLeftCommand().execute();
 		}
 	}
+	
 	/**
 	 * A Command for deleting the character to the left of the current position.
 	 */
@@ -262,19 +304,23 @@ public class Editor {
 	 */
 	private class DeleteRightCommand extends Command {
 		private char deleted = 0;
+		
 		@Override
 		protected void executeMethod() {
 			this.deleted = Editor.this.getText().charAt(Editor.this.getPosition());
 			Editor.this.getText().deleteCharAt(Editor.this.getPosition());
 		}
+		
 		@Override
 		protected void undoMethod() {
 			new KeyTypedCommand(this.deleted).execute();
 			new LeftCommand().execute();
 			}
 	}
+	
 	private class CopyCommand extends Command {
 		private String oldCopiedText;
+		
 		@Override
 		protected void executeMethod() {
 			this.oldCopiedText = Editor.this.copiedText;
@@ -289,16 +335,26 @@ public class Editor {
 			}
 			Editor.this.copiedText = Editor.this.getText().substring(first, second);
 		}
+		
 		@Override
 		protected void undoMethod() {
 			Editor.this.copiedText = this.oldCopiedText;
 		}
 	}
+	
 	private class CutCommand extends Command {
 		EditorState oldState;
+		
 		@Override
 		protected void executeMethod() {
-			this.oldState = new EditorState(Editor.this.getEditorText(), Editor.this.getFirstPosition(), Editor.this.getSecondPosition(), Editor.this.getShiftMode(), Editor.this.copiedText);
+			this.oldState = new EditorState(
+					Editor.this.getEditorText(),
+					Editor.this.getFirstPosition(),
+					Editor.this.getSecondPosition(),
+					Editor.this.getShiftMode(),
+					Editor.this.copiedText
+			);
+			
 			int first, second;
 			if (Editor.this.getFirstPosition() > Editor.this.getSecondPosition()) {
 				first = Editor.this.getSecondPosition();
@@ -312,11 +368,13 @@ public class Editor {
 			Editor.this.text = Editor.this.text.delete(first, second);
 			Editor.this.setPosition(first);
 		}
+		
 		@Override
 		protected void undoMethod() {
 			Editor.this.restore(this.oldState);
 		}
 	}
+	
 	private class PasteCommand extends Command {
 		EditorState oldState;
 		@Override
@@ -326,7 +384,15 @@ public class Editor {
 				System.out.println("Nothing to paste...");
 				return;
 			}
-			this.oldState = new EditorState(Editor.this.getEditorText(), Editor.this.getFirstPosition(), Editor.this.getSecondPosition(), Editor.this.getShiftMode(), Editor.this.copiedText);
+			
+			this.oldState = new EditorState(
+					Editor.this.getEditorText(),
+					Editor.this.getFirstPosition(),
+					Editor.this.getSecondPosition(),
+					Editor.this.getShiftMode(),
+					Editor.this.copiedText
+			);
+			
 			if (Editor.this.getFirstPosition() == Editor.this.getSecondPosition())
 			{
 				Editor.this.text.insert(Editor.this.getPosition(), Editor.this.copiedText);
@@ -337,19 +403,23 @@ public class Editor {
 			}
 			Editor.this.setPosition(Editor.this.getPosition() + Editor.this.copiedText.length());
 		}
+		
 		@Override
 		protected void undoMethod() {
 			if (this.oldState == null)
 				return;
+			
 			Editor.this.restore(this.oldState);
 		}
 	}
+	
 	private class EditorState {		
 		private String textData;
 		private int firstPositionData;
 		private int secondPositionData;
 		private boolean shiftModeData;
 		private String copiedTextData;		
+		
 		private EditorState(String textData, int firstPositionData, int secondPositionData,
 				boolean shiftModeData, String copiedTextData) {
 			this.textData = textData;

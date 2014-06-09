@@ -457,4 +457,142 @@ public class EditorTester {
 		Assert.assertEquals("abc", this.editor.getEditorText());
 	}
 
+	@Test
+	public void testCutPaste() {
+		// aabbccd
+		this.editor.keyTyped('a');
+		this.editor.keyTyped('a');
+		this.editor.keyTyped('b');
+		this.editor.keyTyped('b');
+		this.editor.keyTyped('c');
+		this.editor.keyTyped('c');
+		this.editor.keyTyped('d');
+		
+		Assert.assertEquals("aabbccd", this.editor.getEditorText());
+		
+		// aabb
+		// |ccd|
+		this.editor.shift();
+		this.editor.left();
+		this.editor.left();
+		this.editor.left();
+		this.editor.cut();
+		this.editor.shift();
+		
+		Assert.assertEquals("aabb", this.editor.getEditorText());
+		
+		// aabbccd
+		// |ccd|
+		this.editor.paste();
+		
+		Assert.assertEquals("aabbccd", this.editor.getEditorText());
+		
+		// aabbccdccd
+		// |ccd|
+		this.editor.paste();
+		
+		Assert.assertEquals("aabbccdccd", this.editor.getEditorText());
+		
+		// aabbccdcccdcd
+		// |ccd|
+		this.editor.left();
+		this.editor.left();
+		this.editor.paste();
+		
+		Assert.assertEquals("aabbccdcccdcd", this.editor.getEditorText());
+		
+		// aabbcccdcd
+		// |cdc|
+		this.editor.left();
+		this.editor.left();
+		this.editor.left();
+		this.editor.shift();
+		this.editor.left();
+		this.editor.left();
+		this.editor.left();
+		this.editor.cut();
+		this.editor.shift();
+		
+		Assert.assertEquals("aabbcccdcd", this.editor.getEditorText());
+		
+		// aabbccdcccdcd
+		// |ccd|
+		this.editor.undo();
+		this.editor.undo();
+		
+		Assert.assertEquals("aabbccdcccdcd", this.editor.getEditorText());
+		
+
+		// aabbcccdcd
+		// |cdc|
+		this.editor.redo();
+		this.editor.redo();
+		
+		Assert.assertEquals("aabbcccdcd", this.editor.getEditorText());
+	}
+	
+	@Test
+	public void testCopyPaste() {
+		// aabbccd|
+		this.editor.keyTyped('a');
+		this.editor.keyTyped('a');
+		this.editor.keyTyped('b');
+		this.editor.keyTyped('b');
+		this.editor.keyTyped('c');
+		this.editor.keyTyped('c');
+		this.editor.keyTyped('d');
+		
+		Assert.assertEquals("aabbccd", this.editor.getEditorText());
+		
+		// aabbc|cd
+		// |cd|
+		this.editor.shift();
+		this.editor.left();
+		this.editor.left();
+		this.editor.copy();
+		this.editor.shift();
+
+		Assert.assertEquals("aabbccd", this.editor.getEditorText());
+		
+		// aabbcc|cdd
+		// |cd|
+		this.editor.right();
+		this.editor.paste();
+		
+		Assert.assertEquals("aabbcccdd", this.editor.getEditorText());
+		
+		// aabbcccd|cdd
+		// |cd|
+		this.editor.paste();
+		
+		Assert.assertEquals("aabbcccdcdd", this.editor.getEditorText());
+
+		// aabdd
+		// |d|
+		this.editor.shift();
+		this.editor.left();
+		this.editor.copy();
+		this.editor.left();
+		this.editor.left();
+		this.editor.left();
+		this.editor.left();
+		this.editor.left();
+		this.editor.left();
+		this.editor.paste();
+		
+		Assert.assertEquals("aabdd", this.editor.getEditorText());
+
+		// aabbcccd|cdd
+		// |cd|
+		this.editor.undo();
+		
+		Assert.assertEquals("aabbcccdcdd", this.editor.getEditorText());
+		
+
+		// aabdd
+		// |d|
+		this.editor.redo();
+		
+		Assert.assertEquals("aabdd", this.editor.getEditorText());
+	}
 }
