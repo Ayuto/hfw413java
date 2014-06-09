@@ -26,47 +26,6 @@ public class Editor {
 		this.undoHistory = new Stack<Command>();
 	}
 	
-	private Stack<Command> getUndoHistory() {
-		return this.undoHistory;
-	}
-	
-	private Stack<Command> getCommandHistory() {
-		return this.commandHistory;
-	}
-	
-	private StringBuffer getText() {
-		return this.text;
-	}
-	
-	public int getPosition() {
-		return this.getFirstPosition();
-	}
-	
-	private int getFirstPosition() {
-		return this.firstPosition;
-	}
-	
-	private void setPosition(int position) {
-		this.setFirstPosition(position);
-		this.setSecondPosition(position);
-	}
-	
-	private void setFirstPosition(int position) {
-		this.firstPosition = position;
-	}
-	
-	public int getSecondPosition() {
-		return this.secondPosition;
-	}
-	
-	private void setSecondPosition(int position) {
-		this.secondPosition = position;
-	}
-	
-	public String getEditorText() {
-		return this.getText().toString();
-	}
-	
 	public void keyTyped(final Character c) {
 		this.undoCommand(new KeyTypedCommand(c));
 	}
@@ -93,14 +52,6 @@ public class Editor {
 	
 	public void shift() {
 		this.undoCommand(new ShiftCommand());
-	}
-	
-	private void setShiftMode(boolean b) {
-		this.shiftMode = b;
-	}
-	
-	private boolean getShiftMode() {
-		return this.shiftMode;
 	}
 	
 	public void undoCommand(Command command)
@@ -151,6 +102,55 @@ public class Editor {
 		this.undoCommand(new PasteCommand());
 	}
 	
+	private Stack<Command> getUndoHistory() {
+		return this.undoHistory;
+	}
+	
+	private Stack<Command> getCommandHistory() {
+		return this.commandHistory;
+	}
+	
+	private StringBuffer getText() {
+		return this.text;
+	}
+	
+	public int getPosition() {
+		return this.getFirstPosition();
+	}
+	
+	private int getFirstPosition() {
+		return this.firstPosition;
+	}
+	
+	private void setPosition(int position) {
+		this.setFirstPosition(position);
+		this.setSecondPosition(position);
+	}
+	
+	private void setFirstPosition(int position) {
+		this.firstPosition = position;
+	}
+	
+	public int getSecondPosition() {
+		return this.secondPosition;
+	}
+	
+	private void setSecondPosition(int position) {
+		this.secondPosition = position;
+	}
+	
+	public String getEditorText() {
+		return this.getText().toString();
+	}
+	
+	private void setShiftMode(boolean b) {
+		this.shiftMode = b;
+	}
+	
+	private boolean getShiftMode() {
+		return this.shiftMode;
+	}
+	
 	/**
 	 * An abstract interface for all Commands.
 	 */
@@ -194,7 +194,7 @@ public class Editor {
 			if (Editor.this.getPosition() > 0) {
 				if (Editor.this.getShiftMode()){
 					Editor.this.setFirstPosition(Editor.this.getFirstPosition() - 1);
-				}else{
+				} else {
 					Editor.this.setPosition(Editor.this.getPosition() - 1);
 				}
 			}
@@ -215,7 +215,7 @@ public class Editor {
 			if (Editor.this.getPosition() < Editor.this.getText().length()) {
 				if (Editor.this.getShiftMode()){
 					Editor.this.setFirstPosition(Editor.this.getFirstPosition() + 1);
-				}else{
+				} else {
 					Editor.this.setPosition(Editor.this.getPosition() + 1);
 				}
 			}
@@ -328,8 +328,7 @@ public class Editor {
 			if (Editor.this.getFirstPosition() > Editor.this.getSecondPosition()) {
 				first = Editor.this.getSecondPosition();
 				second = Editor.this.getFirstPosition();
-			}
-			else {
+			} else {
 				second = Editor.this.getSecondPosition();
 				first = Editor.this.getFirstPosition();
 			}
@@ -359,8 +358,7 @@ public class Editor {
 			if (Editor.this.getFirstPosition() > Editor.this.getSecondPosition()) {
 				first = Editor.this.getSecondPosition();
 				second = Editor.this.getFirstPosition();
-			}
-			else {
+			} else {
 				second = Editor.this.getSecondPosition();
 				first = Editor.this.getFirstPosition();
 			}
@@ -379,8 +377,7 @@ public class Editor {
 		EditorState oldState;
 		@Override
 		protected void executeMethod() {
-			if (Editor.this.copiedText == null)
-			{
+			if (Editor.this.copiedText == null) {
 				System.out.println("Nothing to paste...");
 				return;
 			}
@@ -393,12 +390,9 @@ public class Editor {
 					Editor.this.copiedText
 			);
 			
-			if (Editor.this.getFirstPosition() == Editor.this.getSecondPosition())
-			{
+			if (Editor.this.getFirstPosition() == Editor.this.getSecondPosition()) {
 				Editor.this.text.insert(Editor.this.getPosition(), Editor.this.copiedText);
-			}
-			else
-			{
+			} else {
 				Editor.this.text = Editor.this.text.replace(Editor.this.getFirstPosition(), Editor.this.getSecondPosition(), Editor.this.copiedText);
 			}
 			Editor.this.setPosition(Editor.this.getPosition() + Editor.this.copiedText.length());
