@@ -27,34 +27,37 @@ public class Editor {
 	}
 	
 	public void keyTyped(final Character c) {
-		this.undoCommand(new KeyTypedCommand(c));
+		this.handleUndoCommand(new KeyTypedCommand(c));
 	}
 	
 	public void deleteLeft() {
-		this.undoCommand(new DeleteLeftCommand());
+		this.handleUndoCommand(new DeleteLeftCommand());
 	}
 	
 	public void deleteRight() {
-		this.undoCommand(new DeleteRightCommand());
+		this.handleUndoCommand(new DeleteRightCommand());
 	}
 	
 	public void left() {
-		this.undoCommand(new LeftCommand());
+		this.handleUndoCommand(new LeftCommand());
 	}
 	
 	public void right() {
-		this.undoCommand(new RightCommand());
+		this.handleUndoCommand(new RightCommand());
 	}
 	
 	public void newLine() {
-		this.undoCommand(new NewLineCommand());
+		this.handleUndoCommand(new NewLineCommand());
 	}
 	
 	public void shift() {
-		this.undoCommand(new ShiftCommand());
+		this.handleUndoCommand(new ShiftCommand());
 	}
 	
-	public void undoCommand(Command command)
+	/*
+	 * Handles a new undo command.
+	 */
+	public void handleUndoCommand(Command command)
 	{
 		this.getCommandHistory().push(command);
 		command.execute();
@@ -82,6 +85,9 @@ public class Editor {
 		}
 	}
 	
+	/**
+	 * Resets the editor to the given editor state.
+	 */
 	public void restore(EditorState state) {
 		this.text.replace(0, this.text.length(), state.textData);
 		this.firstPosition = state.firstPositionData;
@@ -90,16 +96,29 @@ public class Editor {
 		this.copiedText = state.copiedTextData;
 	}
 	
+	/**
+	 * Creates a new editor state.
+	 */
+	public EditorState createEditorState() {
+		return new EditorState(
+				this.getEditorText(),
+				this.getFirstPosition(),
+				this.getSecondPosition(),
+				this.getShiftMode(),
+				this.copiedText
+		);
+	}
+	
 	public void copy() {
-		this.undoCommand(new CopyCommand());
+		this.handleUndoCommand(new CopyCommand());
 	}
 	
 	public void cut() {
-		this.undoCommand(new CutCommand());
+		this.handleUndoCommand(new CutCommand());
 	}
 	
 	public void paste() {
-		this.undoCommand(new PasteCommand());
+		this.handleUndoCommand(new PasteCommand());
 	}
 	
 	private Stack<Command> getUndoHistory() {
@@ -318,6 +337,9 @@ public class Editor {
 			}
 	}
 	
+	/**
+	 * A command for copying a marked text.
+	 */
 	private class CopyCommand extends Command {
 		private String oldCopiedText;
 		
@@ -341,18 +363,15 @@ public class Editor {
 		}
 	}
 	
+	/**
+	 * A command for cutting a marked text.
+	 */
 	private class CutCommand extends Command {
 		EditorState oldState;
 		
 		@Override
 		protected void executeMethod() {
-			this.oldState = new EditorState(
-					Editor.this.getEditorText(),
-					Editor.this.getFirstPosition(),
-					Editor.this.getSecondPosition(),
-					Editor.this.getShiftMode(),
-					Editor.this.copiedText
-			);
+			this.oldState = Editor.this.createEditorState();
 			
 			int first, second;
 			if (Editor.this.getFirstPosition() > Editor.this.getSecondPosition()) {
@@ -373,6 +392,9 @@ public class Editor {
 		}
 	}
 	
+	/**
+	 * A command for pasting copied text.
+	 */
 	private class PasteCommand extends Command {
 		EditorState oldState;
 		@Override
@@ -382,13 +404,7 @@ public class Editor {
 				return;
 			}
 			
-			this.oldState = new EditorState(
-					Editor.this.getEditorText(),
-					Editor.this.getFirstPosition(),
-					Editor.this.getSecondPosition(),
-					Editor.this.getShiftMode(),
-					Editor.this.copiedText
-			);
+			this.oldState = Editor.this.createEditorState();
 			
 			if (Editor.this.getFirstPosition() == Editor.this.getSecondPosition()) {
 				Editor.this.text.insert(Editor.this.getPosition(), Editor.this.copiedText);
@@ -407,6 +423,9 @@ public class Editor {
 		}
 	}
 	
+	/**
+	 * A class that saves attributes of an editor.
+	 */
 	private class EditorState {		
 		private String textData;
 		private int firstPositionData;
