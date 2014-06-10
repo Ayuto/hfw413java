@@ -101,7 +101,7 @@ public class StateCollection {
 	 * @return The StateCollection with all the calculated states.
 	 */
 	public StateCollection checkBeginning() {
-		StateCollection result = StateCollection.create();
+		final StateCollection result = StateCollection.create();
 		result.addAll(this);
 		final Iterator<State> iterator = this.iterator();
 		while (iterator.hasNext()) {
@@ -121,10 +121,13 @@ public class StateCollection {
 	 * @param reachableFromBeginning 
 	 */
 	public void checkAllStatesAndDeleteIfNessesary(
-			final StateCollection argument1, final StateCollection argument2) {
+			final StateCollection argument1, final StateCollection argument2, final State start, final State end) {
 		final Iterator<State> iterator = this.iterator();
 		while (iterator.hasNext()) {
 			final State current = iterator.next();
+			if (current.equals(start) || current.equals(end)) {
+				continue;
+			}
 			if (!(argument1.contains(current) && argument2.contains(current))) {
 				current.deleteAllTransitions();
 				iterator.remove();
@@ -139,7 +142,7 @@ public class StateCollection {
 	 * @return The StateCollection with all the calculated states.
 	 */
 	public StateCollection checkEnding() {
-		StateCollection result = StateCollection.create();
+		final StateCollection result = StateCollection.create();
 		result.addAll(this);
 		final Iterator<State> iterator = this.iterator();
 		while (iterator.hasNext()) {

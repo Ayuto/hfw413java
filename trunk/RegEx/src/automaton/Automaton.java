@@ -124,7 +124,7 @@ public class Automaton {
 				this.getStart()).checkBeginning();
 		final StateCollection reachableFromEnd = StateCollection.create(
 				this.getEnd()).checkEnding();
-		this.getStates().checkAllStatesAndDeleteIfNessesary(reachableFromEnd, reachableFromBeginning);
+		this.getStates().checkAllStatesAndDeleteIfNessesary(reachableFromEnd, reachableFromBeginning, this.getStart(), this.getEnd());
 	}
 	
 	@Override
