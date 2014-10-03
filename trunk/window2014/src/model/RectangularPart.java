@@ -4,7 +4,7 @@ public class RectangularPart extends RectangularArea {
 
 	RectangularArea parent;
 
-	protected RectangularPart(Point position, int width, int height) {
+	public RectangularPart(Point position, int width, int height) {
 		super(position, width, height);
 	}
 

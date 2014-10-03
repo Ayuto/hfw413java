@@ -24,7 +24,11 @@ public class WindowManager {
 	public Vector<RectangularPart> getVisibleParts(){
 		RectangularPartCollection result = new RectangularPartCollection();
 		for (Window current : this.getWindowStack()) {
-			result.add(current.getVisibleContext());
+			try {
+				result.add(current.getVisibleContext());
+			} catch (NegativeLengthException e) {
+				e.printStackTrace();
+			}
 		}
 		return result.toVector();
 	}
