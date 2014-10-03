@@ -15,13 +15,13 @@ abstract public class RectangularArea {
 		this.setWidth(width < 0 ? 0 :width);
 		this.setHeight(height < 0 ? 0 : height);
 	}
-	int getHeight() {
+	public int getHeight() {
 		return height;
 	}
 	private void setHeight(int height) {
 		this.height = height;
 	}
-	Point getLeftUpperCorner() {
+	public Point getLeftUpperCorner() {
 		return leftUpperCorner;
 	}
 	Point getRightUpperCorner() {
@@ -36,7 +36,7 @@ abstract public class RectangularArea {
 	private void setLeftUpperCorner(Point leftUpperCorner) {
 		this.leftUpperCorner = leftUpperCorner;
 	}
-	int getWidth() {
+	public int getWidth() {
 		return width;
 	}
 	private void setWidth(int width) {
