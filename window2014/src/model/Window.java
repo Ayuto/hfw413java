@@ -25,6 +25,7 @@ public class Window extends RectangularArea implements Observer {
 		this.number = nextWindowNumber++;
 		this.setOpen(true);
 		this.setAboveMe(new Vector<Window>());
+		this.setState(NotCalculatedState.create(this));
 	}
 	private boolean isOpen() {
 		return this.open;
