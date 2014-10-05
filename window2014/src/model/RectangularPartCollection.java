@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.Vector;
 
 public class RectangularPartCollection {
-	
+
 	private Collection<RectangularPart> parts;
 
-	public RectangularPartCollection(){
+	public RectangularPartCollection() {
 		this.setParts(new Vector<RectangularPart>());
 	}
 
@@ -24,12 +24,12 @@ public class RectangularPartCollection {
 		Iterator<RectangularPart> i1 = partCollection.getParts().iterator();
 		while (i1.hasNext()) {
 			RectangularPart currentPart = i1.next();
-			if(!this.getParts().isEmpty()) {
+			if (!this.getParts().isEmpty()) {
 				Iterator<RectangularPart> i2 = this.getParts().iterator();
 				while (i2.hasNext()) {
 					RectangularPart current = i2.next();
-					if (!currentPart.doNotOverlap(current)){
-						throw new Error();
+					if (!currentPart.doNotOverlap(current)) {
+						throw new Error("abc");
 					}
 				}
 			}
@@ -43,5 +43,26 @@ public class RectangularPartCollection {
 
 	public void add(RectangularPart part) {
 		this.getParts().add(part);
+	}
+
+	public boolean equals(Object o) {
+		boolean equals = false;
+		if(o instanceof RectangularPartCollection) {
+			RectangularPartCollection parts = (RectangularPartCollection) o;
+			Iterator<RectangularPart> i1 = parts.getParts().iterator();
+			while (i1.hasNext()) {
+				RectangularPart currentPart = i1.next();
+				Iterator<RectangularPart> i2 = this.getParts().iterator();
+				while (i2.hasNext()) {
+					RectangularPart current = i2.next();
+					if (currentPart.equals(current)) {
+						equals = true;
+					} else {
+						return false;
+					}
+				}
+			}
+		}
+		return equals;
 	}
 }
