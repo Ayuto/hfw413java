@@ -26,7 +26,10 @@ public class WindowTest {
 	RectangularPart w2AsPart;
 	RectangularPart w3AsPart;
 	RectangularPart w4AsPart;
-	RectangularPartCollection parts;
+	RectangularPartCollection partsW1;
+	RectangularPartCollection partsW2;
+	RectangularPartCollection partsW3;
+	RectangularPartCollection partsW4;
 	
 	@Before
 	public void before() {
@@ -80,6 +83,7 @@ public class WindowTest {
 		w1AsPart = new RectangularPart(w1.getLeftUpperCorner(),w1.getWidth(),w1.getHeight());
 		w2 = windows.get(1);
 		w2.move(100, 50);
+		w2.setOpen(false);
 		w2AsPart = new RectangularPart(w2.getLeftUpperCorner(),w2.getWidth(),w2.getHeight());
 		w3 = windows.get(2);
 		w3.move(250, 250);
@@ -87,10 +91,17 @@ public class WindowTest {
 		w4 = windows.get(3);
 		w4.move(50, 150);
 		w4AsPart = new RectangularPart(w4.getLeftUpperCorner(),w4.getWidth(),w4.getHeight());
-				
-		parts = new RectangularPartCollection();
+		
+		partsW1 = new RectangularPartCollection();
 
-		parts.add(w1AsPart);
-		assertEquals(parts, w1.getVisibleContext());
+		partsW1.add(w1AsPart);
+		assertEquals(partsW1, w1.getVisibleContext());
+		
+		
+		partsW3 = new RectangularPartCollection();
+		partsW3.add(w3AsPart);
+		partsW3.add(w1AsPart);
+		
+		assertEquals(partsW3, w3.getVisibleContext());
 	}
 }
