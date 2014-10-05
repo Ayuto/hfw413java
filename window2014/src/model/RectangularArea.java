@@ -57,7 +57,7 @@ abstract public class RectangularArea extends Observee {
 	}
 	@Override
 	public String toString(){
-		return  "(WIDTH: " + this.getWidth() + ", HEIGHT: " + this.getHeight() + ") at " + this.getLeftUpperCorner();
+		return  "(WIDTH: " + this.getWidth() + ", HEIGHT: " + this.getHeight() + ") at " + this.getLeftUpperCorner().toString();
 	}
 	public boolean isIn(final RectangularPart part) {
 		if (this.equals(part)) {
