@@ -1,6 +1,8 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Vector;
 
@@ -15,7 +17,7 @@ import org.junit.Test;
 
 public class WindowTest {
 
-	Vector<Window> windows;
+	Vector<Window> windows = new Vector<Window>();
 	Window w1;
 	Window w2;
 	Window w3;
@@ -28,6 +30,8 @@ public class WindowTest {
 	
 	@Before
 	public void before() {
+		WindowManager.getTheWindowManager().getWindowStack().clear();
+		windows.clear();
 		WindowManager.getTheWindowManager().newWindow();
 		WindowManager.getTheWindowManager().newWindow();
 		WindowManager.getTheWindowManager().newWindow();
@@ -69,24 +73,6 @@ public class WindowTest {
 		assertFalse(w4AsPart.doNotOverlap(w3AsPart));
 		assertFalse(w4AsPart.doNotOverlap(w4AsPart));
 	}
-	
-//	@Test
-//	public void testAdd() throws NegativeLengthException {
-//		w1 = windows.get(0);
-//		w1AsPart = new RectangularPart(w1.getLeftUpperCorner(),w1.getWidth(),w1.getHeight());
-//		w2 = windows.get(1);
-//		w2.move(100, 50);
-//		w2AsPart = new RectangularPart(w2.getLeftUpperCorner(),w2.getWidth(),w2.getHeight());
-//		w3 = windows.get(2);
-//		w3.move(250, 250);
-//		w3AsPart = new RectangularPart(w3.getLeftUpperCorner(),w3.getWidth(),w3.getHeight());
-//		w4 = windows.get(3);
-//		w4.move(50, 150);
-//		w4AsPart = new RectangularPart(w4.getLeftUpperCorner(),w4.getWidth(),w4.getHeight());
-//		
-//		parts = new RectangularPartCollection();
-//		parts.add(w4AsPart);
-//	}
 
 	@Test
 	public void testgetVisibleContext() throws NegativeLengthException {
@@ -101,9 +87,10 @@ public class WindowTest {
 		w4 = windows.get(3);
 		w4.move(50, 150);
 		w4AsPart = new RectangularPart(w4.getLeftUpperCorner(),w4.getWidth(),w4.getHeight());
-		
+				
 		parts = new RectangularPartCollection();
-		parts.add(w4AsPart);
-		assertEquals(parts, w4.getVisibleContext());
+
+		parts.add(w1AsPart);
+		assertEquals(parts, w1.getVisibleContext());
 	}
 }

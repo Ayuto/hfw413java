@@ -5,7 +5,7 @@ public class Point {
 	private int x;
 	private int y;
 	
-	Point(int x, int y){
+	public Point(int x, int y){
 		this.setX(x);
 		this.setY(y);
 	}
@@ -27,5 +27,8 @@ public class Point {
 	}
 	public String toString(){
 		return "[X: " + this.getX() + ", Y: " + this.getY() + "]";
+	}
+	public boolean equals(Point point) {
+		return this.getX()==point.getX()&&this.getY()==point.getY();
 	}
 }
