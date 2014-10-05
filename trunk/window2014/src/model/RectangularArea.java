@@ -24,13 +24,13 @@ abstract public class RectangularArea extends Observee {
 	public Point getLeftUpperCorner() {
 		return this.leftUpperCorner;
 	}
-	Point getRightUpperCorner() {
+	public Point getRightUpperCorner() {
 		return new Point(this.getLeftUpperCorner().getX()+this.getWidth(), this.getLeftUpperCorner().getY());
 	}
-	Point getLeftLowerCorner() {
+	public Point getLeftLowerCorner() {
 		return new Point(this.getLeftUpperCorner().getX(), this.getLeftUpperCorner().getY()-this.getHeight());
 	}
-	Point getRightLowerCorner() {
+	public Point getRightLowerCorner() {
 		return new Point(this.getLeftLowerCorner().getX()+this.getWidth(), this.getLeftLowerCorner().getY());
 	}
 	private void setLeftUpperCorner(final Point leftUpperCorner) {
@@ -134,6 +134,22 @@ abstract public class RectangularArea extends Observee {
 		return point1.getY() < point2.getY() - this.getHeight()
 				|| point1.getY() - rectangularArea.getHeight() > point2.getY();
 	}
+	
+	public boolean fullyGetsOverlapped(RectangularArea rectangularArea) {
+		return this.getLeftUpperCorner().getX()>=rectangularArea.getLeftUpperCorner().getX()
+				&& this.getLeftUpperCorner().getY()<=rectangularArea.getLeftUpperCorner().getY()
+				
+				&& this.getRightUpperCorner().getX()<=rectangularArea.getRightUpperCorner().getX()
+				&& this.getRightUpperCorner().getY()<=rectangularArea.getRightUpperCorner().getY()
+				
+				&& this.getRightLowerCorner().getX()<=rectangularArea.getRightLowerCorner().getX()
+				&& this.getRightLowerCorner().getY()>=rectangularArea.getRightLowerCorner().getY()
+				
+				&& this.getLeftLowerCorner().getX()>=rectangularArea.getLeftLowerCorner().getX()
+				&& this.getLeftLowerCorner().getY()>=rectangularArea.getLeftLowerCorner().getY();
+	
+	}
+	
 	
 	abstract boolean isInTransitively(RectangularPart part);
 }
