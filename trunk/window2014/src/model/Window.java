@@ -97,7 +97,7 @@ public class Window extends RectangularArea {
 								Iterator<RectangularPart> iterator2 = splittedParts.getParts().iterator();
 								while(iterator2.hasNext()){
 									RectangularPart currentPart = iterator2.next();
-									splittedParts.add(currentPart.splitAt(containedPoints.get(1)));
+									splittedParts.add(currentPart.splitAt(containedPoints.get(i)));
 								}
 							}
 							break;
