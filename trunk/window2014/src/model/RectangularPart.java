@@ -9,7 +9,7 @@ public class RectangularPart extends RectangularArea {
 	}
 
 	public String toString() {
-		return super.toString() + " { PARENT: " + this.getParent().toString()
+		return super.toString() + " { PARENT: " + (this.getParent() != null ? this.getParent().toString() : "null")
 				+ " }";
 	}
 
