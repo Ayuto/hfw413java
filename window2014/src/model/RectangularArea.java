@@ -123,6 +123,17 @@ abstract public class RectangularArea extends Observee {
 		}
 		return temp;
 	}
+
+	public boolean doNotOverlap(RectangularArea rectangularArea) {
+		Point point1 = rectangularArea.getLeftUpperCorner();
+		Point point2 = this.getLeftUpperCorner();
+		if (point1.getX() > point2.getX() + this.getWidth()
+				|| point1.getX() + rectangularArea.getWidth() < point2.getX()) {
+			return true;
+		}
+		return point1.getY() < point2.getY() - this.getHeight()
+				|| point1.getY() - rectangularArea.getHeight() > point2.getY();
+	}
 	
 	abstract boolean isInTransitively(RectangularPart part);
 }
