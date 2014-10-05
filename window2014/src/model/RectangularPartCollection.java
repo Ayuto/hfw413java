@@ -29,7 +29,8 @@ public class RectangularPartCollection {
 				while (i2.hasNext()) {
 					RectangularPart current = i2.next();
 					if (!currentPart.doNotOverlap(current)) {
-						throw new Error("At least two RectangularPart object overlap each other.");
+						throw new Error(
+								"At least two RectangularPart object overlap each other.");
 					}
 				}
 			}
@@ -46,20 +47,30 @@ public class RectangularPartCollection {
 	}
 
 	public boolean equals(Object o) {
-		boolean equals = false;
-		if(o instanceof RectangularPartCollection) {
+		if (o instanceof RectangularPartCollection) {
 			RectangularPartCollection partsCollection = (RectangularPartCollection) o;
-			if(this.getParts().size()==partsCollection.getParts().size()) {
-				Vector<RectangularPart> parts1 = partsCollection.toVector();
-				Vector<RectangularPart> parts2 = this.toVector();
-				for(int i=0; i<parts1.size(); i++) {
-					equals = parts1.get(i).equals(parts2.get(i));
-					if (!equals) {
+			if (this.getParts().size() == partsCollection.getParts().size()) {
+				Iterator<RectangularPart> i1 = this.getParts().iterator();
+				while (i1.hasNext()) {
+					RectangularPart currentElementList1 = i1.next();
+					boolean matched = false;
+					Iterator<RectangularPart> i2 = partsCollection.getParts()
+							.iterator();
+					while (i2.hasNext()) {
+						RectangularPart currentElementList2 = i2.next();
+						if (currentElementList1.equals(currentElementList2)) {
+							matched = true;
+						}
+					}
+					if (!matched) {
 						return false;
 					}
+					return true;
 				}
+
 			}
+
 		}
-		return equals;
+		return false;
 	}
 }

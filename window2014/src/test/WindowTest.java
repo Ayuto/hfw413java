@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Vector;
 
 import model.NegativeLengthException;
@@ -78,7 +80,7 @@ public class WindowTest {
 	}
 
 	@Test
-	public void testgetVisibleContext() throws NegativeLengthException {
+	public void testGetVisibleContextWithoutOverlap() throws NegativeLengthException {
 		w1 = windows.get(0);
 		w1AsPart = new RectangularPart(w1.getLeftUpperCorner(),w1.getWidth(),w1.getHeight());
 		w2 = windows.get(1);
@@ -103,5 +105,35 @@ public class WindowTest {
 		partsW3.add(w1AsPart);
 		
 		assertEquals(partsW3, w3.getVisibleContext());
+	}
+	
+	@Test
+	public void testgetVisibleContext() throws NegativeLengthException {
+		w1 = windows.get(0);
+		w1AsPart = new RectangularPart(w1.getLeftUpperCorner(),w1.getWidth(),w1.getHeight());
+		w2 = windows.get(1);
+		w2.move(100, 50);
+		w2AsPart = new RectangularPart(w2.getLeftUpperCorner(),w2.getWidth(),w2.getHeight());
+		w3 = windows.get(2);
+		w3.move(250, 250);
+		w3AsPart = new RectangularPart(w3.getLeftUpperCorner(),w3.getWidth(),w3.getHeight());
+		w4 = windows.get(3);
+		w4.move(25, 150);
+		w4AsPart = new RectangularPart(w4.getLeftUpperCorner(),w4.getWidth(),w4.getHeight());
+		
+		partsW2 = new RectangularPartCollection();
+		RectangularPartCollection result = new RectangularPartCollection();
+		result.add(w1AsPart);
+		RectangularPartCollection partsOfW2 = w2.splitAt(w1.getRightUpperCorner());
+		
+		Iterator<RectangularPart> i = partsOfW2.getParts().iterator();
+		while(i.hasNext()) {
+			RectangularPart current = i.next();
+			if(w1AsPart.doNotOverlap(current)) {
+				result.add(current);
+			}
+		}
+		
+		assertEquals(result, w2.getVisibleContext());
 	}
 }

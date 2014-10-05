@@ -59,7 +59,8 @@ public class Window extends RectangularArea implements Observer {
 		return this.getState().getVisibleContext();
 	}
 
-	public RectangularPartCollection calculateVisibleContext() throws NegativeLengthException {
+	public RectangularPartCollection calculateVisibleContext()
+			throws NegativeLengthException {
 		// TODO (1) implement calculation of visible parts
 		RectangularPartCollection result = new RectangularPartCollection();
 
@@ -159,7 +160,7 @@ public class Window extends RectangularArea implements Observer {
 						}
 					}
 				}
-				result = temp;
+				result.getParts().addAll(temp.getParts());
 			}
 		}
 		return result;
@@ -242,4 +243,62 @@ public class Window extends RectangularArea implements Observer {
 	public void setState(final VisibleSizeState state) {
 		this.state = state;
 	}
+
+//	public RectangularPartCollection calculateVisibleContext() {
+//		RectangularPartCollection result = new RectangularPartCollection();
+//		Collection<Window> aboveMes = this.getAboveMe();
+//		Iterator<Window> i = aboveMes.iterator();
+//		while (i.hasNext()) {
+//			Window current = i.next();
+//			if (!this.doNotOverlap(current)) {
+//				if (!this.fullyGetsOverlapped(current)) {
+//					final Vector<Point> points = new Vector<Point>();
+//					points.add(current.getLeftLowerCorner());
+//					points.add(current.getLeftUpperCorner());
+//					points.add(current.getRightLowerCorner());
+//					points.add(current.getRightUpperCorner());
+//
+//					final Vector<Point> containedPoints = this
+//							.getContainedPoints(points);
+//
+//					RectangularPartCollection splitParts = split(this, containedPoints);
+//					Iterator<RectangularPart> i2 = splitParts.getParts().iterator();
+//					while (i2.hasNext()){
+//						RectangularPart current2 = i2.next();
+//						Window currentWindow = new Window();
+//						currentWindow.move(current2.getLeftUpperCorner().getX(), current2.getLeftUpperCorner().getY());
+//						try {
+//							currentWindow.resize(current2.getWidth(), current2.getHeight());
+//						} catch (NegativeLengthException e) {
+//							e.printStackTrace();
+//						}
+//						result.add(currentWindow.calculateVisibleContext());
+//					}
+//				} else {
+//					;
+//				}
+//
+//			} else {
+//				result.add(new RectangularPart(this.getLeftUpperCorner(), this
+//						.getWidth(), this.getHeight()));
+//			}
+//		}
+//		return result;
+//	}
+//
+//	private RectangularPartCollection split(Window current,
+//			final Vector<Point> containedPoints) {
+//		RectangularPartCollection splittedParts = current
+//				.splitAt(containedPoints.firstElement());
+//		for (int i = 1; i < containedPoints.size(); i++) {
+//			final Iterator<RectangularPart> iterator2 = splittedParts
+//					.getParts().iterator();
+//			while (iterator2.hasNext()) {
+//				final RectangularPart currentPart = iterator2.next();
+//				splittedParts.add(currentPart.splitAt(containedPoints.get(i)));
+//			}
+//		}
+//		return splittedParts;
+//	}
+
 }
