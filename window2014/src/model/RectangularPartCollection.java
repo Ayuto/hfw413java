@@ -21,22 +21,22 @@ public class RectangularPartCollection {
 	}
 
 	public void add(RectangularPartCollection partCollection) {
-		Iterator<RectangularPart> i1 = this.getParts().iterator();
+		Iterator<RectangularPart> i1 = partCollection.getParts().iterator();
 		while (i1.hasNext()) {
 			RectangularPart currentPart = i1.next();
-			Iterator<RectangularPart> i2 = partCollection.getParts().iterator();
-			while (i2.hasNext()) {
-				RectangularPart current = i2.next();
-				if (!current.doNotOverlap(currentPart)){
-					throw new Error();
+			if(!this.getParts().isEmpty()) {
+				Iterator<RectangularPart> i2 = this.getParts().iterator();
+				while (i2.hasNext()) {
+					RectangularPart current = i2.next();
+					if (!currentPart.doNotOverlap(current)){
+						throw new Error();
+					}
 				}
 			}
 		}
 		this.getParts().addAll(partCollection.parts);
 	}
 
-	
-	
 	public Vector<RectangularPart> toVector() {
 		return (Vector<RectangularPart>) this.parts;
 	}
