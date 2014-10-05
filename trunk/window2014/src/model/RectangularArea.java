@@ -4,25 +4,25 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Vector;
 
-abstract public class RectangularArea {
+abstract public class RectangularArea extends Observee {
 	
 	private Point leftUpperCorner;
 	private int width;
 	private int height;
 	
-	protected RectangularArea(Point position, int width, int height) {
+	protected RectangularArea(final Point position, final int width, final int height) {
 		this.setLeftUpperCorner(position);
 		this.setWidth(width < 0 ? 0 :width);
 		this.setHeight(height < 0 ? 0 : height);
 	}
 	public int getHeight() {
-		return height;
+		return this.height;
 	}
-	private void setHeight(int height) {
+	private void setHeight(final int height) {
 		this.height = height;
 	}
 	public Point getLeftUpperCorner() {
-		return leftUpperCorner;
+		return this.leftUpperCorner;
 	}
 	Point getRightUpperCorner() {
 		return new Point(this.getLeftUpperCorner().getX()+this.getWidth(), this.getLeftUpperCorner().getY());
@@ -33,81 +33,93 @@ abstract public class RectangularArea {
 	Point getRightLowerCorner() {
 		return new Point(this.getLeftLowerCorner().getX()+this.getWidth(), this.getLeftLowerCorner().getY());
 	}
-	private void setLeftUpperCorner(Point leftUpperCorner) {
+	private void setLeftUpperCorner(final Point leftUpperCorner) {
 		this.leftUpperCorner = leftUpperCorner;
 	}
 	public int getWidth() {
-		return width;
+		return this.width;
 	}
-	private void setWidth(int width) {
+	private void setWidth(final int width) {
 		this.width = width;
 	}
-	public void move(int deltaX, int deltaY){
+	public void move(final int deltaX, final int deltaY){
 		this.getLeftUpperCorner().move(deltaX, deltaY);
 	}
-	public void resize(int width, int height) throws NegativeLengthException{
-		if (width <= 0) throw new NegativeLengthException();
-		if (height <= 0) throw new NegativeLengthException();
+	public void resize(final int width, final int height) throws NegativeLengthException{
+		if (width <= 0) {
+			throw new NegativeLengthException();
+		}
+		if (height <= 0) {
+			throw new NegativeLengthException();
+		}
 		this.setHeight(height);
 		this.setWidth(width);
 	}
+	@Override
 	public String toString(){
 		return  "(WIDTH: " + this.getWidth() + ", HEIGHT: " + this.getHeight() + ") at " + this.getLeftUpperCorner();
 	}
-	public boolean isIn(RectangularPart part) {
-		if (this.equals(part)) return true;
+	public boolean isIn(final RectangularPart part) {
+		if (this.equals(part)) {
+			return true;
+		}
 		return this.isInTransitively(part);
 	}
 	
-	public RectangularPartCollection splitAt(Point point)
+	public RectangularPartCollection splitAt(final Point point)
 	{
-		int x = point.getX();
-		int y = point.getY();
+		final int x = point.getX();
+		final int y = point.getY();
 		
-		Point middlePoint = new Point(this.getLeftUpperCorner().getX(), y);
-		Point upperPoint = new Point(x, this.getLeftUpperCorner().getY());
+		final Point middlePoint = new Point(this.getLeftUpperCorner().getX(), y);
+		final Point upperPoint = new Point(x, this.getLeftUpperCorner().getY());
 		
-		int rightWidth = upperPoint.getX() - this.getLeftUpperCorner().getX();
-		int leftWidth = point.getX() - middlePoint.getX();
-		int upperHeigth = this.getLeftUpperCorner().getY() - middlePoint.getY();
-		int lowerHeight  = middlePoint.getY() - this.getLeftLowerCorner().getY();
+		final int rightWidth = upperPoint.getX() - this.getLeftUpperCorner().getX();
+		final int leftWidth = point.getX() - middlePoint.getX();
+		final int upperHeigth = this.getLeftUpperCorner().getY() - middlePoint.getY();
+		final int lowerHeight  = middlePoint.getY() - this.getLeftLowerCorner().getY();
 		
-		RectangularPartCollection myCollection = new RectangularPartCollection();
+		final RectangularPartCollection myCollection = new RectangularPartCollection();
 		
-		if (leftWidth > 0 && upperHeigth > 0)
+		if (leftWidth > 0 && upperHeigth > 0) {
 			myCollection.add(new RectangularPart(this.getLeftUpperCorner(), leftWidth, upperHeigth));
+		}
 
-		if (rightWidth > 0 && upperHeigth > 0)
+		if (rightWidth > 0 && upperHeigth > 0) {
 			myCollection.add(new RectangularPart(upperPoint, rightWidth, upperHeigth));
+		}
 
-		if (leftWidth > 0 && lowerHeight > 0)
+		if (leftWidth > 0 && lowerHeight > 0) {
 			myCollection.add(new RectangularPart(middlePoint, leftWidth, lowerHeight));
+		}
 
-		if (rightWidth > 0 && lowerHeight > 0)
+		if (rightWidth > 0 && lowerHeight > 0) {
 			myCollection.add(new RectangularPart(point, rightWidth, lowerHeight));
+		}
 		
 		return myCollection;
 	}
 	
-	public boolean containsPoint(Point point)
+	public boolean containsPoint(final Point point)
 	{
-		Point point2 = this.getLeftUpperCorner();
-		int x1 = point2.getX();
-		int y1 = point2.getY();
-		int x2 = x1 + this.getWidth();
-		int y2 = y1 + this.getHeight();
+		final Point point2 = this.getLeftUpperCorner();
+		final int x1 = point2.getX();
+		final int y1 = point2.getY();
+		final int x2 = x1 + this.getWidth();
+		final int y2 = y1 + this.getHeight();
 		
 		return x1 <= point.getX() && point.getX() <= x2 && y1 <= point.getY() && point.getY() <= y2;
 	}
 	
-	public Vector<Point> getContainedPoints(Collection<Point> points)
+	public Vector<Point> getContainedPoints(final Collection<Point> points)
 	{
-		Vector<Point> temp = new Vector<Point>();
-		Iterator<Point> i = points.iterator();
+		final Vector<Point> temp = new Vector<Point>();
+		final Iterator<Point> i = points.iterator();
 		while(i.hasNext()) {
-			Point point = i.next();
-			if (this.containsPoint(point))
+			final Point point = i.next();
+			if (this.containsPoint(point)) {
 				temp.add(point);
+			}
 		}
 		return temp;
 	}
