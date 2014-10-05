@@ -48,16 +48,13 @@ public class RectangularPartCollection {
 	public boolean equals(Object o) {
 		boolean equals = false;
 		if(o instanceof RectangularPartCollection) {
-			RectangularPartCollection parts = (RectangularPartCollection) o;
-			Iterator<RectangularPart> i1 = parts.getParts().iterator();
-			while (i1.hasNext()) {
-				RectangularPart currentPart = i1.next();
-				Iterator<RectangularPart> i2 = this.getParts().iterator();
-				while (i2.hasNext()) {
-					RectangularPart current = i2.next();
-					if (currentPart.equals(current)) {
-						equals = true;
-					} else {
+			RectangularPartCollection partsCollection = (RectangularPartCollection) o;
+			if(this.getParts().size()==partsCollection.getParts().size()) {
+				Vector<RectangularPart> parts1 = partsCollection.toVector();
+				Vector<RectangularPart> parts2 = this.toVector();
+				for(int i=0; i<parts1.size(); i++) {
+					equals = parts1.get(i).equals(parts2.get(i));
+					if (!equals) {
 						return false;
 					}
 				}
