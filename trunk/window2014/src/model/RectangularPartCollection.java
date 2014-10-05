@@ -29,7 +29,7 @@ public class RectangularPartCollection {
 				while (i2.hasNext()) {
 					RectangularPart current = i2.next();
 					if (!currentPart.doNotOverlap(current)) {
-						throw new Error("abc");
+						throw new Error("At least two RectangularPart object overlap each other.");
 					}
 				}
 			}
