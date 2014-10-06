@@ -102,7 +102,6 @@ public class WindowTest {
 		
 		partsW3 = new RectangularPartCollection();
 		partsW3.add(w3AsPart);
-		partsW3.add(w1AsPart);
 		
 		assertEquals(partsW3, w3.getVisibleContext());
 	}
@@ -123,7 +122,6 @@ public class WindowTest {
 		
 		partsW2 = new RectangularPartCollection();
 		RectangularPartCollection result = new RectangularPartCollection();
-		result.add(w1AsPart);
 		RectangularPartCollection partsOfW2 = w2.splitAt(w1.getRightUpperCorner());
 		
 		Iterator<RectangularPart> i = partsOfW2.getParts().iterator();
