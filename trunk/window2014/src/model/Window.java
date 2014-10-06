@@ -35,7 +35,6 @@ public class Window extends RectangularArea implements Observer {
 
 	public void setOpen(final boolean open) {
 		this.open = open;
-		this.notiyObserver();
 		System.out.println("SetOpen(" + open + "): " + this);
 	}
 
@@ -207,16 +206,18 @@ public class Window extends RectangularArea implements Observer {
 				current.deregister(window);
 			}
 			this.getAboveMe().clear();
+			this.getState().visibleSizePossiblyChanged();
 		} else {
 			if (!this.getAboveMe().contains(window)) {
 				this.getAboveMe().add(window);
 				window.register(this);
+				this.getState().visibleSizePossiblyChanged();
 			}
 		}
-		this.getState().visibleSizePossiblyChanged();
 	}
 
 	public void dispose() {
+		this.notiyObserver();
 		for (final Window current : this.getAboveMe()) {
 			current.deregister(this);
 		}
