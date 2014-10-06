@@ -160,7 +160,7 @@ public class Window extends RectangularArea implements Observer {
 						}
 					}
 				}
-				result.getParts().addAll(temp.getParts());
+				result = temp;
 			}
 		}
 		return result;
