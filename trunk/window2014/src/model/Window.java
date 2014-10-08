@@ -58,124 +58,124 @@ public class Window extends RectangularArea implements Observer {
 		return this.getState().getVisibleContext();
 	}
 
-	public RectangularPartCollection calculateVisibleContext()
-			throws NegativeLengthException {
-		// TODO (1) implement calculation of visible parts
-		RectangularPartCollection result = new RectangularPartCollection();
+//	public RectangularPartCollection calculateVisibleContext()
+//			throws NegativeLengthException {
+//		// TODO (1) implement calculation of visible parts
+//		RectangularPartCollection result = new RectangularPartCollection();
+//
+//		if (this.isOpen()) {
+//			RectangularPart meAsPart = new RectangularPart(
+//					this.getLeftUpperCorner(), this.getWidth(),
+//					this.getHeight());
+//			try {
+//				meAsPart.setParent(this);
+//			} catch (HierarchyException e) {
+//				throw new Error("Hierarchy shall be guaranteed!");
+//			}
+//			result.add(meAsPart);
+//
+//			// Iterate over all open windows above this window
+//			final Iterator<Window> openAboveWindows = getOpenAboveWindows()
+//					.iterator();
+//			while (openAboveWindows.hasNext()) {
+//				final Window currentWindow = openAboveWindows.next();
+//
+//				// Create a temporary RectangularPartCollection object
+//				final RectangularPartCollection temp = new RectangularPartCollection();
+//
+//				// Iterate over all current results
+//				final Iterator<RectangularPart> currentResults = result
+//						.getParts().iterator();
+//				while (currentResults.hasNext()) {
+//					final RectangularPart current = currentResults.next();
+//
+//					// If the current window does not overlap the current part,
+//					// we
+//					// can safely add the current part to the temporary
+//					// collection.
+//					if (current.doNotOverlap(currentWindow)) {
+//						temp.add(current);
+//					} else {
+//						final Vector<Point> points = new Vector<Point>();
+//						points.add(currentWindow.getLeftLowerCorner());
+//						points.add(currentWindow.getLeftUpperCorner());
+//						points.add(currentWindow.getRightLowerCorner());
+//						points.add(currentWindow.getRightUpperCorner());
+//
+//						final Vector<Point> containedPoints = current
+//								.getContainedPoints(points);
+//
+//						// Do the actual calculation
+//						RectangularPartCollection splittedParts = null;
+//						switch (containedPoints.size()) {
+//						case 0:
+//							// TODO
+//							splittedParts = new RectangularPartCollection();
+//							break;
+//						case 1:
+//							splittedParts = current.splitAt(containedPoints
+//									.firstElement());
+//							break;
+//						case 2:
+//							splittedParts = current.splitAt(containedPoints
+//									.firstElement());
+//							final Iterator<RectangularPart> iterator = splittedParts
+//									.getParts().iterator();
+//							while (iterator.hasNext()) {
+//								final RectangularPart currentPart = iterator
+//										.next();
+//								splittedParts.add(currentPart
+//										.splitAt(containedPoints.get(1)));
+//							}
+//							break;
+//						case 4:
+//							splittedParts = current.splitAt(containedPoints
+//									.firstElement());
+//							for (int i = 1; i < containedPoints.size(); i++) {
+//								final Iterator<RectangularPart> iterator2 = splittedParts
+//										.getParts().iterator();
+//								while (iterator2.hasNext()) {
+//									final RectangularPart currentPart = iterator2
+//											.next();
+//									splittedParts.add(currentPart
+//											.splitAt(containedPoints.get(i)));
+//								}
+//							}
+//							break;
+//						default:
+//							throw new Error("This should never happen.");
+//						}
+//
+//						// Add all parts to the temporary collection except
+//						// those
+//						// which overlap with the current window.
+//						final Iterator<RectangularPart> i = splittedParts
+//								.getParts().iterator();
+//						while (i.hasNext()) {
+//							final RectangularPart iCurrent = i.next();
+//							if (iCurrent.doNotOverlap(currentWindow)) {
+//								temp.add(iCurrent);
+//							}
+//						}
+//					}
+//				}
+//				result = temp;
+//			}
+//		}
+//		return result;
+//	}
 
-		if (this.isOpen()) {
-			RectangularPart meAsPart = new RectangularPart(
-					this.getLeftUpperCorner(), this.getWidth(),
-					this.getHeight());
-			try {
-				meAsPart.setParent(this);
-			} catch (HierarchyException e) {
-				throw new Error("Hierarchy shall be guaranteed!");
-			}
-			result.add(meAsPart);
-
-			// Iterate over all open windows above this window
-			final Iterator<Window> openAboveWindows = getOpenAboveWindows()
-					.iterator();
-			while (openAboveWindows.hasNext()) {
-				final Window currentWindow = openAboveWindows.next();
-
-				// Create a temporary RectangularPartCollection object
-				final RectangularPartCollection temp = new RectangularPartCollection();
-
-				// Iterate over all current results
-				final Iterator<RectangularPart> currentResults = result
-						.getParts().iterator();
-				while (currentResults.hasNext()) {
-					final RectangularPart current = currentResults.next();
-
-					// If the current window does not overlap the current part,
-					// we
-					// can safely add the current part to the temporary
-					// collection.
-					if (current.doNotOverlap(currentWindow)) {
-						temp.add(current);
-					} else {
-						final Vector<Point> points = new Vector<Point>();
-						points.add(currentWindow.getLeftLowerCorner());
-						points.add(currentWindow.getLeftUpperCorner());
-						points.add(currentWindow.getRightLowerCorner());
-						points.add(currentWindow.getRightUpperCorner());
-
-						final Vector<Point> containedPoints = current
-								.getContainedPoints(points);
-
-						// Do the actual calculation
-						RectangularPartCollection splittedParts = null;
-						switch (containedPoints.size()) {
-						case 0:
-							// TODO
-							splittedParts = new RectangularPartCollection();
-							break;
-						case 1:
-							splittedParts = current.splitAt(containedPoints
-									.firstElement());
-							break;
-						case 2:
-							splittedParts = current.splitAt(containedPoints
-									.firstElement());
-							final Iterator<RectangularPart> iterator = splittedParts
-									.getParts().iterator();
-							while (iterator.hasNext()) {
-								final RectangularPart currentPart = iterator
-										.next();
-								splittedParts.add(currentPart
-										.splitAt(containedPoints.get(1)));
-							}
-							break;
-						case 4:
-							splittedParts = current.splitAt(containedPoints
-									.firstElement());
-							for (int i = 1; i < containedPoints.size(); i++) {
-								final Iterator<RectangularPart> iterator2 = splittedParts
-										.getParts().iterator();
-								while (iterator2.hasNext()) {
-									final RectangularPart currentPart = iterator2
-											.next();
-									splittedParts.add(currentPart
-											.splitAt(containedPoints.get(i)));
-								}
-							}
-							break;
-						default:
-							throw new Error("This should never happen.");
-						}
-
-						// Add all parts to the temporary collection except
-						// those
-						// which overlap with the current window.
-						final Iterator<RectangularPart> i = splittedParts
-								.getParts().iterator();
-						while (i.hasNext()) {
-							final RectangularPart iCurrent = i.next();
-							if (iCurrent.doNotOverlap(currentWindow)) {
-								temp.add(iCurrent);
-							}
-						}
-					}
-				}
-				result = temp;
-			}
-		}
-		return result;
-	}
-
-	private Collection<Window> getOpenAboveWindows() {
-		Collection<Window> aboveWindows = this.getAboveMe();
-		Iterator<Window> aboveWindowsI = aboveWindows.iterator();
-		while (aboveWindowsI.hasNext()) {
-			Window currentWindow = aboveWindowsI.next();
-			if (!currentWindow.isOpen()) {
-				aboveWindows.remove(currentWindow);
-			}
-		}
-		return aboveWindows;
-	}
+//	private Collection<Window> getOpenAboveWindows() {
+//		Collection<Window> aboveWindows = this.getAboveMe();
+//		Iterator<Window> aboveWindowsI = aboveWindows.iterator();
+//		while (aboveWindowsI.hasNext()) {
+//			Window currentWindow = aboveWindowsI.next();
+//			if (!currentWindow.isOpen()) {
+//				aboveWindows.remove(currentWindow);
+//			}
+//		}
+//		return aboveWindows;
+//	}
 
 	@Override
 	public String toString() {
@@ -245,22 +245,82 @@ public class Window extends RectangularArea implements Observer {
 		this.state = state;
 	}
 
-//	public RectangularPartCollection calculateVisibleContext() {
-//		RectangularPartCollection result = new RectangularPartCollection();
+	public RectangularPartCollection calculateVisibleContext() {
+		
+		RectangularPartCollection result = new RectangularPartCollection();
+		
+			if (this.isOpen()) {
+				RectangularPart meAsPart = new RectangularPart(this.getLeftUpperCorner(), this.getWidth(), this.getHeight());
+				try {
+					meAsPart.setParent(this);
+				} catch (HierarchyException e) {
+					throw new Error("Hierarchy shall be guaranteed!");
+				}
+				if(this.getAboveMe().isEmpty()) result.add(meAsPart);
+				
+				
+				final RectangularPartCollection allSplitParts = new RectangularPartCollection();
+				
+				Iterator<Window> iterator = this.getAboveMe().iterator();
+				while(iterator.hasNext()) {
+					Window current = iterator.next();
+					RectangularPartCollection splitParts = new RectangularPartCollection();
+					final Vector<Point> pointsInTheWindow = getAllPointsInTheWindow(current);
+					for(final Point p : pointsInTheWindow) {
+						splitParts = this.splitAt(p);
+						addPartToCollection(allSplitParts, current, splitParts);
+						
+					}
+					if (this.doNotOverlap(current)) result.add(meAsPart);
+					// TODO Punkte auﬂen
+					
+					
+					Iterator<RectangularPart> i = allSplitParts.getParts().iterator();
+					while(i.hasNext()) {
+						RectangularPart currentPart = i.next();
+							Window currentPartAsWindow = partToWindow(currentPart);
+							Iterator<RectangularPart> i2 = currentPartAsWindow.calculateVisibleContext().getParts().iterator();
+							while(i2.hasNext()) {
+								RectangularPart currentP = i2.next();
+								if(current.doNotOverlap(currentP)) result.add(currentP);
+							}
+					}
+				}
+			}
+			return result;
+	}
+
+	private void addPartToCollection(
+			final RectangularPartCollection allSplitParts,
+			final Window current, RectangularPartCollection splitParts) {
+		Iterator<RectangularPart> iterator = splitParts.getParts().iterator();
+		while (iterator.hasNext()) {
+			RectangularPart splitPart = iterator.next();
+			if(current.doNotOverlap(splitPart)) {
+				allSplitParts.add(splitPart);
+			}
+		}
+	}
+
+	private Window partToWindow(RectangularPart currentPart) {
+		Window currentWindow = new Window();
+		currentWindow.move(currentPart.getLeftUpperCorner().getX(), currentPart.getLeftUpperCorner().getY());
+		try {
+			currentWindow.resize(currentPart.getWidth(), currentPart.getHeight());
+		} catch (NegativeLengthException e) {
+			e.printStackTrace();
+		}
+		return currentWindow;
+	}
+		
 //		Collection<Window> aboveMes = this.getAboveMe();
+//		if (aboveMes.isEmpty()) result.add(new RectangularPart(this.getLeftLowerCorner(), this.getWidth(), this.getHeight()));
 //		Iterator<Window> i = aboveMes.iterator();
 //		while (i.hasNext()) {
 //			Window current = i.next();
 //			if (!this.doNotOverlap(current)) {
 //				if (!this.fullyGetsOverlapped(current)) {
-//					final Vector<Point> points = new Vector<Point>();
-//					points.add(current.getLeftLowerCorner());
-//					points.add(current.getLeftUpperCorner());
-//					points.add(current.getRightLowerCorner());
-//					points.add(current.getRightUpperCorner());
-//
-//					final Vector<Point> containedPoints = this
-//							.getContainedPoints(points);
+//					final Vector<Point> containedPoints = getAllPointsInTheWindow(current);
 //
 //					RectangularPartCollection splitParts = split(this, containedPoints);
 //					Iterator<RectangularPart> i2 = splitParts.getParts().iterator();
@@ -286,7 +346,19 @@ public class Window extends RectangularArea implements Observer {
 //		}
 //		return result;
 //	}
-//
+
+	private Vector<Point> getAllPointsInTheWindow(Window current) {
+		final Vector<Point> points = new Vector<Point>();
+		points.add(current.getLeftLowerCorner());
+		points.add(current.getLeftUpperCorner());
+		points.add(current.getRightLowerCorner());
+		points.add(current.getRightUpperCorner());
+
+		final Vector<Point> containedPoints = this
+				.getContainedPoints(points);
+		return containedPoints;
+	}
+
 //	private RectangularPartCollection split(Window current,
 //			final Vector<Point> containedPoints) {
 //		RectangularPartCollection splittedParts = current

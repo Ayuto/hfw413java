@@ -20,7 +20,7 @@ public class RectangularPartCollection {
 		this.parts = parts;
 	}
 
-	public void add(RectangularPartCollection partCollection) {
+	public void add(RectangularPartCollection partCollection) throws PartsDoOverlapException {
 		Iterator<RectangularPart> i1 = partCollection.getParts().iterator();
 		while (i1.hasNext()) {
 			RectangularPart currentPart = i1.next();
@@ -28,9 +28,8 @@ public class RectangularPartCollection {
 				Iterator<RectangularPart> i2 = this.getParts().iterator();
 				while (i2.hasNext()) {
 					RectangularPart current = i2.next();
-					if (!currentPart.doNotOverlap(current)) {
-						throw new Error(
-								"At least two RectangularPart object overlap each other.");
+					if (!current.doNotOverlap(currentPart)) {
+						throw new PartsDoOverlapException();
 					}
 				}
 			}
@@ -72,5 +71,10 @@ public class RectangularPartCollection {
 
 		}
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return this.parts.toString();
 	}
 }

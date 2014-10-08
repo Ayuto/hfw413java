@@ -100,15 +100,10 @@ abstract public class RectangularArea extends Observee {
 		return myCollection;
 	}
 	
-	public boolean containsPoint(final Point point)
+	public boolean containsPoint(final Point p)
 	{
-		final Point point2 = this.getLeftUpperCorner();
-		final int x1 = point2.getX();
-		final int y1 = point2.getY();
-		final int x2 = x1 + this.getWidth();
-		final int y2 = y1 + this.getHeight();
-		
-		return x1 <= point.getX() && point.getX() <= x2 && y1 <= point.getY() && point.getY() <= y2;
+		final Point p1 = this.getLeftUpperCorner();
+		return p.getX() >=p1.getX() && p.getX() <= p1.getX() + this.getWidth() && p.getY() >= p1.getY() - this.getHeight() && p.getY() <= p1.getY();
 	}
 	
 	public Vector<Point> getContainedPoints(final Collection<Point> points)
@@ -125,14 +120,13 @@ abstract public class RectangularArea extends Observee {
 	}
 
 	public boolean doNotOverlap(RectangularArea rectangularArea) {
-		Point point1 = rectangularArea.getLeftUpperCorner();
-		Point point2 = this.getLeftUpperCorner();
-		if (point1.getX() > point2.getX() + this.getWidth()
-				|| point1.getX() + rectangularArea.getWidth() < point2.getX()) {
-			return true;
-		}
-		return point1.getY() < point2.getY() - this.getHeight()
-				|| point1.getY() - rectangularArea.getHeight() > point2.getY();
+		Point point1 = this.getLeftUpperCorner();
+		Point point2 = rectangularArea.getLeftUpperCorner();
+		
+		return point2.getX() >= point1.getX() + this.getWidth()
+				|| point2.getX() + rectangularArea.getWidth() <= point1.getX()
+				|| point2.getY() <= point1.getY() - this.getHeight()
+				|| point2.getY() - rectangularArea.getHeight() >= point1.getY();
 	}
 	
 	public boolean fullyGetsOverlapped(RectangularArea rectangularArea) {

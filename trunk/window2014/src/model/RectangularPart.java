@@ -17,7 +17,7 @@ public class RectangularPart extends RectangularArea {
 		return this.parent;
 	}
 
-	void setParent(RectangularArea parent) throws HierarchyException {
+	public void setParent(RectangularArea parent) throws HierarchyException {
 		Point pointPart = this.getLeftUpperCorner();
 		Point pointParent = parent.getLeftUpperCorner();
 		if (!(pointParent.getX() <= pointPart.getX()
