@@ -32,7 +32,7 @@ abstract public class RectangularArea extends Observee {
 
 	public Point getLeftLowerCorner() {
 		return new Point(this.getLeftUpperCorner().getX(), this
-				.getLeftUpperCorner().getY() - this.getHeight());
+				.getLeftUpperCorner().getY() + this.getHeight());
 	}
 
 	public Point getRightLowerCorner() {
@@ -90,11 +90,9 @@ abstract public class RectangularArea extends Observee {
 
 		final int rightWidth = this.getRightUpperCorner().getX()
 				- upperPoint.getX();
-		final int leftWidth = point.getX() - this.getLeftUpperCorner().getX();
-		final int upperHeigth = this.getLeftUpperCorner().getY()
-				- middlePoint.getY();
-		final int lowerHeight = middlePoint.getY()
-				- this.getLeftLowerCorner().getY();
+		final int leftWidth = upperPoint.getX() - this.getLeftUpperCorner().getX();
+		final int upperHeigth = middlePoint.getY() - this.getLeftUpperCorner().getY();
+		final int lowerHeight = this.getLeftLowerCorner().getY() - middlePoint.getY();
 
 		final RectangularPartCollection myCollection = new RectangularPartCollection();
 
@@ -129,8 +127,8 @@ abstract public class RectangularArea extends Observee {
 		int xEnd = Math.min(p1.getX() + this.getWidth(),
 				p2.getX() + area.getWidth());
 
-		int yStart = Math.min(p1.getY(), p2.getY());
-		int yEnd = Math.max(p1.getY() + this.getHeight(),
+		int yStart = Math.max(p1.getY(), p2.getY());
+		int yEnd = Math.min(p1.getY() + this.getHeight(),
 				p2.getY() + area.getHeight());
 
 		if (xStart >= xEnd || yStart >= yEnd) {
@@ -141,14 +139,12 @@ abstract public class RectangularArea extends Observee {
 			}
 		}
 
-		Rectangle result = null;
 		try {
-			result = new Rectangle(new Point(xStart, yEnd), xEnd - xStart, yEnd
+			return new Rectangle(new Point(xStart, yStart), xEnd - xStart, yEnd
 					- yStart);
 		} catch (NegativeLengthException e) {
-			e.printStackTrace();
+			throw new Error("Can't happen!!!");
 		}
-		return result;
 	}
 
 	public boolean isEmpty() {

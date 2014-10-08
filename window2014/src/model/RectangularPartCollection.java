@@ -1,7 +1,6 @@
 package model;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Vector;
 
 public class RectangularPartCollection {
@@ -21,17 +20,10 @@ public class RectangularPartCollection {
 	}
 
 	public void add(RectangularPartCollection partCollection) {
-		Iterator<RectangularPart> i1 = partCollection.getParts().iterator();
-		while (i1.hasNext()) {
-			RectangularPart currentPart = i1.next();
-			if (!this.getParts().isEmpty()) {
-				Iterator<RectangularPart> i2 = this.getParts().iterator();
-				while (i2.hasNext()) {
-					RectangularPart current = i2.next();
-					if (current.doesNotOverlap(currentPart)) {
-						this.add(currentPart);
-					}
-				}
+		for (final RectangularPart currentPart : partCollection.getParts()) {
+			for (final RectangularPart current : this.getParts()) {
+				if (current.doesNotOverlap(currentPart))
+					this.add(currentPart);
 			}
 		}
 	}
@@ -51,7 +43,7 @@ public class RectangularPartCollection {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.parts.toString();
