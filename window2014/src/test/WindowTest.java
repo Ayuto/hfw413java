@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -66,16 +65,16 @@ public class WindowTest {
 		assertFalse(w2AsPart.doNotOverlap(w1AsPart));
 		assertFalse(w2AsPart.doNotOverlap(w2AsPart));
 		assertTrue(w2AsPart.doNotOverlap(w3AsPart));
-		assertFalse(w2AsPart.doNotOverlap(w4AsPart));
+		assertTrue(w2AsPart.doNotOverlap(w4AsPart));
 		
 		assertTrue(w3AsPart.doNotOverlap(w1AsPart));
 		assertTrue(w3AsPart.doNotOverlap(w2AsPart));
 		assertFalse(w3AsPart.doNotOverlap(w3AsPart));
-		assertFalse(w3AsPart.doNotOverlap(w4AsPart));
+		assertTrue(w3AsPart.doNotOverlap(w4AsPart));
 		
 		assertTrue(w4AsPart.doNotOverlap(w1AsPart));
-		assertFalse(w4AsPart.doNotOverlap(w2AsPart));
-		assertFalse(w4AsPart.doNotOverlap(w3AsPart));
+		assertTrue(w4AsPart.doNotOverlap(w2AsPart));
+		assertTrue(w4AsPart.doNotOverlap(w3AsPart));
 		assertFalse(w4AsPart.doNotOverlap(w4AsPart));
 	}
 
@@ -127,7 +126,12 @@ public class WindowTest {
 		Iterator<RectangularPart> i = partsOfW2.getParts().iterator();
 		while(i.hasNext()) {
 			RectangularPart current = i.next();
-			if(w1AsPart.doNotOverlap(current)) {
+//			try {
+//				current.setParent(w1);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+			if(current.doNotOverlap(w1)) {
 				result.add(current);
 			}
 		}
