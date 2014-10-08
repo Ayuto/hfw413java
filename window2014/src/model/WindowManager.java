@@ -27,7 +27,7 @@ public class WindowManager {
 			try {
 				result.add(current.getVisibleContext());
 			} catch (NegativeLengthException e) {
-				e.printStackTrace();
+				throw new Error();
 			}
 		}
 		return result.toVector();

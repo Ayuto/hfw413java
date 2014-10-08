@@ -77,7 +77,7 @@ public class Window extends RectangularArea implements Observer {
 		return false;
 	}
 
-	private Collection<Window> getAboveMe() {
+	public Collection<Window> getAboveMe() {
 		return this.aboveMe;
 	}
 
@@ -131,22 +131,21 @@ public class Window extends RectangularArea implements Observer {
 	}
 
 	public RectangularPartCollection calculateVisibleContext() {
-
 		RectangularPartCollection result = new RectangularPartCollection();
 
 		if (this.isOpen()) {
 			RectangularPart meAsPart = new RectangularPart(
 					this.getLeftUpperCorner(), this.getWidth(),
 					this.getHeight());
+			
 			try {
 				meAsPart.setParent(this);
 			} catch (HierarchyException e) {
 				throw new Error("Hierarchy shall be guaranteed!");
 			}
+			
 			if (this.getAboveMe().isEmpty())
 				result.add(meAsPart);
-
-			final RectangularPartCollection splittedParts = result;//new RectangularPartCollection();
 
 			for (final Window window: this.getAboveMe()) {
 				Rectangle overlappedArea = this.getOverlappedArea(window);
@@ -155,8 +154,10 @@ public class Window extends RectangularArea implements Observer {
 				}
 
 				for (final Point p : overlappedArea.getEdges()) {
-					splittedParts.add(this.splitAt(p));
-
+					for (final RectangularPart part: this.splitAt(p).getParts()) {
+						if (part.doesNotOverlap(overlappedArea))
+							result.add(part);
+					}
 				}
 			}
 		}
