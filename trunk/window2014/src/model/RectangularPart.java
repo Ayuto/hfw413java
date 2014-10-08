@@ -38,15 +38,6 @@ public class RectangularPart extends RectangularArea {
 			return false;
 		return this.getParent().isInTransitively(part);
 	}
-	
-	public boolean equals(Object o) {
-		boolean equals = false;
-		if(o instanceof RectangularPart) {
-			RectangularPart part = (RectangularPart) o;
-			equals = this.getLeftLowerCorner().equals(part.getLeftLowerCorner())&&this.getHeight()==part.getHeight()&&this.getWidth()==part.getWidth();
-		}
-		return equals;
-	}
 }
 
 @SuppressWarnings("serial")

@@ -26,7 +26,7 @@ public class WindowManager {
 		for (Window current : this.getWindowStack()) {
 			try {
 				result.add(current.getVisibleContext());
-			} catch (PartsDoOverlapException | NegativeLengthException e) {
+			} catch (NegativeLengthException e) {
 				e.printStackTrace();
 			}
 		}
