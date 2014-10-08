@@ -20,7 +20,7 @@ public class RectangularPartCollection {
 		this.parts = parts;
 	}
 
-	public void add(RectangularPartCollection partCollection) throws PartsDoOverlapException {
+	public void add(RectangularPartCollection partCollection) {
 		Iterator<RectangularPart> i1 = partCollection.getParts().iterator();
 		while (i1.hasNext()) {
 			RectangularPart currentPart = i1.next();
@@ -28,13 +28,12 @@ public class RectangularPartCollection {
 				Iterator<RectangularPart> i2 = this.getParts().iterator();
 				while (i2.hasNext()) {
 					RectangularPart current = i2.next();
-					if (!current.doNotOverlap(currentPart)) {
-						throw new PartsDoOverlapException();
+					if (current.doesNotOverlap(currentPart)) {
+						this.add(currentPart);
 					}
 				}
 			}
 		}
-		this.getParts().addAll(partCollection.parts);
 	}
 
 	public Vector<RectangularPart> toVector() {
@@ -48,27 +47,7 @@ public class RectangularPartCollection {
 	public boolean equals(Object o) {
 		if (o instanceof RectangularPartCollection) {
 			RectangularPartCollection partsCollection = (RectangularPartCollection) o;
-			if (this.getParts().size() == partsCollection.getParts().size()) {
-				Iterator<RectangularPart> i1 = this.getParts().iterator();
-				while (i1.hasNext()) {
-					RectangularPart currentElementList1 = i1.next();
-					boolean matched = false;
-					Iterator<RectangularPart> i2 = partsCollection.getParts()
-							.iterator();
-					while (i2.hasNext()) {
-						RectangularPart currentElementList2 = i2.next();
-						if (currentElementList1.equals(currentElementList2)) {
-							matched = true;
-						}
-					}
-					if (!matched) {
-						return false;
-					}
-					return true;
-				}
-
-			}
-
+			return this.getParts().equals(partsCollection.getParts());
 		}
 		return false;
 	}

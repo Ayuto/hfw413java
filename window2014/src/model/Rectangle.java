@@ -2,7 +2,7 @@ package model;
 
 public class Rectangle extends RectangularArea {
 
-	Rectangle(Point position, int width, int height) throws NegativeLengthException {
+	public Rectangle(Point position, int width, int height) throws NegativeLengthException {
 		super(position, width, height);
 	}
 

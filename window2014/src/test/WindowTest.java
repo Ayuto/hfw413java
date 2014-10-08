@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import model.NegativeLengthException;
+import model.Point;
+import model.Rectangle;
 import model.RectangularPart;
 import model.RectangularPartCollection;
 import model.Window;
@@ -43,8 +45,8 @@ public class WindowTest {
 		windows = WindowManager.getTheWindowManager().getWindowStack();
 	}	
 
-	@Test
-	public void testDoNotOverlap() {
+	//@Test
+	public void testdoesNotOverlap() {
 		w1 = windows.get(0);
 		w1AsPart = new RectangularPart(w1.getLeftUpperCorner(),w1.getWidth(),w1.getHeight());
 		w2 = windows.get(1);
@@ -57,28 +59,28 @@ public class WindowTest {
 		w4.move(50, 150);
 		w4AsPart = new RectangularPart(w4.getLeftUpperCorner(),w4.getWidth(),w4.getHeight());
 		
-		assertFalse(w1AsPart.doNotOverlap(w1AsPart));
-		assertFalse(w1AsPart.doNotOverlap(w2AsPart));
-		assertTrue(w1AsPart.doNotOverlap(w3AsPart));
-		assertTrue(w1AsPart.doNotOverlap(w4AsPart));
+		assertFalse(w1AsPart.doesNotOverlap(w1AsPart));
+		assertFalse(w1AsPart.doesNotOverlap(w2AsPart));
+		assertTrue(w1AsPart.doesNotOverlap(w3AsPart));
+		assertTrue(w1AsPart.doesNotOverlap(w4AsPart));
 		
-		assertFalse(w2AsPart.doNotOverlap(w1AsPart));
-		assertFalse(w2AsPart.doNotOverlap(w2AsPart));
-		assertTrue(w2AsPart.doNotOverlap(w3AsPart));
-		assertTrue(w2AsPart.doNotOverlap(w4AsPart));
+		assertFalse(w2AsPart.doesNotOverlap(w1AsPart));
+		assertFalse(w2AsPart.doesNotOverlap(w2AsPart));
+		assertTrue(w2AsPart.doesNotOverlap(w3AsPart));
+		assertTrue(w2AsPart.doesNotOverlap(w4AsPart));
 		
-		assertTrue(w3AsPart.doNotOverlap(w1AsPart));
-		assertTrue(w3AsPart.doNotOverlap(w2AsPart));
-		assertFalse(w3AsPart.doNotOverlap(w3AsPart));
-		assertTrue(w3AsPart.doNotOverlap(w4AsPart));
+		assertTrue(w3AsPart.doesNotOverlap(w1AsPart));
+		assertTrue(w3AsPart.doesNotOverlap(w2AsPart));
+		assertFalse(w3AsPart.doesNotOverlap(w3AsPart));
+		assertTrue(w3AsPart.doesNotOverlap(w4AsPart));
 		
-		assertTrue(w4AsPart.doNotOverlap(w1AsPart));
-		assertTrue(w4AsPart.doNotOverlap(w2AsPart));
-		assertTrue(w4AsPart.doNotOverlap(w3AsPart));
-		assertFalse(w4AsPart.doNotOverlap(w4AsPart));
+		assertTrue(w4AsPart.doesNotOverlap(w1AsPart));
+		assertTrue(w4AsPart.doesNotOverlap(w2AsPart));
+		assertTrue(w4AsPart.doesNotOverlap(w3AsPart));
+		assertFalse(w4AsPart.doesNotOverlap(w4AsPart));
 	}
 
-	@Test
+	//@Test
 	public void testGetVisibleContextWithoutOverlap() throws NegativeLengthException {
 		w1 = windows.get(0);
 		w1AsPart = new RectangularPart(w1.getLeftUpperCorner(),w1.getWidth(),w1.getHeight());
@@ -126,16 +128,41 @@ public class WindowTest {
 		Iterator<RectangularPart> i = partsOfW2.getParts().iterator();
 		while(i.hasNext()) {
 			RectangularPart current = i.next();
-//			try {
-//				current.setParent(w1);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-			if(current.doNotOverlap(w1)) {
+			if(current.doesNotOverlap(w1)) {
 				result.add(current);
 			}
 		}
 		
 		assertEquals(result, w2.getVisibleContext());
+	}
+	
+	@Test
+	public void testgetVisibleContext2() throws NegativeLengthException {
+		w4 = windows.get(0);
+		w4.move(100, 100);
+		w4.resize(200, 25);
+		w4AsPart = new RectangularPart(w4.getLeftUpperCorner(), w4.getWidth(), w4.getHeight());
+		
+		w2 = windows.get(1);
+		w2.move(25, 150);
+		w2AsPart = new RectangularPart(w2.getLeftUpperCorner(),w2.getWidth(),w2.getHeight());
+		
+//		Point p1 = new Point(x, y);
+//		
+//		RectangularPart rp1 = new RectangularPart(position, width, height)
+		
+		System.out.println("-->" + w2.getVisibleContext().toString());
+		System.out.println("overlapped" + w2.getOverlappedArea(w4));
+//		assertEquals(result, w2.getVisibleContext());
+	}
+	
+	@Test
+	public void testGetOverlappedArea() throws NegativeLengthException {
+		w1 = windows.get(0);
+		w1.move(50, 50);
+		
+		w2 = windows.get(1);
+		
+		assertEquals(new Rectangle(new Point(50, 100), 150, 50), w2.getOverlappedArea(w1));
 	}
 }
