@@ -45,8 +45,8 @@ public class WindowTest {
 		windows = WindowManager.getTheWindowManager().getWindowStack();
 	}	
 
-	//@Test
-	public void testdoesNotOverlap() {
+	@Test
+	public void testDoesNotOverlap() {
 		w1 = windows.get(0);
 		w1AsPart = new RectangularPart(w1.getLeftUpperCorner(),w1.getWidth(),w1.getHeight());
 		w2 = windows.get(1);
@@ -79,90 +79,20 @@ public class WindowTest {
 		assertTrue(w4AsPart.doesNotOverlap(w3AsPart));
 		assertFalse(w4AsPart.doesNotOverlap(w4AsPart));
 	}
-
-	//@Test
-	public void testGetVisibleContextWithoutOverlap() throws NegativeLengthException {
-		w1 = windows.get(0);
-		w1AsPart = new RectangularPart(w1.getLeftUpperCorner(),w1.getWidth(),w1.getHeight());
-		w2 = windows.get(1);
-		w2.move(100, 50);
-		w2.setOpen(false);
-		w2AsPart = new RectangularPart(w2.getLeftUpperCorner(),w2.getWidth(),w2.getHeight());
-		w3 = windows.get(2);
-		w3.move(250, 250);
-		w3AsPart = new RectangularPart(w3.getLeftUpperCorner(),w3.getWidth(),w3.getHeight());
-		w4 = windows.get(3);
-		w4.move(50, 150);
-		w4AsPart = new RectangularPart(w4.getLeftUpperCorner(),w4.getWidth(),w4.getHeight());
-		
-		partsW1 = new RectangularPartCollection();
-
-		partsW1.add(w1AsPart);
-		assertEquals(partsW1, w1.getVisibleContext());
-		
-		
-		partsW3 = new RectangularPartCollection();
-		partsW3.add(w3AsPart);
-		
-		assertEquals(partsW3, w3.getVisibleContext());
-	}
-	
-	@Test
-	public void testgetVisibleContext() throws NegativeLengthException {
-		w1 = windows.get(0);
-		w1AsPart = new RectangularPart(w1.getLeftUpperCorner(),w1.getWidth(),w1.getHeight());
-		w2 = windows.get(1);
-		w2.move(100, 50);
-		w2AsPart = new RectangularPart(w2.getLeftUpperCorner(),w2.getWidth(),w2.getHeight());
-		w3 = windows.get(2);
-		w3.move(250, 250);
-		w3AsPart = new RectangularPart(w3.getLeftUpperCorner(),w3.getWidth(),w3.getHeight());
-		w4 = windows.get(3);
-		w4.move(25, 150);
-		w4AsPart = new RectangularPart(w4.getLeftUpperCorner(),w4.getWidth(),w4.getHeight());
-		
-		partsW2 = new RectangularPartCollection();
-		RectangularPartCollection result = new RectangularPartCollection();
-		RectangularPartCollection partsOfW2 = w2.splitAt(w1.getRightUpperCorner());
-		
-		Iterator<RectangularPart> i = partsOfW2.getParts().iterator();
-		while(i.hasNext()) {
-			RectangularPart current = i.next();
-			if(current.doesNotOverlap(w1)) {
-				result.add(current);
-			}
-		}
-		
-		assertEquals(result, w2.getVisibleContext());
-	}
-	
-	@Test
-	public void testgetVisibleContext2() throws NegativeLengthException {
-		w4 = windows.get(0);
-		w4.move(100, 100);
-		w4.resize(200, 25);
-		w4AsPart = new RectangularPart(w4.getLeftUpperCorner(), w4.getWidth(), w4.getHeight());
-		
-		w2 = windows.get(1);
-		w2.move(25, 150);
-		w2AsPart = new RectangularPart(w2.getLeftUpperCorner(),w2.getWidth(),w2.getHeight());
-		
-//		Point p1 = new Point(x, y);
-//		
-//		RectangularPart rp1 = new RectangularPart(position, width, height)
-		
-		System.out.println("-->" + w2.getVisibleContext().toString());
-		System.out.println("overlapped" + w2.getOverlappedArea(w4));
-//		assertEquals(result, w2.getVisibleContext());
-	}
 	
 	@Test
 	public void testGetOverlappedArea() throws NegativeLengthException {
-		w1 = windows.get(0);
-		w1.move(50, 50);
+		// 1 Ecke von r2 in r1
+		Rectangle r1 = new Rectangle(new Point(0, 0), 200, 100);
+		Rectangle r2 = new Rectangle(new Point(50, 50), 200, 100);
+		assertEquals(new Rectangle(new Point(50, 50), 150, 50), r1.getOverlappedArea(r2));
 		
-		w2 = windows.get(1);
+		// 2 Ecken von r3 in r1
+		Rectangle r3 = new Rectangle(new Point(50, 25), 175, 25);
+		assertEquals(new Rectangle(new Point(50, 25), 150, 25), r1.getOverlappedArea(r3));
 		
-		assertEquals(new Rectangle(new Point(50, 100), 150, 50), w2.getOverlappedArea(w1));
+		// 4 Ecken von r4 in r1
+		Rectangle r4 = new Rectangle(new Point(50, 25), 25, 25);
+		assertEquals(r4, r1.getOverlappedArea(r4));
 	}
 }
