@@ -20,6 +20,11 @@ public class RectangularPartCollection {
 	}
 
 	public void add(RectangularPartCollection partCollection) {
+		if (this.getParts().isEmpty()) {
+			this.getParts().addAll(partCollection.getParts());
+			return;
+		}
+		
 		for (final RectangularPart currentPart : partCollection.getParts()) {
 			for (final RectangularPart current : this.getParts()) {
 				if (current.doesNotOverlap(currentPart))
