@@ -20,6 +20,7 @@ public class RectangularPartCollection {
 	}
 
 	public void add(RectangularPartCollection partCollection) {
+		/*
 		if (this.getParts().isEmpty()) {
 			this.getParts().addAll(partCollection.getParts());
 			return;
@@ -30,7 +31,8 @@ public class RectangularPartCollection {
 				if (current.doesNotOverlap(currentPart))
 					this.add(currentPart);
 			}
-		}
+		}*/
+		this.getParts().addAll(partCollection.getParts());
 	}
 
 	public Vector<RectangularPart> toVector() {
@@ -52,5 +54,11 @@ public class RectangularPartCollection {
 	@Override
 	public String toString() {
 		return this.parts.toString();
+	}
+	
+	public void createAndAddPart(Point p, int w, int h) {
+		if(w != 0 && h != 0) {
+			this.getParts().add(new RectangularPart(p, w, h));
+		}
 	}
 }
