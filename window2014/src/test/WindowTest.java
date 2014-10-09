@@ -122,8 +122,15 @@ public class WindowTest {
 		w1.move(50, 50);
 		w2 = windows.get(1);
 		
-		// TODO
-		//RectangularPartCollection result2 = new RectangularPartCollection();
-		//assertEquals(result2, w2.calculateVisibleContext());
+		RectangularPartCollection result = new RectangularPartCollection();
+		result.add(new RectangularPart(new Point(0, 0), 50, 50));
+		result.add(new RectangularPart(new Point(50, 0), 150, 50));
+		result.add(new RectangularPart(new Point(0, 50), 50, 50));
+		assertEquals(result, w2.calculateVisibleContext());
+		
+		//
+		w3 = windows.get(2);
+		w3.move(100, 0);
+		System.out.println(w3.calculateVisibleContext());
 	}
 }
