@@ -102,7 +102,7 @@ public class WindowTest {
 	}
 
 	@Test
-	public void testGetVisualContext() {
+	public void testCalculateVisibleContext() {
 		w1 = windows.get(0);
 		w2 = windows.get(1);
 		
@@ -116,7 +116,7 @@ public class WindowTest {
 	}
 	
 	@Test
-	public void testGetVisualContext2() {
+	public void testCalculateVisibleContext2() {
 		// Die obere linke Ecke von w1 verdeckt w2
 		w1 = windows.get(0);
 		w1.move(50, 50);
@@ -131,6 +131,51 @@ public class WindowTest {
 		//
 		w3 = windows.get(2);
 		w3.move(100, 0);
-		System.out.println(w3.calculateVisibleContext());
+		System.out.println("-->"+w3.calculateVisibleContext());
+	}
+	
+	@Test
+	public void testCalculateVisibleContext3() throws NegativeLengthException {
+		w1 = windows.get(0);
+		w1.move(0, 75);
+		w1.resize(250, 100);
+		w2 = windows.get(1);
+		w2.move(100, 50);
+		w3 = windows.get(2);
+		w3.move(50, 0);
+		w3.resize(150, 100);
+		
+		RectangularPartCollection result = new RectangularPartCollection();
+		result.add(new RectangularPart(new Point(100, 50), 150, 25));
+		result.add(new RectangularPart(new Point(250, 50), 50, 25));
+		result.add(new RectangularPart(new Point(250, 75), 50, 75));
+		assertEquals(result, w2.calculateVisibleContext());
+		
+		RectangularPartCollection result2 =  new RectangularPartCollection();
+		result2.add(new RectangularPart(new Point(50, 0), 50, 50));
+		result2.add(new RectangularPart(new Point(100, 0), 100, 50));
+		result2.add(new RectangularPart(new Point(50, 50), 50, 25));
+		
+		assertEquals(result2, w3.calculateVisibleContext());
+		System.out.println("abc" + w3.calculateVisibleContext());
+	}
+	
+	@Test
+	public void testCalculateVisibleContext4() throws NegativeLengthException {
+		w1 = windows.get(0);
+		w1.move(50, 50);
+		w2 = windows.get(1);
+		w2.resize(300, 300);
+		
+		RectangularPartCollection result = new RectangularPartCollection();
+		result.add(new RectangularPart(new Point(0, 0), 50, 50));
+		result.add(new RectangularPart(new Point(50, 0), 200, 50));
+		result.add(new RectangularPart(new Point(250, 0), 50, 50));
+		result.add(new RectangularPart(new Point(0, 50), 50, 100));
+		result.add(new RectangularPart(new Point(250, 50), 50, 100));
+		result.add(new RectangularPart(new Point(0, 150), 50, 150));
+		result.add(new RectangularPart(new Point(50, 150), 200, 150));
+		result.add(new RectangularPart(new Point(250, 150), 50, 150));
+		assertEquals(result, w2.calculateVisibleContext());
 	}
 }
