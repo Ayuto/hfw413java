@@ -66,7 +66,7 @@ public class Window extends RectangularArea implements Observer {
 	private int getNumber() {
 		return this.number;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		return this == obj;
@@ -137,28 +137,50 @@ public class Window extends RectangularArea implements Observer {
 			RectangularPart meAsPart = new RectangularPart(
 					this.getLeftUpperCorner(), this.getWidth(),
 					this.getHeight());
-			
+
 			try {
 				meAsPart.setParent(this);
 			} catch (HierarchyException e) {
 				throw new Error("Hierarchy shall be guaranteed!");
 			}
-			
+
 			if (this.getAboveMe().isEmpty())
 				result.add(meAsPart);
 
-			for (final Window window: this.getAboveMe()) {
+			for (final Window window : this.getAboveMe()) {
 				Rectangle overlappedArea = this.getOverlappedArea(window);
 				if (overlappedArea.isEmpty()) {
 					continue;
 				}
 
-				for (final Point p : overlappedArea.getEdges()) {
-					for (final RectangularPart part: this.splitAt(p).getParts()) {
-						if (part.doesNotOverlap(overlappedArea))
-							result.add(part);
-					}
-				}
+				result.add(this.getSplittedParts(overlappedArea));
+			}
+		}
+		return result;
+	}
+
+	private RectangularPartCollection getSplittedParts(Rectangle overlappedArea) {
+		// Split and save non-overlapping rectangles
+		RectangularPartCollection result = new RectangularPartCollection();
+		for (final Point p : overlappedArea.getEdges()) {
+			for (final RectangularPart part : this.splitAt(p)
+					.getParts()) {
+				if (part.doesNotOverlap(overlappedArea))
+					result.add(part);
+			}
+		}
+
+		// Filter saved rectangles
+		Vector<RectangularPart> resultClone = (Vector<RectangularPart>) ((Vector<RectangularPart>) result
+				.getParts()).clone();
+		for (final RectangularPart part1 : resultClone) {
+			for (final RectangularPart part2 : resultClone) {
+				if (part1 == part2)
+					continue;
+
+				if (part1.contains(part2))
+					// Remove the bigger rectangle
+					result.getParts().remove(part1);
 			}
 		}
 		return result;

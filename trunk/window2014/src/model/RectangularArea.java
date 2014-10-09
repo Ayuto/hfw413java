@@ -90,9 +90,12 @@ abstract public class RectangularArea extends Observee {
 
 		final int rightWidth = this.getRightUpperCorner().getX()
 				- upperPoint.getX();
-		final int leftWidth = upperPoint.getX() - this.getLeftUpperCorner().getX();
-		final int upperHeigth = middlePoint.getY() - this.getLeftUpperCorner().getY();
-		final int lowerHeight = this.getLeftLowerCorner().getY() - middlePoint.getY();
+		final int leftWidth = upperPoint.getX()
+				- this.getLeftUpperCorner().getX();
+		final int upperHeigth = middlePoint.getY()
+				- this.getLeftUpperCorner().getY();
+		final int lowerHeight = this.getLeftLowerCorner().getY()
+				- middlePoint.getY();
 
 		final RectangularPartCollection myCollection = new RectangularPartCollection();
 
@@ -172,6 +175,19 @@ abstract public class RectangularArea extends Observee {
 					&& objAsRect.getHeight() == this.getHeight();
 		}
 		return false;
+	}
+
+	public boolean contains(RectangularArea area) {
+		int areaX = area.getLeftUpperCorner().getX();
+		int thisX = this.getLeftUpperCorner().getX();
+
+		int areaY = area.getLeftUpperCorner().getY();
+		int thisY = this.getLeftUpperCorner().getY();
+
+		return areaX >= thisX
+				&& areaX + area.getWidth() <= thisX + this.getWidth()
+				&& areaY >= thisY
+				&& areaY + area.getHeight() <= thisY + this.getHeight();
 	}
 
 	abstract boolean isInTransitively(RectangularPart part);
