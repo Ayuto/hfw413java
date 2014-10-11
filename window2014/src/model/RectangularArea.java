@@ -81,7 +81,12 @@ abstract public class RectangularArea extends Observee {
 		return this.isInTransitively(part);
 	}
 
-
+	/*
+	 * Returns the area that is overlapped by <area>.
+	 * 
+	 * If there is no overlapping, a Rectangle object with a width and a height
+	 * of 0 will be returned.
+	 */
 	public Rectangle getOverlappedArea(RectangularArea area) {
 		Point p1 = this.getLeftUpperCorner();
 		Point p2 = area.getLeftUpperCorner();
@@ -110,14 +115,23 @@ abstract public class RectangularArea extends Observee {
 		}
 	}
 
+	/*
+	 * Returns true if the height and width is 0.
+	 */
 	public boolean isEmpty() {
 		return this.getHeight() == 0 && this.getWidth() == 0;
 	}
 
+	/*
+	 * Returns True if <this> and <area> do not overlap.
+	 */
 	public boolean doesNotOverlap(RectangularArea area) {
 		return this.getOverlappedArea(area).isEmpty();
 	}
 
+	/*
+	 * Returns the edges of this area.
+	 */
 	public Point[] getEdges() {
 		Point[] result = { this.getLeftUpperCorner(),
 				this.getRightUpperCorner(), this.getRightLowerCorner(),
@@ -136,7 +150,10 @@ abstract public class RectangularArea extends Observee {
 		}
 		return false;
 	}
-	
+
+	/*
+	 * Splits the area into smaller areas. Overlapped areas are excluded.
+	 */
 	public RectangularPartCollection split(RectangularArea overlappedArea) {
 		Point p1 = this.getLeftUpperCorner();
 		Point p5 = overlappedArea.getLeftUpperCorner();
@@ -148,19 +165,27 @@ abstract public class RectangularArea extends Observee {
 		Point p7 = new Point(p1.getX(), p8.getY());
 		Point p9 = overlappedArea.getRightLowerCorner();
 		Point p10 = this.getRightUpperCorner();
-		Point p11 =  new Point(p10.getX(), p4.getY());
+		Point p11 = new Point(p10.getX(), p4.getY());
 		Point p13 = this.getLeftLowerCorner();
 		Point p12 = new Point(p10.getX(), p7.getY());
-		
+
 		RectangularPartCollection result = new RectangularPartCollection();
-		result.createAndAddPart(p1, p2.getX()-p1.getX(), p4.getY()-p1.getY());
-		result.createAndAddPart(p2, p3.getX()-p2.getX(), p5.getY()-p2.getY());
-		result.createAndAddPart(p3, p10.getX()-p3.getX(), p6.getY()-p3.getY());
-		result.createAndAddPart(p4, p5.getX()-p4.getX(), p7.getY()-p4.getY());
-		result.createAndAddPart(p6, p11.getX()-p6.getX(), p9.getY()-p6.getY());
-		result.createAndAddPart(p7, p8.getX()-p7.getX(), p13.getY()-p7.getY());
-		result.createAndAddPart(p8, p9.getX()-p8.getX(), p13.getY()-p8.getY());
-		result.createAndAddPart(p9, p12.getX()-p9.getX(), p13.getY()-p9.getY());
+		result.createAndAddPart(p1, p2.getX() - p1.getX(),
+				p4.getY() - p1.getY());
+		result.createAndAddPart(p2, p3.getX() - p2.getX(),
+				p5.getY() - p2.getY());
+		result.createAndAddPart(p3, p10.getX() - p3.getX(),
+				p6.getY() - p3.getY());
+		result.createAndAddPart(p4, p5.getX() - p4.getX(),
+				p7.getY() - p4.getY());
+		result.createAndAddPart(p6, p11.getX() - p6.getX(),
+				p9.getY() - p6.getY());
+		result.createAndAddPart(p7, p8.getX() - p7.getX(),
+				p13.getY() - p7.getY());
+		result.createAndAddPart(p8, p9.getX() - p8.getX(),
+				p13.getY() - p8.getY());
+		result.createAndAddPart(p9, p12.getX() - p9.getX(),
+				p13.getY() - p9.getY());
 		return result;
 	}
 

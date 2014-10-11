@@ -52,6 +52,9 @@ public class Window extends RectangularArea implements Observer {
 		System.out.println("Resize: " + this);
 	}
 
+	/*
+	 * Returns the visible context of this window.
+	 */
 	public RectangularPartCollection getVisibleContext()
 			throws NegativeLengthException {
 		return this.getState().getVisibleContext();
@@ -130,6 +133,9 @@ public class Window extends RectangularArea implements Observer {
 		this.state = state;
 	}
 
+	/*
+	 * Calculates the visible context of this Window.
+	 */
 	public RectangularPartCollection calculateVisibleContext() {
 		RectangularPartCollection result = new RectangularPartCollection();
 
