@@ -1,7 +1,5 @@
 package model;
 
-import com.sun.imageio.spi.RAFImageInputStreamSpi;
-
 abstract public class RectangularArea extends Observee {
 
 	private Point leftUpperCorner;

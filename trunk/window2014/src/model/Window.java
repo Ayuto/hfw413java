@@ -150,15 +150,15 @@ public class Window extends RectangularArea implements Observer {
 				RectangularPartCollection tmpResult = new RectangularPartCollection();
 
 				for (final RectangularPart part : result.getParts()) {
-
-					Rectangle overlappedArea = this.getOverlappedArea(window);
+					Rectangle overlappedArea = part.getOverlappedArea(window);
+					
 					if (overlappedArea.isEmpty()) {
-						continue;
+						tmpResult.add(part);
+					} else {
+						tmpResult.add(part.split(overlappedArea));
 					}
-
-					tmpResult.add(this.split(overlappedArea));
 				}
-				
+
 				result = tmpResult;
 			}
 		}
