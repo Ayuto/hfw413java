@@ -20,27 +20,15 @@ public class RectangularPartCollection {
 	}
 
 	public void add(RectangularPartCollection partCollection) {
-		/*
-		if (this.getParts().isEmpty()) {
-			this.getParts().addAll(partCollection.getParts());
-			return;
-		}
-		
-		for (final RectangularPart currentPart : partCollection.getParts()) {
-			for (final RectangularPart current : this.getParts()) {
-				if (current.doesNotOverlap(currentPart))
-					this.add(currentPart);
-			}
-		}*/
 		this.getParts().addAll(partCollection.getParts());
-	}
-
-	public Vector<RectangularPart> toVector() {
-		return (Vector<RectangularPart>) this.parts;
 	}
 
 	public void add(RectangularPart part) {
 		this.getParts().add(part);
+	}
+
+	public Vector<RectangularPart> toVector() {
+		return (Vector<RectangularPart>) this.parts;
 	}
 
 	public boolean equals(Object o) {

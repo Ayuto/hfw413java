@@ -155,9 +155,8 @@ public class WindowTest {
 		result2.add(new RectangularPart(new Point(50, 0), 50, 50));
 		result2.add(new RectangularPart(new Point(100, 0), 100, 50));
 		result2.add(new RectangularPart(new Point(50, 50), 50, 25));
-		
+
 		assertEquals(result2, w3.calculateVisibleContext());
-		System.out.println("abc" + w3.calculateVisibleContext());
 	}
 	
 	@Test
