@@ -81,6 +81,7 @@ abstract public class RectangularArea extends Observee {
 		return this.isInTransitively(part);
 	}
 
+
 	public Rectangle getOverlappedArea(RectangularArea area) {
 		Point p1 = this.getLeftUpperCorner();
 		Point p2 = area.getLeftUpperCorner();
