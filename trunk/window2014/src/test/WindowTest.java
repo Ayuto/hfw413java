@@ -24,19 +24,13 @@ public class WindowTest {
 	Window w2;
 	Window w3;
 	Window w4;
-	RectangularPart w1AsPart;
-	RectangularPart w2AsPart;
-	RectangularPart w3AsPart;
-	RectangularPart w4AsPart;
-	RectangularPartCollection partsW1;
-	RectangularPartCollection partsW2;
-	RectangularPartCollection partsW3;
-	RectangularPartCollection partsW4;
+	Window w5;
 
 	@Before
 	public void before() {
 		WindowManager.getTheWindowManager().getWindowStack().clear();
 		windows.clear();
+		WindowManager.getTheWindowManager().newWindow();
 		WindowManager.getTheWindowManager().newWindow();
 		WindowManager.getTheWindowManager().newWindow();
 		WindowManager.getTheWindowManager().newWindow();
@@ -47,19 +41,19 @@ public class WindowTest {
 	@Test
 	public void testDoesNotOverlap() {
 		w1 = windows.get(0);
-		w1AsPart = new RectangularPart(w1.getLeftUpperCorner(), w1.getWidth(),
+		RectangularPart w1AsPart = new RectangularPart(w1.getLeftUpperCorner(), w1.getWidth(),
 				w1.getHeight());
 		w2 = windows.get(1);
 		w2.move(100, 50);
-		w2AsPart = new RectangularPart(w2.getLeftUpperCorner(), w2.getWidth(),
+		RectangularPart w2AsPart = new RectangularPart(w2.getLeftUpperCorner(), w2.getWidth(),
 				w2.getHeight());
 		w3 = windows.get(2);
 		w3.move(250, 250);
-		w3AsPart = new RectangularPart(w3.getLeftUpperCorner(), w3.getWidth(),
+		RectangularPart w3AsPart = new RectangularPart(w3.getLeftUpperCorner(), w3.getWidth(),
 				w3.getHeight());
 		w4 = windows.get(3);
 		w4.move(50, 150);
-		w4AsPart = new RectangularPart(w4.getLeftUpperCorner(), w4.getWidth(),
+		RectangularPart w4AsPart = new RectangularPart(w4.getLeftUpperCorner(), w4.getWidth(),
 				w4.getHeight());
 
 		assertFalse(w1AsPart.doesNotOverlap(w1AsPart));
@@ -121,17 +115,22 @@ public class WindowTest {
 		w1 = windows.get(0);
 		w1.move(50, 50);
 		w2 = windows.get(1);
-		
-		RectangularPartCollection result = new RectangularPartCollection();
-		result.add(new RectangularPart(new Point(0, 0), 50, 50));
-		result.add(new RectangularPart(new Point(50, 0), 150, 50));
-		result.add(new RectangularPart(new Point(0, 50), 50, 50));
-		assertEquals(result, w2.calculateVisibleContext());
-		
-		//
 		w3 = windows.get(2);
 		w3.move(100, 0);
-		System.out.println("-->"+w3.calculateVisibleContext());
+		
+		// w1 verdeckt die rechte untere Ecke von w2
+		RectangularPartCollection result1 = new RectangularPartCollection();
+		result1.add(new RectangularPart(new Point(0, 0), 50, 50));
+		result1.add(new RectangularPart(new Point(50, 0), 150, 50));
+		result1.add(new RectangularPart(new Point(0, 50), 50, 50));
+		assertEquals(result1, w2.calculateVisibleContext());
+		
+		// die linke untere Ecke und die gesamte linke Seite von w3 werden verdeckt
+		RectangularPartCollection result2 = new RectangularPartCollection();
+		result2.add(new RectangularPart(new Point(200, 0), 50, 50));
+		result2.add(new RectangularPart(new Point(250, 0), 50, 50));
+		result2.add(new RectangularPart(new Point(250, 50), 50, 50));
+		assertEquals(result2, w3.calculateVisibleContext());
 	}
 	
 	@Test
@@ -155,7 +154,6 @@ public class WindowTest {
 		result2.add(new RectangularPart(new Point(50, 0), 50, 50));
 		result2.add(new RectangularPart(new Point(100, 0), 100, 50));
 		result2.add(new RectangularPart(new Point(50, 50), 50, 25));
-
 		assertEquals(result2, w3.calculateVisibleContext());
 	}
 	
@@ -166,6 +164,7 @@ public class WindowTest {
 		w2 = windows.get(1);
 		w2.resize(300, 300);
 		
+		// w1 ligt in w2
 		RectangularPartCollection result = new RectangularPartCollection();
 		result.add(new RectangularPart(new Point(0, 0), 50, 50));
 		result.add(new RectangularPart(new Point(50, 0), 200, 50));
@@ -176,5 +175,53 @@ public class WindowTest {
 		result.add(new RectangularPart(new Point(50, 150), 200, 150));
 		result.add(new RectangularPart(new Point(250, 150), 50, 150));
 		assertEquals(result, w2.calculateVisibleContext());
+	}
+	
+	@Test
+	public void testCalculateVisibleContext5() throws NegativeLengthException {
+		w1 = windows.get(3);
+		w1.move(50, 50);
+		w1.resize(100, 250);
+		w2 = windows.get(2);
+		w3 = windows.get(1);
+		w3.move(100, 100);
+		w3.resize(100, 250);
+		w4 = windows.get(0);
+		w4.move(0, 150);
+		
+		//w3 wird von w4 in der Mitte überdeckt
+		RectangularPartCollection result1 = new RectangularPartCollection();
+		result1.add(new RectangularPart(new Point(100, 100), 100, 50));
+		result1.add(new RectangularPart(new Point(100, 250), 100, 100));
+		assertEquals(result1, w3.calculateVisibleContext());
+		
+		//w1 wird von allen anderen oben, rechts und in der Mitte überdeckt
+		RectangularPartCollection result2 = new RectangularPartCollection();
+		result2.add(new RectangularPart(new Point(50, 100), 50, 50));
+		result2.add(new RectangularPart(new Point(50, 250), 50, 50));
+		assertEquals(result2, w1.calculateVisibleContext());
+	}
+	
+	@Test
+	public void testCalculateVisibleContext6() throws NegativeLengthException {
+		w1 = windows.get(0);
+		w2 = windows.get(1);
+		w2.move(300, 0);
+		w3 = windows.get(2);
+		w3.move(0, 300);
+		w4 = windows.get(3);
+		w4.move(300, 300);
+		w5 = windows.get(4);
+		w5.move(100, 50);
+		w5.resize(300, 300);
+		
+		// w5 wird an jeder Ecke verdeckt
+		RectangularPartCollection result = new RectangularPartCollection();
+		result.add(new RectangularPart(new Point(200, 50), 100, 50));
+		result.add(new RectangularPart(new Point(100, 100), 100, 200));
+		result.add(new RectangularPart(new Point(200, 100), 100, 200));
+		result.add(new RectangularPart(new Point(300, 100), 100, 200));
+		result.add(new RectangularPart(new Point(200, 300), 100, 50));
+		assertEquals(result, w5.calculateVisibleContext());
 	}
 }
