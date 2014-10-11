@@ -43,9 +43,12 @@ public class RectangularPartCollection {
 	public String toString() {
 		return this.parts.toString();
 	}
-	
+
+	/*
+	 * Creates and adds a new RectangularPart object if <w> and <h> are not 0.
+	 */
 	public void createAndAddPart(Point p, int w, int h) {
-		if(w != 0 && h != 0) {
+		if (w != 0 && h != 0) {
 			this.getParts().add(new RectangularPart(p, w, h));
 		}
 	}
