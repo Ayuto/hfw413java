@@ -81,47 +81,6 @@ abstract public class RectangularArea extends Observee {
 		return this.isInTransitively(part);
 	}
 
-	public RectangularPartCollection splitAt(final Point point) {
-		final int x = point.getX();
-		final int y = point.getY();
-
-		final Point middlePoint = new Point(this.getLeftUpperCorner().getX(), y);
-		final Point upperPoint = new Point(x, this.getLeftUpperCorner().getY());
-
-		final int rightWidth = this.getRightUpperCorner().getX()
-				- upperPoint.getX();
-		final int leftWidth = upperPoint.getX()
-				- this.getLeftUpperCorner().getX();
-		final int upperHeigth = middlePoint.getY()
-				- this.getLeftUpperCorner().getY();
-		final int lowerHeight = this.getLeftLowerCorner().getY()
-				- middlePoint.getY();
-
-		final RectangularPartCollection myCollection = new RectangularPartCollection();
-
-		if (leftWidth > 0 && upperHeigth > 0) {
-			myCollection.add(new RectangularPart(this.getLeftUpperCorner(),
-					leftWidth, upperHeigth));
-		}
-
-		if (rightWidth > 0 && upperHeigth > 0) {
-			myCollection.add(new RectangularPart(upperPoint, rightWidth,
-					upperHeigth));
-		}
-
-		if (leftWidth > 0 && lowerHeight > 0) {
-			myCollection.add(new RectangularPart(middlePoint, leftWidth,
-					lowerHeight));
-		}
-
-		if (rightWidth > 0 && lowerHeight > 0) {
-			myCollection
-					.add(new RectangularPart(point, rightWidth, lowerHeight));
-		}
-
-		return myCollection;
-	}
-
 	public Rectangle getOverlappedArea(RectangularArea area) {
 		Point p1 = this.getLeftUpperCorner();
 		Point p2 = area.getLeftUpperCorner();
@@ -176,19 +135,6 @@ abstract public class RectangularArea extends Observee {
 		}
 		return false;
 	}
-
-	public boolean contains(RectangularArea area) {
-		int areaX = area.getLeftUpperCorner().getX();
-		int thisX = this.getLeftUpperCorner().getX();
-
-		int areaY = area.getLeftUpperCorner().getY();
-		int thisY = this.getLeftUpperCorner().getY();
-
-		return areaX >= thisX
-				&& areaX + area.getWidth() <= thisX + this.getWidth()
-				&& areaY >= thisY
-				&& areaY + area.getHeight() <= thisY + this.getHeight();
-	}
 	
 	public RectangularPartCollection split(RectangularArea overlappedArea) {
 		Point p1 = this.getLeftUpperCorner();
@@ -216,27 +162,6 @@ abstract public class RectangularArea extends Observee {
 		result.createAndAddPart(p9, p12.getX()-p9.getX(), p13.getY()-p9.getY());
 		return result;
 	}
-	
-	
-//	public RectangularPartCollection split(RectangularArea overlappedArea) {
-//		RectangularPartCollection parts = new RectangularPartCollection();
-//		if (this.getLeftUpperCorner().getX() != overlappedArea.getLeftUpperCorner().getX()) {
-//			int width = overlappedArea.getLeftUpperCorner().getX()- this.getLeftUpperCorner().getX();
-//			int height = this.getHeight();
-//			parts.add(new RectangularPart(this.getLeftUpperCorner(), width, height));
-//		}
-//		if (overlappedArea.getRightUpperCorner().getX() != this.getRightUpperCorner().getX()) {
-//			int width = this.getRightUpperCorner().getX() - overlappedArea.getRightUpperCorner().getX();
-//			int height = this.getHeight();
-//			parts.add(new RectangularPart(new Point(overlappedArea.getRightUpperCorner().getX(), this.getRightUpperCorner().getY()), width, height));
-//		}
-//		
-//		if (this.getLeftUpperCorner().getY() != overlappedArea.getLeftUpperCorner().getY()) {
-//			int width = this.getLeftUpperCorner().getY() - overlappedArea.getLeftUpperCorner().getY();
-//			int height = this.getHeight();
-//			parts.add(new RectangularPart(new Point(overlappedArea.getRightUpperCorner().getX(), this.getRightUpperCorner().getY()), width, height));
-//		}
-//	}
 
 	abstract boolean isInTransitively(RectangularPart part);
 }
