@@ -57,9 +57,9 @@ public class RectangularPartCollection {
 	 * @param w given width of a rectangle.
 	 * @param h given height of a rectangle.
 	 */
-	public void createAndAddPart(Point p, int w, int h) {
+	public void createAndAddPart(Point p, int w, int h, Window parent) {
 		if (w != 0 && h != 0) {
-			this.getParts().add(new RectangularPart(p, w, h));
+			this.getParts().add(new RectangularPart(p, w, h, parent));
 		}
 	}
 }
