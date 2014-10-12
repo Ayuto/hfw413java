@@ -8,6 +8,12 @@ public class RectangularPart extends RectangularArea {
 		super(position, width, height);
 	}
 
+	public RectangularPart(Point position, int width, int height,
+			RectangularArea parent) {
+		super(position, width, height);
+		this.parent = parent;
+	}
+
 	public String toString() {
 		return super.toString() + " { PARENT: " + (this.getParent() != null ? this.getParent().toString() : "null")
 				+ " }";
