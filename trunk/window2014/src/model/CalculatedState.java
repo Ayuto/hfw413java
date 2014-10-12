@@ -1,5 +1,7 @@
 package model;
-
+/**
+ * State for a window with cached visible parts. This is saved in <visibleContext>.
+ */
 /*
  * This class is used if the visible context was already calculated.
  */

@@ -31,6 +31,10 @@ public class RectangularPartCollection {
 		return (Vector<RectangularPart>) this.parts;
 	}
 
+	/**
+	 * @param o Object to compare with this collection
+	 * @return true, if this collection equals <o> by comparing each part of the collection. Returns false else.
+	 */
 	public boolean equals(Object o) {
 		if (o instanceof RectangularPartCollection) {
 			RectangularPartCollection partsCollection = (RectangularPartCollection) o;
@@ -46,6 +50,12 @@ public class RectangularPartCollection {
 
 	/*
 	 * Creates and adds a new RectangularPart object if <w> and <h> are not 0.
+	 */
+	/**
+	 * Checks if the given parameters are a valid rectangle. If true, it is added to this collection.
+	 * @param p given point of a rectangle.
+	 * @param w given width of a rectangle.
+	 * @param h given height of a rectangle.
 	 */
 	public void createAndAddPart(Point p, int w, int h) {
 		if (w != 0 && h != 0) {

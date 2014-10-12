@@ -28,6 +28,11 @@ public class Point {
 	public String toString(){
 		return "[X: " + this.getX() + ", Y: " + this.getY() + "]";
 	}
+	
+	/**
+	 * @param point to compare with this point.
+	 * @return true, if this point equals <point>. Returns false else.
+	 */
 	public boolean equals(Point point) {
 		return this.getX()==point.getX()&&this.getY()==point.getY();
 	}
