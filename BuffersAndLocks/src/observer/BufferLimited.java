@@ -1,5 +1,6 @@
 package observer;
 
+import lock.AbstractLock;
 import lock.Lock;
 
 public class BufferLimited<X> implements AbstractBuffer<X> {
@@ -8,9 +9,9 @@ public class BufferLimited<X> implements AbstractBuffer<X> {
 	private final X[] data;
 	private int first;
 	private int behindLast;
-	private final Lock lockRead;
-	private final Lock lockWrite;
-	private final Lock mutex;
+	private final AbstractLock lockRead;
+	private final AbstractLock lockWrite;
+	private final AbstractLock mutex;
 
 	@SuppressWarnings("unchecked")
 	public BufferLimited(int capacity){
