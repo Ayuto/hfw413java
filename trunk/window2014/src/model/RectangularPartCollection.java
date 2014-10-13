@@ -31,10 +31,6 @@ public class RectangularPartCollection {
 		return (Vector<RectangularPart>) this.parts;
 	}
 
-	/**
-	 * @param o Object to compare with this collection
-	 * @return true, if this collection equals <o> by comparing each part of the collection. Returns false else.
-	 */
 	@Override
 	public boolean equals(final Object o) {
 		if (o instanceof RectangularPartCollection) {
@@ -54,8 +50,9 @@ public class RectangularPartCollection {
 	 * @param p given point of a rectangle.
 	 * @param w given width of a rectangle.
 	 * @param h given height of a rectangle.
+	 * @throws HierarchyException 
 	 */
-	public void createAndAddPart(final Point p, final int w, final int h, final Window parent) {
+	public void createAndAddPart(final Point p, final int w, final int h, final Window parent) throws HierarchyException {
 		if (w != 0 && h != 0) {
 			this.getParts().add(new RectangularPart(p, w, h, parent));
 		}

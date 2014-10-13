@@ -9,14 +9,16 @@ public class RectangularPart extends RectangularArea {
 	}
 
 	public RectangularPart(Point position, int width, int height,
-			RectangularArea parent) {
+			RectangularArea parent) throws HierarchyException {
 		super(position, width, height);
-		this.parent = parent;
+		this.setParent(parent);
 	}
 
 	public String toString() {
-		return super.toString() + " { PARENT: " + (this.getParent() != null ? this.getParent().toString() : "null")
-				+ " }";
+		return super.toString()
+				+ " { PARENT: "
+				+ (this.getParent() != null ? this.getParent().toString()
+						: "null") + " }";
 	}
 
 	private RectangularArea getParent() {
@@ -24,17 +26,11 @@ public class RectangularPart extends RectangularArea {
 	}
 
 	public void setParent(RectangularArea parent) throws HierarchyException {
-		Point pointPart = this.getLeftUpperCorner();
-		Point pointParent = parent.getLeftUpperCorner();
-		if (!(pointParent.getX() <= pointPart.getX()
-				&& pointParent.getX() + parent.getWidth() >= pointPart.getX()
-						+ this.getWidth()
-				&& pointParent.getY() >= pointPart.getY() && pointParent.getY()
-				+ parent.getHeight() <= pointPart.getY() + this.getHeight())) {
-			throw new Error();
+		if (!parent.contains(this)) {
+			throw new Error("<parent> does not contain <this>.");
+		} else if (parent.isIn(this)) {
+			throw new HierarchyException();
 		} else {
-			if (parent.isIn(this))
-				throw new HierarchyException();
 			this.parent = parent;
 		}
 	}
