@@ -32,7 +32,7 @@ public class BufferLimited<X> implements AbstractBuffer<X> {
 	}
 	
 	private boolean isFull(){
-		return this.behindLast + 1 % this.capacity == this.first;
+		return (this.behindLast + 1) % this.capacity == this.first;
 	}
 	
 	@Override

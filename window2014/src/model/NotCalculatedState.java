@@ -1,11 +1,11 @@
 package model;
 
-/*
+/**
  * This class is used if the visible context was not calculated yet.
  */
 public class NotCalculatedState extends VisibleSizeState {
 
-	/*
+	/**
 	 * Creates a new object of this class.
 	 * 
 	 * @param <owner>:

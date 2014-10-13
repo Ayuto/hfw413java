@@ -8,14 +8,14 @@ public abstract class VisibleSizeState {
 		this.owner = owner;
 	}
 	
-	/*
+	/**
 	 * Overrides the current state of the owner with a new NotCalculatedState object.
 	 */
 	public void visibleSizePossiblyChanged() {
 		this.getOwner().setState(NotCalculatedState.create(this.getOwner()));
 	}
 	
-	/*
+	/**
 	 * Returns the visible context of a Window.
 	 */
 	public abstract RectangularPartCollection getVisibleContext() throws NegativeLengthException;

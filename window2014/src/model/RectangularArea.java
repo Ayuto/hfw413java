@@ -81,28 +81,28 @@ abstract public class RectangularArea extends Observee {
 		return this.isInTransitively(part);
 	}
 
-	/*
+	/**
 	 * Returns the area that is overlapped by <area>.
 	 * 
 	 * If there is no overlapping, a Rectangle object with a width and a height
 	 * of 0 will be returned.
 	 */
-	public Rectangle getOverlappedArea(RectangularArea area) {
-		Point p1 = this.getLeftUpperCorner();
-		Point p2 = area.getLeftUpperCorner();
+	public Rectangle getOverlappedArea(final RectangularArea area) {
+		final Point p1 = this.getLeftUpperCorner();
+		final Point p2 = area.getLeftUpperCorner();
 
-		int xStart = Math.max(p1.getX(), p2.getX());
-		int xEnd = Math.min(p1.getX() + this.getWidth(),
+		final int xStart = Math.max(p1.getX(), p2.getX());
+		final int xEnd = Math.min(p1.getX() + this.getWidth(),
 				p2.getX() + area.getWidth());
 
-		int yStart = Math.max(p1.getY(), p2.getY());
-		int yEnd = Math.min(p1.getY() + this.getHeight(),
+		final int yStart = Math.max(p1.getY(), p2.getY());
+		final int yEnd = Math.min(p1.getY() + this.getHeight(),
 				p2.getY() + area.getHeight());
 
 		if (xStart >= xEnd || yStart >= yEnd) {
 			try {
 				return new Rectangle(new Point(0, 0), 0, 0);
-			} catch (NegativeLengthException e) {
+			} catch (final NegativeLengthException e) {
 				throw new Error("Can't happen!!!");
 			}
 		}
@@ -110,39 +110,39 @@ abstract public class RectangularArea extends Observee {
 		try {
 			return new Rectangle(new Point(xStart, yStart), xEnd - xStart, yEnd
 					- yStart);
-		} catch (NegativeLengthException e) {
+		} catch (final NegativeLengthException e) {
 			throw new Error("Can't happen!!!");
 		}
 	}
 
-	/*
+	/**
 	 * Returns true if the height and width is 0.
 	 */
 	public boolean isEmpty() {
 		return this.getHeight() == 0 && this.getWidth() == 0;
 	}
 
-	/*
+	/**
 	 * Returns True if <this> and <area> do not overlap.
 	 */
-	public boolean doesNotOverlap(RectangularArea area) {
+	public boolean doesNotOverlap(final RectangularArea area) {
 		return this.getOverlappedArea(area).isEmpty();
 	}
 
-	/*
+	/**
 	 * Returns the edges of this area.
 	 */
 	public Point[] getEdges() {
-		Point[] result = { this.getLeftUpperCorner(),
+		final Point[] result = { this.getLeftUpperCorner(),
 				this.getRightUpperCorner(), this.getRightLowerCorner(),
 				this.getLeftLowerCorner() };
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (obj instanceof RectangularArea) {
-			RectangularArea objAsRect = (RectangularArea) obj;
+			final RectangularArea objAsRect = (RectangularArea) obj;
 			return objAsRect.getLeftUpperCorner().equals(
 					this.getLeftUpperCorner())
 					&& objAsRect.getWidth() == this.getWidth()
@@ -154,22 +154,22 @@ abstract public class RectangularArea extends Observee {
 	/*
 	 * Splits the area into smaller areas. Overlapped areas are excluded.
 	 */
-	public RectangularPartCollection split(RectangularArea overlappedArea) {
-		Point p1 = this.getLeftUpperCorner();
-		Point p5 = overlappedArea.getLeftUpperCorner();
-		Point p6 = overlappedArea.getRightUpperCorner();
-		Point p3 = new Point(p6.getX(), p1.getY());
-		Point p4 = new Point(p1.getX(), p5.getY());
-		Point p2 = new Point(p5.getX(), p1.getY());
-		Point p8 = overlappedArea.getLeftLowerCorner();
-		Point p7 = new Point(p1.getX(), p8.getY());
-		Point p9 = overlappedArea.getRightLowerCorner();
-		Point p10 = this.getRightUpperCorner();
-		Point p11 = new Point(p10.getX(), p4.getY());
-		Point p13 = this.getLeftLowerCorner();
-		Point p12 = new Point(p10.getX(), p7.getY());
+	public RectangularPartCollection split(final RectangularArea overlappedArea) {
+		final Point p1 = this.getLeftUpperCorner();
+		final Point p5 = overlappedArea.getLeftUpperCorner();
+		final Point p6 = overlappedArea.getRightUpperCorner();
+		final Point p3 = new Point(p6.getX(), p1.getY());
+		final Point p4 = new Point(p1.getX(), p5.getY());
+		final Point p2 = new Point(p5.getX(), p1.getY());
+		final Point p8 = overlappedArea.getLeftLowerCorner();
+		final Point p7 = new Point(p1.getX(), p8.getY());
+		final Point p9 = overlappedArea.getRightLowerCorner();
+		final Point p10 = this.getRightUpperCorner();
+		final Point p11 = new Point(p10.getX(), p4.getY());
+		final Point p13 = this.getLeftLowerCorner();
+		final Point p12 = new Point(p10.getX(), p7.getY());
 
-		RectangularPartCollection result = new RectangularPartCollection();
+		final RectangularPartCollection result = new RectangularPartCollection();
 		result.createAndAddPart(p1, p2.getX() - p1.getX(),
 				p4.getY() - p1.getY());
 		result.createAndAddPart(p2, p3.getX() - p2.getX(),

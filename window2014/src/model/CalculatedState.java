@@ -1,13 +1,11 @@
 package model;
+
 /**
- * State for a window with cached visible parts. This is saved in <visibleContext>.
- */
-/*
  * This class is used if the visible context was already calculated.
  */
 public class CalculatedState extends VisibleSizeState {
 	
-	/*
+	/**
 	 * Creates a new object of this class.
 	 * 
 	 * @param <owner>:
