@@ -161,7 +161,11 @@ public class Window extends RectangularArea implements Observer {
 					if (overlappedArea.isEmpty()) {
 						tmpResult.add(part);
 					} else {
-						tmpResult.add(part.split(overlappedArea));
+						try {
+							tmpResult.add(part.split(overlappedArea, this));
+						} catch (HierarchyException e) {
+							throw new Error("Should not happen!");
+						}
 					}
 				}
 

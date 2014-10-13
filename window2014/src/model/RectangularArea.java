@@ -96,8 +96,8 @@ abstract public class RectangularArea extends Observee {
 				p2.getX() + area.getWidth());
 
 		final int yStart = Math.max(p1.getY(), p2.getY());
-		final int yEnd = Math.min(p1.getY() + this.getHeight(),
-				p2.getY() + area.getHeight());
+		final int yEnd = Math.min(p1.getY() + this.getHeight(), p2.getY()
+				+ area.getHeight());
 
 		if (xStart >= xEnd || yStart >= yEnd) {
 			try {
@@ -151,10 +151,14 @@ abstract public class RectangularArea extends Observee {
 		return false;
 	}
 
-	/*
+	/**
 	 * Splits the area into smaller areas. Overlapped areas are excluded.
+	 * 
+	 * @throws HierarchyException
 	 */
-	public RectangularPartCollection split(final RectangularArea overlappedArea) {
+	public RectangularPartCollection split(
+			final RectangularArea overlappedArea, final Window parent)
+			throws HierarchyException {
 		final Point p1 = this.getLeftUpperCorner();
 		final Point p5 = overlappedArea.getLeftUpperCorner();
 		final Point p6 = overlappedArea.getRightUpperCorner();
@@ -171,23 +175,36 @@ abstract public class RectangularArea extends Observee {
 
 		final RectangularPartCollection result = new RectangularPartCollection();
 		result.createAndAddPart(p1, p2.getX() - p1.getX(),
-				p4.getY() - p1.getY());
+				p4.getY() - p1.getY(), parent);
 		result.createAndAddPart(p2, p3.getX() - p2.getX(),
-				p5.getY() - p2.getY());
+				p5.getY() - p2.getY(), parent);
 		result.createAndAddPart(p3, p10.getX() - p3.getX(),
-				p6.getY() - p3.getY());
+				p6.getY() - p3.getY(), parent);
 		result.createAndAddPart(p4, p5.getX() - p4.getX(),
-				p7.getY() - p4.getY());
+				p7.getY() - p4.getY(), parent);
 		result.createAndAddPart(p6, p11.getX() - p6.getX(),
-				p9.getY() - p6.getY());
+				p9.getY() - p6.getY(), parent);
 		result.createAndAddPart(p7, p8.getX() - p7.getX(),
-				p13.getY() - p7.getY());
+				p13.getY() - p7.getY(), parent);
 		result.createAndAddPart(p8, p9.getX() - p8.getX(),
-				p13.getY() - p8.getY());
+				p13.getY() - p8.getY(), parent);
 		result.createAndAddPart(p9, p12.getX() - p9.getX(),
-				p13.getY() - p9.getY());
+				p13.getY() - p9.getY(), parent);
 		return result;
 	}
 
 	abstract boolean isInTransitively(RectangularPart part);
+
+	public boolean contains(RectangularArea area) {
+		int areaX = area.getLeftUpperCorner().getX();
+		int thisX = this.getLeftUpperCorner().getX();
+
+		int areaY = area.getLeftUpperCorner().getY();
+		int thisY = this.getLeftUpperCorner().getY();
+
+		return areaX >= thisX
+				&& areaX + area.getWidth() <= thisX + this.getWidth()
+				&& areaY >= thisY
+				&& areaY + area.getHeight() <= thisY + this.getHeight();
+	}
 }
