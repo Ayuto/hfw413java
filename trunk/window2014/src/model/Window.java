@@ -52,7 +52,7 @@ public class Window extends RectangularArea implements Observer {
 		System.out.println("Resize: " + this);
 	}
 
-	/*
+	/**
 	 * Returns the visible context of this window.
 	 */
 	public RectangularPartCollection getVisibleContext()
@@ -71,7 +71,7 @@ public class Window extends RectangularArea implements Observer {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		return this == obj;
 	}
 
@@ -133,30 +133,30 @@ public class Window extends RectangularArea implements Observer {
 		this.state = state;
 	}
 
-	/*
+	/**
 	 * Calculates the visible context of this Window.
 	 */
 	public RectangularPartCollection calculateVisibleContext() {
 		RectangularPartCollection result = new RectangularPartCollection();
 
 		if (this.isOpen()) {
-			RectangularPart meAsPart = new RectangularPart(
+			final RectangularPart meAsPart = new RectangularPart(
 					this.getLeftUpperCorner(), this.getWidth(),
 					this.getHeight());
 
 			try {
 				meAsPart.setParent(this);
-			} catch (HierarchyException e) {
+			} catch (final HierarchyException e) {
 				throw new Error("Hierarchy shall be guaranteed!");
 			}
 
 			result.add(meAsPart);
 
 			for (final Window window : this.getAboveMe()) {
-				RectangularPartCollection tmpResult = new RectangularPartCollection();
+				final RectangularPartCollection tmpResult = new RectangularPartCollection();
 
 				for (final RectangularPart part : result.getParts()) {
-					Rectangle overlappedArea = part.getOverlappedArea(window);
+					final Rectangle overlappedArea = part.getOverlappedArea(window);
 					
 					if (overlappedArea.isEmpty()) {
 						tmpResult.add(part);

@@ -12,18 +12,18 @@ public class RectangularPartCollection {
 	}
 
 	public Collection<RectangularPart> getParts() {
-		return parts;
+		return this.parts;
 	}
 
-	public void setParts(Collection<RectangularPart> parts) {
+	public void setParts(final Collection<RectangularPart> parts) {
 		this.parts = parts;
 	}
 
-	public void add(RectangularPartCollection partCollection) {
+	public void add(final RectangularPartCollection partCollection) {
 		this.getParts().addAll(partCollection.getParts());
 	}
 
-	public void add(RectangularPart part) {
+	public void add(final RectangularPart part) {
 		this.getParts().add(part);
 	}
 
@@ -35,9 +35,10 @@ public class RectangularPartCollection {
 	 * @param o Object to compare with this collection
 	 * @return true, if this collection equals <o> by comparing each part of the collection. Returns false else.
 	 */
-	public boolean equals(Object o) {
+	@Override
+	public boolean equals(final Object o) {
 		if (o instanceof RectangularPartCollection) {
-			RectangularPartCollection partsCollection = (RectangularPartCollection) o;
+			final RectangularPartCollection partsCollection = (RectangularPartCollection) o;
 			return this.getParts().equals(partsCollection.getParts());
 		}
 		return false;
@@ -48,16 +49,13 @@ public class RectangularPartCollection {
 		return this.parts.toString();
 	}
 
-	/*
-	 * Creates and adds a new RectangularPart object if <w> and <h> are not 0.
-	 */
 	/**
-	 * Checks if the given parameters are a valid rectangle. If true, it is added to this collection.
+	 * Creates and adds a new RectangularPart object if <w> and <h> are not 0.
 	 * @param p given point of a rectangle.
 	 * @param w given width of a rectangle.
 	 * @param h given height of a rectangle.
 	 */
-	public void createAndAddPart(Point p, int w, int h, Window parent) {
+	public void createAndAddPart(final Point p, final int w, final int h, final Window parent) {
 		if (w != 0 && h != 0) {
 			this.getParts().add(new RectangularPart(p, w, h, parent));
 		}
