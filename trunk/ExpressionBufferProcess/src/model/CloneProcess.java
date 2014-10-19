@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Map;
+
 import visitor.Visitor;
 import visitor.VisitorImpl;
 import buffer.AbstractBuffer;
@@ -14,12 +16,14 @@ public class CloneProcess implements ExpressionProcess {
 	
 	public CloneProcess(final AbstractBuffer<BufferEntry> input,
 			final AbstractBuffer<BufferEntry> output1,
-			final AbstractBuffer<BufferEntry> output2) {
+			final AbstractBuffer<BufferEntry> output2,
+			final Map<String, OptionalIntegerValue> constantEnvironment,
+			final Map<String, Process> variableEnvironment) {
 		this.input = input;
 		this.output1 = output1;
 		this.output2 = output2;
 		this.running = false;
-		this.visitor = new VisitorImpl(this);
+		this.visitor = new VisitorImpl(this, constantEnvironment, variableEnvironment);
 	}
 
 	@Override

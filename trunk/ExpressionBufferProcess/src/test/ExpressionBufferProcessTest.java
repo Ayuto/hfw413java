@@ -1,5 +1,6 @@
 package test;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import model.DivisionProcess;
 import model.ExpressionProcess;
 import model.MultiplicationProcess;
 import model.OptionalIntegerValue;
+import model.Process;
 import model.SubtractionProcess;
 import model.Tupel;
 import model.TupelGeneratorProcess;
@@ -64,24 +66,24 @@ public class ExpressionBufferProcessTest {
 				final AbstractBuffer<BufferEntry> outputSub1clone2 = new BufferSolution<BufferEntry>();
 				
 				// Erstellung der Prozesse
-				final ExpressionProcess cloneInput2 = new CloneProcess(this.input2, input2clone1, input2clone2);
-				final ExpressionProcess clone1Input3 = new CloneProcess(this.input3, input3clone1, input3cloneTemp);
-				final ExpressionProcess clone2Input3 = new CloneProcess(input3cloneTemp, input3clone2, input3clone3);
-				final ExpressionProcess tupel4add1 = new TupelGeneratorProcess(this.input1, input2clone1, inputAdd1);
-				final ExpressionProcess add1 = new AdditionProcess(inputAdd1, outputAdd1);
-				final ExpressionProcess tupel4sub1 = new TupelGeneratorProcess(input2clone2, input3clone1, inputSub1);
-				final ExpressionProcess sub1 = new SubtractionProcess(inputSub1, outputSub1);
-				final ExpressionProcess tupel4mul1 = new TupelGeneratorProcess(input3clone2, input3clone3, inputMul1);
-				final ExpressionProcess mul1 = new MultiplicationProcess(inputMul1, outputMul1);
-				final ExpressionProcess cloneOutputSub1 = new CloneProcess(outputSub1, outputSub1clone1, outputSub1clone2);
-				final ExpressionProcess tupel4div1 = new TupelGeneratorProcess(outputAdd1, outputSub1clone1, inputDiv1);
-				final ExpressionProcess div1 = new DivisionProcess(inputDiv1, outputDiv1);
-				final ExpressionProcess tupel4add2 = new TupelGeneratorProcess(outputSub1clone2, outputMul1, inputAdd2);
-				final ExpressionProcess add2 = new AdditionProcess(inputAdd2, outputAdd2);
-				final ExpressionProcess tupel4sub2 = new TupelGeneratorProcess(outputDiv1, outputAdd2, inputSub2);
-				final ExpressionProcess sub2 = new SubtractionProcess(inputSub2, this.output);
+				final ExpressionProcess cloneInput2 = new CloneProcess(this.input2, input2clone1, input2clone2, new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
+				final ExpressionProcess clone1Input3 = new CloneProcess(this.input3, input3clone1, input3cloneTemp, new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
+				final ExpressionProcess clone2Input3 = new CloneProcess(input3cloneTemp, input3clone2, input3clone3, new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
+				final ExpressionProcess tupel4add1 = new TupelGeneratorProcess(this.input1, input2clone1, inputAdd1, new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
+				final ExpressionProcess add1 = new AdditionProcess(inputAdd1, outputAdd1, new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
+				final ExpressionProcess tupel4sub1 = new TupelGeneratorProcess(input2clone2, input3clone1, inputSub1, new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
+				final ExpressionProcess sub1 = new SubtractionProcess(inputSub1, outputSub1, new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
+				final ExpressionProcess tupel4mul1 = new TupelGeneratorProcess(input3clone2, input3clone3, inputMul1, new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
+				final ExpressionProcess mul1 = new MultiplicationProcess(inputMul1, outputMul1, new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
+				final ExpressionProcess cloneOutputSub1 = new CloneProcess(outputSub1, outputSub1clone1, outputSub1clone2, new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
+				final ExpressionProcess tupel4div1 = new TupelGeneratorProcess(outputAdd1, outputSub1clone1, inputDiv1, new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
+				final ExpressionProcess div1 = new DivisionProcess(inputDiv1, outputDiv1, new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
+				final ExpressionProcess tupel4add2 = new TupelGeneratorProcess(outputSub1clone2, outputMul1, inputAdd2, new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
+				final ExpressionProcess add2 = new AdditionProcess(inputAdd2, outputAdd2, new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
+				final ExpressionProcess tupel4sub2 = new TupelGeneratorProcess(outputDiv1, outputAdd2, inputSub2, new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
+				final ExpressionProcess sub2 = new SubtractionProcess(inputSub2, this.output, new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
 				
-				// Hinzufügen der Prozesse zur Liste
+				// Hinzufï¿½gen der Prozesse zur Liste
 				this.processes.add(cloneInput2);
 				this.processes.add(clone1Input3);
 				this.processes.add(clone2Input3);
@@ -117,8 +119,8 @@ public class ExpressionBufferProcessTest {
 		final AbstractBuffer<BufferEntry> input2 = new BufferSolution<BufferEntry>();
 		final AbstractBuffer<BufferEntry> output = new BufferSolution<BufferEntry>();
 		final AbstractBuffer<Tupel> input = new BufferSolution<Tupel>();
-		final ExpressionProcess tupelgen = new TupelGeneratorProcess(input1, input2, input);
-		final ExpressionProcess sub = new SubtractionProcess(input, output);
+		final ExpressionProcess tupelgen = new TupelGeneratorProcess(input1, input2, input, new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
+		final ExpressionProcess sub = new SubtractionProcess(input, output, new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
 		
 		tupelgen.start();
 		sub.start();
