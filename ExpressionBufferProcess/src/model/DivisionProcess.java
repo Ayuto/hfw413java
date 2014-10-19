@@ -1,12 +1,16 @@
 package model;
 
+import java.util.Map;
+
 import buffer.AbstractBuffer;
 
 public class DivisionProcess extends DyadicExpressionProcess {
 
 	public DivisionProcess(final AbstractBuffer<Tupel> inputBuffer,
-			final AbstractBuffer<BufferEntry> outputBuffer) {
-		super(inputBuffer, outputBuffer);
+			final AbstractBuffer<BufferEntry> outputBuffer,
+			final Map<String, OptionalIntegerValue> constantEnvironment,
+			final Map<String, Process> variableEnvironment) {
+		super(inputBuffer, outputBuffer, constantEnvironment, variableEnvironment);
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package model;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import visitor.Visitor;
 import visitor.VisitorImpl;
@@ -16,12 +17,14 @@ public abstract class DyadicExpressionProcess implements ExpressionProcess {
 	private final Visitor visitor;
 	
 	public DyadicExpressionProcess(final AbstractBuffer<Tupel> inputBuffer,
-			final AbstractBuffer<BufferEntry> outputBuffer) {
+			final AbstractBuffer<BufferEntry> outputBuffer,
+			final Map<String, OptionalIntegerValue> constantEnvironment,
+			final Map<String, Process> variableEnvironment) {
 		this.inputBuffer = inputBuffer;
 		this.outputBuffer = outputBuffer;
 		this.possibleInputs = new LinkedList<OptionalIntegerValue>();
 		this.running = false;
-		this.visitor = new VisitorImpl(this);
+		this.visitor = new VisitorImpl(this, constantEnvironment, variableEnvironment);
 	}
 	
 	protected abstract BufferEntry calculate(OptionalIntegerValue arg1, OptionalIntegerValue arg2);

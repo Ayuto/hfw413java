@@ -2,6 +2,7 @@ package model;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import visitor.Visitor;
 import visitor.VisitorImpl;
@@ -18,13 +19,15 @@ public class TupelGeneratorProcess implements ExpressionProcess {
 	private final Thread myThread;
 
 	public TupelGeneratorProcess(final AbstractBuffer<BufferEntry> input1,
-			final AbstractBuffer<BufferEntry> input2, final AbstractBuffer<Tupel> output) {
+			final AbstractBuffer<BufferEntry> input2, final AbstractBuffer<Tupel> output,
+			final Map<String, OptionalIntegerValue> constantEnvironment,
+			final Map<String, Process> variableEnvironment) {
 		this.input1 = input1;
 		this.input2 = input2;
 		this.output = output;
 		this.running = false;
 		this.result = new LinkedList<BufferEntry>();
-		this.visitor = new VisitorImpl(this);
+		this.visitor = new VisitorImpl(this, constantEnvironment, variableEnvironment);
 		this.myThread = new Thread(this);
 	}
 	
