@@ -1,29 +1,42 @@
 package model;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import visitor.Visitor;
 import visitor.VisitorImpl;
 import buffer.AbstractBuffer;
 
+/**
+ * A clone process clones all entries of a buffer into two other buffers.
+ */
 public class CloneProcess implements ExpressionProcess {
 
 	private final AbstractBuffer<BufferEntry> input;
 	private final AbstractBuffer<BufferEntry> output1;
 	private final AbstractBuffer<BufferEntry> output2;
 	private boolean running;
-	private final Visitor visitor;
-	
+	private final VisitorImpl visitor;
+
+	/**
+	 * Constructor for a new clone process with the given parameters.
+	 * 
+	 * @param input
+	 *            a buffer of buffer enties which should be cloned.
+	 * @param output1
+	 *            first output buffer with all cloned entries.
+	 * @param output2
+	 *            second output buffer with all cloned entries.
+	 */
 	public CloneProcess(final AbstractBuffer<BufferEntry> input,
 			final AbstractBuffer<BufferEntry> output1,
-			final AbstractBuffer<BufferEntry> output2,
-			final Map<String, OptionalIntegerValue> constantEnvironment,
-			final Map<String, Process> variableEnvironment) {
+			final AbstractBuffer<BufferEntry> output2) {
 		this.input = input;
 		this.output1 = output1;
 		this.output2 = output2;
 		this.running = false;
-		this.visitor = new VisitorImpl(this, constantEnvironment, variableEnvironment);
+		this.visitor = new VisitorImpl(this,
+				new HashMap<String, OptionalIntegerValue>(),
+				new HashMap<String, Process>());
 	}
 
 	@Override
@@ -47,12 +60,23 @@ public class CloneProcess implements ExpressionProcess {
 		new Thread(this).start();
 	}
 
-	
 	/**
 	 * No special handling of OptionalIntegerValues because the CloneProcess
 	 * just clones the input.
 	 */
 	@Override
 	public void addDetectedValue(final OptionalIntegerValue value) {
+	}
+
+	@Override
+	public void updateConstantEnvironment(
+			Map<String, OptionalIntegerValue> constantEnvironment) {
+		this.visitor.setConstantEnvironment(constantEnvironment);
+	}
+
+	@Override
+	public void updateVariableEnvironment(
+			Map<String, Process> variableEnvironment) {
+		this.visitor.setVariableEnvironment(variableEnvironment);
 	}
 }
