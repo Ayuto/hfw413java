@@ -4,31 +4,57 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import visitor.Visitor;
 import visitor.VisitorImpl;
 import buffer.AbstractBuffer;
 
+/**
+ * A dyadic expression process which evaluates the results for all inputs out of
+ * buffers and writes results into a output buffer.
+ */
 public abstract class DyadicExpressionProcess implements ExpressionProcess {
 
 	private final AbstractBuffer<Tupel> inputBuffer;
 	private final AbstractBuffer<BufferEntry> outputBuffer;
 	private final List<OptionalIntegerValue> possibleInputs;
+	private Map<String, OptionalIntegerValue> constantEnvironment;
+	private Map<String, Process> variableEnvironment;
 	private boolean running;
-	private final Visitor visitor;
-	
+	private final VisitorImpl visitor;
+
+	/**
+	 * Constructor for a dyadic expression process with the given parameters.
+	 * 
+	 * @param inputBuffer
+	 *            tupel buffer for all input values.
+	 * @param outputBuffer
+	 *            result buffer for all calculated results.
+	 * @param variableEnvironment2 
+	 * @param constantEnvironment2 
+	 */
 	public DyadicExpressionProcess(final AbstractBuffer<Tupel> inputBuffer,
-			final AbstractBuffer<BufferEntry> outputBuffer,
-			final Map<String, OptionalIntegerValue> constantEnvironment,
-			final Map<String, Process> variableEnvironment) {
+			final AbstractBuffer<BufferEntry> outputBuffer, Map<String, OptionalIntegerValue> constantEnvironment, Map<String, Process> variableEnvironment) {
 		this.inputBuffer = inputBuffer;
 		this.outputBuffer = outputBuffer;
 		this.possibleInputs = new LinkedList<OptionalIntegerValue>();
 		this.running = false;
-		this.visitor = new VisitorImpl(this, constantEnvironment, variableEnvironment);
+		this.constantEnvironment = constantEnvironment;
+		this.variableEnvironment = variableEnvironment;
+		this.visitor = new VisitorImpl(this, this.constantEnvironment,
+				this.variableEnvironment);
 	}
-	
-	protected abstract BufferEntry calculate(OptionalIntegerValue arg1, OptionalIntegerValue arg2);
-	
+
+	/**
+	 * Calculates the receiver with the given input values.
+	 * 
+	 * @param arg1
+	 *            first input value.
+	 * @param arg2
+	 *            second input value.
+	 * @return result value of the calculation.
+	 */
+	protected abstract BufferEntry calculate(OptionalIntegerValue arg1,
+			OptionalIntegerValue arg2);
+
 	@Override
 	public void run() {
 		while (this.running) {
@@ -36,25 +62,39 @@ public abstract class DyadicExpressionProcess implements ExpressionProcess {
 			input.getFirst().accept(this.visitor);
 			input.getSecond().accept(this.visitor);
 			if (this.possibleInputs.size() == 2) {
-				final BufferEntry result = this.calculate(this.possibleInputs.remove(0), this.possibleInputs.remove(0));
-				System.out.println("Calculated:" + result);
+				final BufferEntry result = this.calculate(
+						this.possibleInputs.remove(0),
+						this.possibleInputs.remove(0));
+				System.out.println("Calculated: " + result);
 				this.outputBuffer.put(result);
 			}
 		}
 	}
 	
 	@Override
+	public void updateConstantEnvironment(
+			Map<String, OptionalIntegerValue> constantEnvironment) {
+		this.visitor.setConstantEnvironment(constantEnvironment);
+	}
+	
+	@Override
+	public void updateVariableEnvironment(
+			Map<String, Process> variableEnvironment) {
+		this.visitor.setVariableEnvironment(variableEnvironment);
+	}
+
+	@Override
 	public void addDetectedValue(final OptionalIntegerValue value) {
 		this.possibleInputs.add(value);
 	}
-	
+
 	@Override
 	public void start() {
 		this.running = true;
 		this.possibleInputs.clear();
 		new Thread(this).start();
 	}
-	
+
 	@Override
 	public void stop() {
 		this.running = false;

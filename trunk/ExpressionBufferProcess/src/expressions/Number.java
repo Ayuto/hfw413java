@@ -5,8 +5,18 @@ import java.util.Map;
 import model.BufferEntry;
 import model.OptionalIntegerValue;
 
+/**
+ * A number is a elementary expression with a value.
+ */
 public class Number extends BaseExpression {
 	
+	/**
+	 * Creates a new number with the given value.
+	 * 
+	 * @param value
+	 *            the value of the new number.
+	 * @return the created number with the given value.
+	 */
 	public static Number create(OptionalIntegerValue value) {
 		return new Number(value);
 	}

@@ -5,8 +5,19 @@ import java.util.Map;
 import model.BufferEntry;
 import model.OptionalIntegerValue;
 
+/**
+ * A variable is a elementary expression with a name and a corresponding value
+ * in a map.
+ */
 public class Variable extends BaseExpression {
 	
+	/**
+	 * Creates a new variable with the given name.
+	 * 
+	 * @param name
+	 *            the name of the new variable.
+	 * @return the created variable with the given name.
+	 */
 	public static Variable create(String name) {
 		return new Variable(name);
 	}
