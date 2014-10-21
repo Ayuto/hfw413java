@@ -20,6 +20,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import buffer.AbstractBuffer;
+import buffer.BufferSolution;
 import expressions.Addition;
 import expressions.Constant;
 import expressions.CycleException;
@@ -27,9 +29,6 @@ import expressions.Division;
 import expressions.Multiplication;
 import expressions.Number;
 import expressions.Subtraction;
-import expressions.Variable;
-import buffer.AbstractBuffer;
-import buffer.BufferSolution;
 
 public class ExpressionBufferProcessTest {
 
@@ -164,12 +163,12 @@ public class ExpressionBufferProcessTest {
 			addition = Addition.create(Number.create(
 					new OptionalIntegerValue(3)), 
 					Number.create(new OptionalIntegerValue(3))).toProcess();
-		} catch (CycleException e) {
+		} catch (final CycleException e) {
 			// will never happen here...
 			e.printStackTrace();
 		}
 		addition.start();
-		BufferEntry result = addition.run();
+		final BufferEntry result = addition.run();
 		Assert.assertEquals(new OptionalIntegerValue(6), result);
 	}
 	
@@ -183,7 +182,7 @@ public class ExpressionBufferProcessTest {
 							Number.create(new OptionalIntegerValue(4)), 
 							Number.create(new OptionalIntegerValue(3))), 
 					Number.create(new OptionalIntegerValue(5))).toProcess();
-		} catch (CycleException e) {
+		} catch (final CycleException e) {
 			// will never happen here
 			e.printStackTrace();
 		}
@@ -192,7 +191,7 @@ public class ExpressionBufferProcessTest {
 		Assert.assertEquals(new OptionalIntegerValue(2), result);
 
 		// -(+(4, 5), 5) = -(9, 5) = 4
-		for (AbstractBuffer<BufferEntry> buffer : process.getInputs().keySet()) {
+		for (final AbstractBuffer<BufferEntry> buffer : process.getInputs().keySet()) {
 			if (process.getInputs().get(buffer).equals(new OptionalIntegerValue(3))) {
 				process.getInputs().put(buffer, new OptionalIntegerValue(5));
 				break;
@@ -216,12 +215,12 @@ public class ExpressionBufferProcessTest {
 					, Division.create(
 							Number.create(new OptionalIntegerValue(6))
 							, Number.create(new OptionalIntegerValue(3)))).toProcess();
-		} catch (CycleException e) {
+		} catch (final CycleException e) {
 			// will never happen here...
 			e.printStackTrace();
 		}
 		process.start();
-		BufferEntry result = process.run();
+		final BufferEntry result = process.run();
 		Assert.assertEquals(new OptionalIntegerValue(4), result);
 	}		
 	
@@ -230,80 +229,53 @@ public class ExpressionBufferProcessTest {
 		Process process = null;
 		try {
 			process = Addition.create(Constant.create("Konstante3"), Number.create(new OptionalIntegerValue())).toProcess();
-		} catch (CycleException e) {
+		} catch (final CycleException e) {
 			// will never happen here...
 			e.printStackTrace();
 		}
 		process.start();
 		process.addConstant("Konstante3", new OptionalIntegerValue(3));
-		BufferEntry result = process.run();
+		final BufferEntry result = process.run();
 		Assert.assertEquals(new OptionalIntegerValue(3), result);
 	}
 	
-	//@Test
-	public void testToProcessVariable() {
+	@Test
+	public void testToProcessConstant2() {
 		Process process = null;
 		try {
-			process = Addition.create(Variable.create("Variable3"), Number.create(new OptionalIntegerValue())).toProcess();
-		} catch (CycleException e) {
+			process = Addition.create(Constant.create("Constant5"), Number.create(new OptionalIntegerValue())).toProcess();
+		} catch (final CycleException e) {
 			// will never happen here...
 			e.printStackTrace();
 		}
 		process.start();
 		
-		Process variable3 = null;
-		try {
-			variable3 = Multiplication.create(Number.create(new OptionalIntegerValue(3)), Number.create(new OptionalIntegerValue(1))).toProcess();
-		} catch (CycleException e) {
-			// will never happen here...
-			e.printStackTrace();
-		}
-		variable3.start();
-		
-		process.addVariable("variable3", variable3);
-		BufferEntry result = process.run();
-		Assert.assertEquals(new OptionalIntegerValue(3), result);
+		process.addConstant("Constant5", new OptionalIntegerValue(5));
+		final BufferEntry result = process.run();
+		Assert.assertEquals(new OptionalIntegerValue(5), result);
 	}
 	
-	//@Test
+	@Test
 	public void testToProcess() {
-		// +(-(*(5, TWO), eight), /(6, 3)) = +(-(10, eight), 2) = +(2, 2) = 4
+		// +(-(*(5, 2), 8), /(6, 3)) = +(-(10, 8), 2) = +(2, 2) = 4
 		Process process = null;
 		try {
 			process = Addition.create(
 					Subtraction.create(
 							Multiplication.create(
 									Number.create(new OptionalIntegerValue(5))
-									, Constant.create("TWO"))
-							, Variable.create("eight"))
+									, Number.create(new OptionalIntegerValue(2)))
+							, Number.create(new OptionalIntegerValue(8)))
 					, Division.create(
 							Number.create(new OptionalIntegerValue(6))
 							, Number.create(new OptionalIntegerValue(3)))).toProcess();
-		} catch (CycleException e) {
+		} catch (final CycleException e) {
 			// will never happen here...
 			e.printStackTrace();
 		}
 		process.start();
 		
-		// *(+(2, 2), 2) = *(4, 2) = 8
-		Process eight = null;
-		
-		try {
-			eight = Multiplication.create(
-							Addition.create(
-									Number.create(new OptionalIntegerValue(2)), 
-									Number.create(new OptionalIntegerValue(2))),
-							Number.create(new OptionalIntegerValue(2))).toProcess();
-		} catch (CycleException e) {
-			// will never happen here...
-			e.printStackTrace();
-		}
-		eight.start();
-		
-		process.addConstant("TWO", new OptionalIntegerValue(2));
-		process.addVariable("eight", eight);
-		
-		BufferEntry result = process.run();
+		final BufferEntry result = process.run();
 		Assert.assertEquals(new OptionalIntegerValue(4), result);
 	}
 
