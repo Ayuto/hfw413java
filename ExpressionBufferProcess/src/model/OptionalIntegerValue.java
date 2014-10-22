@@ -109,7 +109,7 @@ public class OptionalIntegerValue implements BufferEntry {
 	@Override
 	public String toString() {
 		if (this.nan) {
-			return "This value is not a number!";
+			return "This value is nan!";
 		}
 		return "" + this.value;
 	}
