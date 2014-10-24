@@ -19,7 +19,6 @@ public class TupelGeneratorProcess implements ExpressionProcess {
 	private boolean running;
 	private final List<BufferEntry> result;
 	private final VisitorImpl visitor;
-	private final Thread myThread;
 
 	/**
 	 * Constructor for a tupel generator process with the given parameters.
@@ -42,7 +41,6 @@ public class TupelGeneratorProcess implements ExpressionProcess {
 		this.running = false;
 		this.result = new LinkedList<BufferEntry>();
 		this.visitor = new VisitorImpl(this, constantEnvironment, variableEnvironment);
-		this.myThread = new Thread(this);
 	}
 
 	@Override
@@ -81,7 +79,7 @@ public class TupelGeneratorProcess implements ExpressionProcess {
 	public void start() {
 		this.running = true;
 		this.result.clear();
-		this.myThread.start();
+		new Thread(this).start();
 	}
 
 	@Override

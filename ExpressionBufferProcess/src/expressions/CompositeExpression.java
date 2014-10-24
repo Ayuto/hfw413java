@@ -69,65 +69,21 @@ public abstract class CompositeExpression implements Expression {
 		Map<AbstractBuffer<BufferEntry>, BufferEntry> inputs = this
 				.createInputSum(firstArg.getInputs(), secondArg.getInputs());
 		
-		Map<String, OptionalIntegerValue> constantEnvironment = this
-				.sumConstantEnvironment(firstArg.getConstanEnvironment(),
-						secondArg.getConstanEnvironment());
-		Map<String, Process> variableEnvironment = this.sumVariableEnvironment(
-				firstArg.getVariableEnvironment(),
-				secondArg.getVariableEnvironment());
-		
 		Collection<ExpressionProcess> subprocesses = this.createProcessSum(
 				firstArg.getSubprocesses(), secondArg.getSubprocesses());
 		
 		AbstractBuffer<Tupel> input = new BufferSolution<Tupel>();
 		AbstractBuffer<BufferEntry> output = new BufferSolution<BufferEntry>();
 		
-		
 		ExpressionProcess tupelGen = new TupelGeneratorProcess(
-				firstArg.getOutput(), secondArg.getOutput(), input, constantEnvironment, variableEnvironment);
+				firstArg.getOutput(), secondArg.getOutput(), input, new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
 		ExpressionProcess process = this.createProcess(input, output,
-				constantEnvironment, variableEnvironment);
+				new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
 		
 		subprocesses.add(tupelGen);
 		subprocesses.add(process);
 		return new ProcessImpl(output, subprocesses, inputs,
-				constantEnvironment, variableEnvironment);
-	}
-
-	private Map<String, Process> sumVariableEnvironment(
-			Map<String, Process> map1, Map<String, Process> map2) {
-		Map<String, Process> result = new HashMap<String, Process>();
-		for (String name : map1.keySet()) {
-			result.put(name, map1.get(name));
-		}
-		for (String name : map2.keySet()) {
-			result.put(name, map2.get(name));
-		}
-		return result;
-	}
-
-	/**
-	 * Creates a new map consisting out of all constants of both argument maps.
-	 * If one name is used in both maps it will mapped to the value of the
-	 * second map.
-	 * 
-	 * @param map1
-	 *            first map
-	 * @param map2
-	 *            second map
-	 * @return new map with all constants of both maps.
-	 */
-	private Map<String, OptionalIntegerValue> sumConstantEnvironment(
-			Map<String, OptionalIntegerValue> map1,
-			Map<String, OptionalIntegerValue> map2) {
-		Map<String, OptionalIntegerValue> result = new HashMap<String, OptionalIntegerValue>();
-		for (String name : map1.keySet()) {
-			result.put(name, map1.get(name));
-		}
-		for (String name : map2.keySet()) {
-			result.put(name, map2.get(name));
-		}
-		return result;
+				new HashMap<String, OptionalIntegerValue>(), new HashMap<String, Process>());
 	}
 
 	/**

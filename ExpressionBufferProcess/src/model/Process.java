@@ -90,7 +90,7 @@ public interface Process {
 	 * Getter for the constant environment.
 	 * @return the constant environment
 	 */
-	Map<String, OptionalIntegerValue> getConstanEnvironment();
+	Map<String, OptionalIntegerValue> getConstantEnvironment();
 
 	/**
 	 * Getter for the variable environment.
