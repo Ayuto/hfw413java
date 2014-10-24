@@ -2,6 +2,10 @@ package model;
 
 import buffer.AbstractBuffer;
 
+/**
+ * A Runnable which does one run of a bubble sort.
+ * @param <T> Type of the 
+ */
 public class BubbleSort<T extends BufferEntry<T>> implements Runnable {
 
 	private final BubbleSortManager<T> manager;
@@ -38,13 +42,12 @@ public class BubbleSort<T extends BufferEntry<T>> implements Runnable {
 				second = this.input.get();
 			}
 			if (second.isStopCommand()){
+				this.result.put(first);
+				this.result.put(second);
 				this.stop();
 			}
 		}
-		synchronized (this.manager) {
-			this.manager.threadEnds();
-			this.notify();
-		}
+		this.manager.threadEnds();
 	}
 
 	public void start() {
