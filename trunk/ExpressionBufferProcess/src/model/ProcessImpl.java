@@ -53,7 +53,7 @@ public class ProcessImpl implements Process {
 	}
 	
 	@Override
-	public Map<String, OptionalIntegerValue> getConstanEnvironment() {
+	public Map<String, OptionalIntegerValue> getConstantEnvironment() {
 		return this.constantEnvironment;
 	}
 	

@@ -16,8 +16,6 @@ public abstract class DyadicExpressionProcess implements ExpressionProcess {
 	private final AbstractBuffer<Tupel> inputBuffer;
 	private final AbstractBuffer<BufferEntry> outputBuffer;
 	private final List<OptionalIntegerValue> possibleInputs;
-	private Map<String, OptionalIntegerValue> constantEnvironment;
-	private Map<String, Process> variableEnvironment;
 	private boolean running;
 	private final VisitorImpl visitor;
 
@@ -37,10 +35,7 @@ public abstract class DyadicExpressionProcess implements ExpressionProcess {
 		this.outputBuffer = outputBuffer;
 		this.possibleInputs = new LinkedList<OptionalIntegerValue>();
 		this.running = false;
-		this.constantEnvironment = constantEnvironment;
-		this.variableEnvironment = variableEnvironment;
-		this.visitor = new VisitorImpl(this, this.constantEnvironment,
-				this.variableEnvironment);
+		this.visitor = new VisitorImpl(this, constantEnvironment, variableEnvironment);
 	}
 
 	/**
@@ -65,7 +60,6 @@ public abstract class DyadicExpressionProcess implements ExpressionProcess {
 				final BufferEntry result = this.calculate(
 						this.possibleInputs.remove(0),
 						this.possibleInputs.remove(0));
-				System.out.println("Calculated: " + result);
 				this.outputBuffer.put(result);
 			}
 		}
