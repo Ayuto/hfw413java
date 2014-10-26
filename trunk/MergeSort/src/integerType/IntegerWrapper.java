@@ -4,10 +4,13 @@ public class IntegerWrapper implements IntegerType {
 
 	private final int value;
 	
-	public IntegerWrapper(int value) {
+	/**
+	 * Wraps the given integer value.
+	 */
+	public IntegerWrapper(final int value) {
 		this.value = value;
 	}
-	
+
 	@Override
 	public int compareTo(IntegerType o) {
 		if (o.isStopCommand()) {
@@ -15,16 +18,17 @@ public class IntegerWrapper implements IntegerType {
 		}
 		return this.value - ((IntegerWrapper)o).value;
 	}
-
+	
 	@Override
 	public boolean isStopCommand() {
 		return false;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof IntegerWrapper) {
-			return this.value == ((IntegerWrapper)obj).value;
+			IntegerWrapper objAsIntegerWrapper = (IntegerWrapper) obj;
+			return this.value == objAsIntegerWrapper.value;
 		}
 		return false;
 	}

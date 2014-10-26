@@ -14,6 +14,12 @@ public class MergeSort<T extends BufferEntry<T>> implements Runnable {
 	private final MergeSortManager<T> manager;
 	private boolean running;
 	
+	/**
+	 * Initializes the object.
+	 * @param start A buffer that contains elements which should be sorted.
+	 * @param result The output buffer for sorted elements.
+	 * @param manager The manager which will take care of the sorting process.
+	 */
 	public MergeSort(AbstractBuffer<T> start, AbstractBuffer<T> result, MergeSortManager<T> manager) {
 		this.start = start;
 		this.output1 = new BufferSolution<T>();
@@ -37,6 +43,9 @@ public class MergeSort<T extends BufferEntry<T>> implements Runnable {
 		this.merge();
 	}
 
+	/**
+	 * Splits the input buffer into two smaller buffers.
+	 */
 	private void split() {
 		T current = start.get();
 		int counter = 0;
@@ -58,6 +67,9 @@ public class MergeSort<T extends BufferEntry<T>> implements Runnable {
 		this.output2.put(current);
 	}
 
+	/**
+	 * Merges and sorts both input buffers into one result buffer.
+	 */
 	private void merge() {
 		T first = this.input1.get();
 		T second = this.input2.get();
@@ -88,16 +100,25 @@ public class MergeSort<T extends BufferEntry<T>> implements Runnable {
 		this.result.put(first);
 	}
 
+	/**
+	 * Starts the sorting process.
+	 */
 	public void start() {
 		this.running = true;
 		new Thread(this).start();
 	}
 
+	/**
+	 * Finalizes the splitting phase.
+	 */
 	private void endRecursion() {
 		this.putAllEntriesToOtherBuffer(output1, input1);
 		this.putAllEntriesToOtherBuffer(output2, input2);
 	}
 	
+	/**
+	 * Moves all entries from <source> to <destination>.
+	 */
 	private void putAllEntriesToOtherBuffer(AbstractBuffer<T> source, AbstractBuffer<T> destination) {
 		T current = source.get();
 		while (!current.isStopCommand()) {

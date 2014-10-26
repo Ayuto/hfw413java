@@ -1,9 +1,15 @@
 package integerType;
 
+/**
+ * Objects of this class indicate the end of a integer buffer.
+ */
 public class IntegerStopCommand implements IntegerType {
 
 	private static IntegerStopCommand instance = null;
-	
+
+	/**
+	 * Returns the singleton object of this class.
+	 */
 	public static IntegerStopCommand getInstance() {
 		if (IntegerStopCommand.instance == null) {
 			IntegerStopCommand.instance = new IntegerStopCommand();
@@ -31,6 +37,6 @@ public class IntegerStopCommand implements IntegerType {
 	
 	@Override
 	public String toString() {
-		return "Stop!!";
+		return "Stop!";
 	}
 }
