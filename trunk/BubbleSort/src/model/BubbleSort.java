@@ -32,10 +32,22 @@ public class BubbleSort<T extends BufferEntry<T>> implements Runnable {
 	@Override
 	public void run() {
 		T first = this.input.get();
+		if (first.isStopCommand()) {
+			this.manager.threadEnds();
+			return;
+		}
 		T second = this.input.get();
 		this.switched = false;
 		while (this.running) {
-			if (first.compareTo(second) <= 0) {
+			if (first.isStopCommand()) {
+				this.result.put(second);
+				this.result.put(first);
+				this.stop();
+			} else if (second.isStopCommand()) {
+				this.result.put(first);
+				this.result.put(second);
+				this.stop();
+			} else if (first.compareTo(second) <= 0) {
 				this.result.put(first);
 				first = second;
 				second = this.input.get();
@@ -46,11 +58,6 @@ public class BubbleSort<T extends BufferEntry<T>> implements Runnable {
 				}
 				this.result.put(second);
 				second = this.input.get();
-			}
-			if (second.isStopCommand()){
-				this.result.put(first);
-				this.result.put(second);
-				this.stop();
 			}
 		}
 		this.manager.threadEnds();
