@@ -4,7 +4,7 @@ import buffer.AbstractBuffer;
 
 /**
  * A Runnable which does one run of a bubble sort.
- * @param <T> Type of the 
+ * @param <T> Type of the elements of the input.
  */
 public class BubbleSort<T extends BufferEntry<T>> implements Runnable {
 
@@ -14,6 +14,12 @@ public class BubbleSort<T extends BufferEntry<T>> implements Runnable {
 	private boolean running;
 	private boolean switched;
 
+	/**
+	 * Initializes the object.
+	 * @param input A buffer that contains elements which should be sorted.
+	 * @param result The output buffer for sorted elements.
+	 * @param manager The manager which will take care of the sorting process.
+	 */
 	public BubbleSort(final AbstractBuffer<T> input,
 			final AbstractBuffer<T> result,
 			final BubbleSortManager<T> manager) {
@@ -50,11 +56,17 @@ public class BubbleSort<T extends BufferEntry<T>> implements Runnable {
 		this.manager.threadEnds();
 	}
 
+	/**
+	 * Starts the sorting process.
+	 */
 	public void start() {
 		this.running = true;
 		new Thread(this).start();
 	}
 
+	/**
+	 * Stops the sorting process.
+	 */
 	public void stop() {
 		this.running = false;
 	}
