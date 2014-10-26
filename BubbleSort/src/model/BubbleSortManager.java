@@ -22,7 +22,6 @@ public class BubbleSortManager<T extends BufferEntry<T>> {
 	/**
 	 * Sorts a list from the smallest to the highest value.
 	 */
-	// TODO: Accept every collection?
 	public BubbleSortManager(final List<T> input) {
 		this.input = input;
 		this.result = new BufferSolution<T>();

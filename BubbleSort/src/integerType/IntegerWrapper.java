@@ -1,6 +1,5 @@
 package integerType;
 
-
 public class IntegerWrapper implements IntegerType {
 
 	private final int value;
@@ -11,20 +10,18 @@ public class IntegerWrapper implements IntegerType {
 	public IntegerWrapper(final int value) {
 		this.value = value;
 	}
-	
-	@Override
-	public boolean isStopCommand() {
-		return false;
-	}
 
 	@Override
 	public int compareTo(IntegerType o) {
 		if (o.isStopCommand()) {
-			// TODO: Shouldn't this return 1, because IntegerStopCommand.compareTo returns 1?
-			//		 This would make the implementation of IntegerStopCommand.compareTo redundant.
 			return -1;
 		}
 		return this.value - ((IntegerWrapper)o).value;
+	}
+	
+	@Override
+	public boolean isStopCommand() {
+		return false;
 	}
 	
 	@Override
