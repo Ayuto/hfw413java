@@ -1,12 +1,13 @@
 package test;
 
+import integerType.IntegerStopCommand;
+import integerType.IntegerType;
+import integerType.IntegerWrapper;
+
 import java.util.LinkedList;
 import java.util.List;
 
 import model.BubbleSortManager;
-import model.BufferEntry;
-import model.IntegerWrapper;
-import model.StopCommand;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,15 +17,15 @@ public class TestBubbleSort {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void testNoSwitch() {
-		final List<BufferEntry<IntegerWrapper>> l1 = new LinkedList<BufferEntry<IntegerWrapper>>();
+		final List<IntegerType> l1 = new LinkedList<IntegerType>();
 		l1.add(new IntegerWrapper(1));
 		l1.add(new IntegerWrapper(2));
 		l1.add(new IntegerWrapper(3));
 		l1.add(new IntegerWrapper(4));
-		l1.add(new StopCommand<IntegerWrapper>());
+		l1.add(IntegerStopCommand.getInstance());
 		
 		final BubbleSortManager manager = new BubbleSortManager(l1);
-		final List<BufferEntry<IntegerWrapper>> result = manager.sort();
+		final List<IntegerType> result = manager.sort();
 		l1.remove(l1.size() - 1);
 		Assert.assertEquals(l1, result);
 	}
@@ -32,14 +33,14 @@ public class TestBubbleSort {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void testAllSwitch() {
-		final List<BufferEntry<IntegerWrapper>> l1 = new LinkedList<BufferEntry<IntegerWrapper>>();
+		final List<IntegerType> l1 = new LinkedList<IntegerType>();
 		l1.add(new IntegerWrapper(4));
 		l1.add(new IntegerWrapper(3));
 		l1.add(new IntegerWrapper(2));
 		l1.add(new IntegerWrapper(1));
-		l1.add(new StopCommand<IntegerWrapper>());
+		l1.add(IntegerStopCommand.getInstance());
 		
-		final List<BufferEntry<IntegerWrapper>> lresult = new LinkedList<BufferEntry<IntegerWrapper>>();
+		final List<IntegerType> lresult = new LinkedList<IntegerType>();
 		lresult.add(new IntegerWrapper(1));
 		lresult.add(new IntegerWrapper(2));
 		lresult.add(new IntegerWrapper(3));
