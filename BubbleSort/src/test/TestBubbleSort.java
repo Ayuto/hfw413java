@@ -104,8 +104,8 @@ public class TestBubbleSort {
 		l1.add(IntegerStopCommand.getInstance());
 		
 		final List<IntegerType> result = new LinkedList<IntegerType>();
-		result.add(new IntegerWrapper(4));
 		result.add(new IntegerWrapper(2));
+		result.add(new IntegerWrapper(4));
 		
 		final BubbleSortManager<IntegerType> manager = new BubbleSortManager<IntegerType>(l1);
 		Assert.assertEquals(result, manager.sort());
