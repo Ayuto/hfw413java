@@ -14,7 +14,6 @@ import org.junit.Test;
 
 public class TestBubbleSort {
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void testNoSwitch() {
 		final List<IntegerType> l1 = new LinkedList<IntegerType>();
@@ -24,13 +23,12 @@ public class TestBubbleSort {
 		l1.add(new IntegerWrapper(4));
 		l1.add(IntegerStopCommand.getInstance());
 		
-		final BubbleSortManager manager = new BubbleSortManager(l1);
+		final BubbleSortManager<IntegerType> manager = new BubbleSortManager<IntegerType>(l1);
 		final List<IntegerType> result = manager.sort();
 		l1.remove(l1.size() - 1);
 		Assert.assertEquals(l1, result);
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void testAllSwitch() {
 		final List<IntegerType> l1 = new LinkedList<IntegerType>();
@@ -46,9 +44,70 @@ public class TestBubbleSort {
 		lresult.add(new IntegerWrapper(3));
 		lresult.add(new IntegerWrapper(4));
 		
-		final BubbleSortManager manager = new BubbleSortManager(l1);
+		final BubbleSortManager<IntegerType> manager = new BubbleSortManager<IntegerType>(l1);
 		
 		Assert.assertEquals(lresult, manager.sort());
 	}
 
+	@Test
+	public void testRandom() {
+		final List<IntegerType> l1 = new LinkedList<IntegerType>();
+		l1.add(new IntegerWrapper(2));
+		l1.add(new IntegerWrapper(4));
+		l1.add(new IntegerWrapper(3));
+		l1.add(new IntegerWrapper(1));
+		l1.add(IntegerStopCommand.getInstance());
+		
+		final List<IntegerType> result = new LinkedList<IntegerType>();
+		result.add(new IntegerWrapper(1));
+		result.add(new IntegerWrapper(2));
+		result.add(new IntegerWrapper(3));
+		result.add(new IntegerWrapper(4));
+		
+		final BubbleSortManager<IntegerType> manager = new BubbleSortManager<IntegerType>(l1);
+		Assert.assertEquals(result, manager.sort());
+	}
+	
+	@Test
+	public void testSingleEntry() {
+		final List<IntegerType> l1 = new LinkedList<IntegerType>();
+		l1.add(new IntegerWrapper(2));
+		l1.add(IntegerStopCommand.getInstance());
+		
+		final List<IntegerType> result = new LinkedList<IntegerType>();
+		result.add(new IntegerWrapper(2));
+		
+		final BubbleSortManager<IntegerType> manager = new BubbleSortManager<IntegerType>(l1);
+		Assert.assertEquals(result, manager.sort());
+	}
+	
+	@Test
+	public void testTwoEntriesOrdered() {
+		final List<IntegerType> l1 = new LinkedList<IntegerType>();
+		l1.add(new IntegerWrapper(2));
+		l1.add(new IntegerWrapper(4));
+		l1.add(IntegerStopCommand.getInstance());
+		
+		final List<IntegerType> result = new LinkedList<IntegerType>();
+		result.add(new IntegerWrapper(2));
+		result.add(new IntegerWrapper(4));
+		
+		final BubbleSortManager<IntegerType> manager = new BubbleSortManager<IntegerType>(l1);
+		Assert.assertEquals(result, manager.sort());
+	}
+	
+	@Test
+	public void testTwoEntriesUnordered() {
+		final List<IntegerType> l1 = new LinkedList<IntegerType>();
+		l1.add(new IntegerWrapper(4));
+		l1.add(new IntegerWrapper(2));
+		l1.add(IntegerStopCommand.getInstance());
+		
+		final List<IntegerType> result = new LinkedList<IntegerType>();
+		result.add(new IntegerWrapper(4));
+		result.add(new IntegerWrapper(2));
+		
+		final BubbleSortManager<IntegerType> manager = new BubbleSortManager<IntegerType>(l1);
+		Assert.assertEquals(result, manager.sort());
+	}
 }
