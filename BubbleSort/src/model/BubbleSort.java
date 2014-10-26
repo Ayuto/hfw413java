@@ -39,11 +39,7 @@ public class BubbleSort<T extends BufferEntry<T>> implements Runnable {
 		T second = this.input.get();
 		this.switched = false;
 		while (this.running) {
-			if (first.isStopCommand()) {
-				this.result.put(second);
-				this.result.put(first);
-				this.stop();
-			} else if (second.isStopCommand()) {
+			if (second.isStopCommand()) {
 				this.result.put(first);
 				this.result.put(second);
 				this.stop();
