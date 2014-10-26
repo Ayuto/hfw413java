@@ -1,6 +1,7 @@
-package model;
+package integerType;
 
-public class IntegerWrapper implements BufferEntry<IntegerWrapper> {
+
+public class IntegerWrapper implements IntegerType {
 
 	private final int value;
 	
@@ -14,8 +15,11 @@ public class IntegerWrapper implements BufferEntry<IntegerWrapper> {
 	}
 
 	@Override
-	public int compareTo(IntegerWrapper o) {
-		return this.value - o.value;
+	public int compareTo(IntegerType o) {
+		if (o.isStopCommand()) {
+			return -1;
+		}
+		return this.value - ((IntegerWrapper)o).value;
 	}
 	
 	@Override
