@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
@@ -11,12 +12,12 @@ import buffer.BufferSolution;
  */
 public class MergeSortManager<T extends BufferEntry<T>> {
 
-	private final List<T> input;
+	private final Collection<T> input;
 
 	/**
 	 * Sorts a list from the smallest to the highest value.
 	 */
-	public MergeSortManager(List<T> input) {
+	public MergeSortManager(final Collection<T> input) {
 		this.input = input;
 	}
 
@@ -26,10 +27,10 @@ public class MergeSortManager<T extends BufferEntry<T>> {
 	 * @return The sorted list.
 	 */
 	public List<T> sort() {
-		AbstractBuffer<T> inputBuffer = new BufferSolution<T>();
-		AbstractBuffer<T> outputBuffer = new BufferSolution<T>();
-		List<T> result = new Vector<T>();
-		for (T current : this.input) {
+		final AbstractBuffer<T> inputBuffer = new BufferSolution<T>();
+		final AbstractBuffer<T> outputBuffer = new BufferSolution<T>();
+		final List<T> result = new Vector<T>();
+		for (final T current : this.input) {
 			inputBuffer.put(current);
 		}
 		this.startNewThread(inputBuffer, outputBuffer);
@@ -46,7 +47,7 @@ public class MergeSortManager<T extends BufferEntry<T>> {
 	 * @param bufferInput The input buffer for the new thread.
 	 * @param bufferOutput The output buffer for the new thread.
 	 */
-	public void startNewThread(AbstractBuffer<T> bufferInput, AbstractBuffer<T> bufferOutput) {
+	public void startNewThread(final AbstractBuffer<T> bufferInput, final AbstractBuffer<T> bufferOutput) {
 		new MergeSort<T>(bufferInput, bufferOutput, this).start();
 	}
 }
