@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
@@ -13,16 +14,16 @@ import buffer.BufferSolution;
  */
 public class BubbleSortManager<T extends BufferEntry<T>> {
 
-	private final List<T> input;
+	private final Collection<T> input;
 	private AbstractBuffer<T> result;
 	private int runningThreads;
-	private AbstractLock mutex;
-	private AbstractLock lockFinished;
+	private final AbstractLock mutex;
+	private final AbstractLock lockFinished;
 
 	/**
 	 * Sorts a list from the smallest to the highest value.
 	 */
-	public BubbleSortManager(final List<T> input) {
+	public BubbleSortManager(final Collection<T> input) {
 		this.input = input;
 		this.result = new BufferSolution<T>();
 		this.runningThreads = 0;
