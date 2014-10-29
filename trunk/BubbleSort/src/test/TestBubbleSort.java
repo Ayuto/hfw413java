@@ -15,6 +15,15 @@ import org.junit.Test;
 public class TestBubbleSort {
 
 	@Test
+	public void testEmpty() {
+		final List<IntegerType> l1 = new LinkedList<IntegerType>();
+		l1.add(IntegerStopCommand.getInstance());
+		
+		final BubbleSortManager<IntegerType> manager = new BubbleSortManager<IntegerType>(l1);
+		Assert.assertEquals(new LinkedList<IntegerType>(), manager.sort());
+	}
+	
+	@Test
 	public void testNoSwitch() {
 		final List<IntegerType> l1 = new LinkedList<IntegerType>();
 		l1.add(new IntegerWrapper(1));

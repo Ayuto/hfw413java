@@ -33,6 +33,7 @@ public class BubbleSort<T extends BufferEntry<T>> implements Runnable {
 	public void run() {
 		T first = this.input.get();
 		if (first.isStopCommand()) {
+			this.result.put(first);
 			this.manager.threadEnds();
 			return;
 		}
