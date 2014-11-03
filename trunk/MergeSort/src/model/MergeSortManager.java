@@ -13,6 +13,11 @@ import buffer.BufferSolution;
 public class MergeSortManager<T extends BufferEntry<T>> {
 
 	private final Collection<T> input;
+	private int threadAmount;
+
+	public int getThreadAmount() {
+		return threadAmount;
+	}
 
 	/**
 	 * Sorts a list from the smallest to the highest value.
@@ -49,5 +54,6 @@ public class MergeSortManager<T extends BufferEntry<T>> {
 	 */
 	public void startNewThread(final AbstractBuffer<T> bufferInput, final AbstractBuffer<T> bufferOutput) {
 		new MergeSort<T>(bufferInput, bufferOutput, this).start();
+		this.threadAmount++;
 	}
 }

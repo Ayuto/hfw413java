@@ -17,6 +17,7 @@ public class BubbleSortManager<T extends BufferEntry<T>> {
 	private final Collection<T> input;
 	private AbstractBuffer<T> result;
 	private int runningThreads;
+	private int threadAmount;
 	private final AbstractLock mutex;
 	private final AbstractLock lockFinished;
 
@@ -59,6 +60,7 @@ public class BubbleSortManager<T extends BufferEntry<T>> {
 		final AbstractBuffer<T> input = this.result;
 		this.result = new BufferSolution<T>();
 		new BubbleSort<T>(input, this.result, this).start();
+		this.threadAmount++;
 		this.runningThreads++;
 		this.mutex.unlock();
 	}
@@ -74,5 +76,9 @@ public class BubbleSortManager<T extends BufferEntry<T>> {
 			this.lockFinished.unlock();
 		}
 		this.mutex.unlock();
+	}
+	
+	public int getThreadAmount() {
+		return this.threadAmount;
 	}
 }

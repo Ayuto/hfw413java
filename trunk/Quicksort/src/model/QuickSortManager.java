@@ -12,6 +12,11 @@ import buffer.BufferSolution;
  */
 public class QuickSortManager<T extends BufferEntry<T>> {
 	private final Collection<T> input;
+	private int threadAmount;
+
+	public int getThreadAmount() {
+		return threadAmount;
+	}
 
 	/**
 	 * Sorts a list from the smallest to the highest value.
@@ -51,5 +56,6 @@ public class QuickSortManager<T extends BufferEntry<T>> {
 	public void createNewThread(final AbstractBuffer<T> input,
 			final AbstractBuffer<T> output) {
 		new QuickSort<T>(input, output, this).start();
+		this.threadAmount++;
 	}
 }

@@ -20,6 +20,7 @@ public class InsertionSortManager<T extends BufferEntry<T>> {
 	private final AbstractLock finished;
 
 	private int runningThreads;
+	private int threadAmount;
 
 	/**
 	 * Sorts a list from the smallest to the highest value.
@@ -79,6 +80,7 @@ public class InsertionSortManager<T extends BufferEntry<T>> {
 			final AbstractBuffer<T> inputUnsorted) {
 		this.mutex.lock();
 		this.result = new BufferSolution<T>();
+		this.threadAmount++;
 		this.runningThreads++;
 		new InsertionSort<T>(inputSorted, inputUnsorted, this.result, this)
 				.start();
@@ -96,5 +98,9 @@ public class InsertionSortManager<T extends BufferEntry<T>> {
 			this.finished.unlock();
 		}
 		this.mutex.unlock();
+	}
+	
+	public int getThreadAmount() {
+		return this.threadAmount;
 	}
 }
