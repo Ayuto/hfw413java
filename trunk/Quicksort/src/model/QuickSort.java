@@ -55,7 +55,7 @@ public class QuickSort<T extends BufferEntry<T>> implements Runnable {
 		boolean startNewThread = false;
 		T current = this.start.get();
 		while (!current.isStopCommand()) {
-			if (current.compareTo(pivot) <= 0) {
+			if (current.compareTo(pivot) < 0) {
 				this.output1.put(current);
 			} else {
 				this.output2.put(current);
