@@ -35,19 +35,26 @@ public class State {
 	 *            Input of the new transition.
 	 * @param s
 	 *            New state after the input of {@code <c>}.
-	 * @throws NotMatchingAutomatonsException If the state s is not from the same automaton as the receiver.
+	 * @param output
+	 *            Output of the new transition.
+	 * @throws NotMatchingAutomatonsException
+	 *             If the state s is not from the same automaton as the
+	 *             receiver.
 	 */
-	public void add(final char c, final State s, final String output) throws NotMatchingAutomatonsException {
-		this.getOut().getDelta().add(StateTransition.create(this, s, c, output));
+	public void add(final char c, final State s, final String output)
+			throws NotMatchingAutomatonsException {
+		this.getOut().getDelta()
+				.add(StateTransition.create(this, s, c, output));
 	}
 
 	/**
-	 * Calculates a collection of all states reachable with the input
+	 * Calculates a collection of possible state transitions with the input
 	 * {@code <c>} from {@code <this>}.
 	 * 
 	 * @param c
 	 *            The given input.
-	 * @return The StateCollection with all reachable states.
+	 * @return All state transitions which are possible from the receiver with
+	 *         the given input character.
 	 */
 	public Collection<StateTransition> get(final char c) {
 		final Collection<StateTransition> result = new HashSet<StateTransition>();
@@ -64,6 +71,7 @@ public class State {
 
 	/**
 	 * Calculates all transitions starting at the receiver.
+	 * 
 	 * @return A collection with all calculated transitions.
 	 */
 	public Collection<StateTransition> fetchSuccessors() {
@@ -96,7 +104,7 @@ public class State {
 		}
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(final Object obj) {
 		return super.equals(obj);

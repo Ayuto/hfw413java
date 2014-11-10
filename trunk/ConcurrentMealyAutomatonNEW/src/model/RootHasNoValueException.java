@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Exception if the users tries to calculate the value of a root of an output tree.
+ */
 public class RootHasNoValueException extends Exception {
 
 	/**
@@ -26,5 +29,5 @@ public class RootHasNoValueException extends Exception {
 
 	public RootHasNoValueException(Throwable cause) {
 		super(cause);
-	}	
+	}
 }
