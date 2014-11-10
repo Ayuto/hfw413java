@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * A exception if there is no possible output of a mealy automaton.
+ */
 public class NoOutputException extends Exception {
 
 	/**

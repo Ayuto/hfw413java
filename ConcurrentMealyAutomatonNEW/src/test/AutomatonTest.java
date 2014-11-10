@@ -1,5 +1,8 @@
 package test;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import model.Automaton;
 import model.NoOutputException;
 import model.State;
@@ -24,6 +27,8 @@ public class AutomatonTest {
 	private Automaton m6;
 	
 	private Automaton m7;
+	
+	private Automaton m8;
 
 	
 	@Before
@@ -91,6 +96,14 @@ public class AutomatonTest {
 		this.m7.getEnd().add('1', q7, "1");
 		q7.add('0', q7, "0");
 		q7.add('1', q7, "1");
+		
+		this.m8 = Automaton.create();
+		final State s1 = State.create(this.m8);
+		final State s2 = State.create(this.m8);
+		this.m8.getStart().add('0', s1, "test1");
+		this.m8.getStart().add('0', s2, "test2");
+		s1.add('0', this.m8.getEnd(), "ende");
+		s2.add('0', this.m8.getEnd(), "ende");
 	}
 	
 	@Test
@@ -250,5 +263,46 @@ public class AutomatonTest {
 			Assert.fail();
 		}
 		Assert.assertEquals(input, result);
+	}
+	
+	@Test
+	public void testM8() {
+		String input = "00";
+		List<String> possibleResults = new LinkedList<String>();
+		possibleResults.add("test1ende");
+		possibleResults.add("test2ende");
+		
+		String result = null;
+		try {
+			result = this.m8.getPossibleOutput(input);
+		} catch (NoOutputException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		Assert.assertTrue(possibleResults.contains(result));
+		
+		try {
+			result = this.m8.getPossibleOutput(input);
+		} catch (NoOutputException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		Assert.assertTrue(possibleResults.contains(result));
+		
+		try {
+			result = this.m8.getPossibleOutput(input);
+		} catch (NoOutputException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		Assert.assertTrue(possibleResults.contains(result));
+		
+		try {
+			result = this.m8.getPossibleOutput(input);
+		} catch (NoOutputException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		Assert.assertTrue(possibleResults.contains(result));
 	}
 }

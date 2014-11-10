@@ -1,4 +1,4 @@
-package lock;
+package model.lock;
 
 
 public interface AbstractLock {

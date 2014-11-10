@@ -1,7 +1,7 @@
 package model;
 
 /**
- * A state transition from a state by a character to a state.
+ * A state transition from a state by a character to a state with an output.
  */
 public class StateTransition {
 
@@ -15,12 +15,16 @@ public class StateTransition {
 	 *            The ending state.
 	 * @param by
 	 *            The needed input.
+	 * @param output
+	 *            The output for the new transition.
 	 * @return The created state transition.
-	 * @throws NotMatchingAutomatonsException if the automaton of from
-	 *         is not the same as the automaton of to.
+	 * @throws NotMatchingAutomatonsException
+	 *             if the automaton of from is not the same as the automaton of
+	 *             to.
 	 */
 	public static StateTransition create(final State from, final State to,
-			final char by, final String output) throws NotMatchingAutomatonsException {
+			final char by, final String output)
+			throws NotMatchingAutomatonsException {
 		if (!from.getOut().equals(to.getOut())) {
 			throw new NotMatchingAutomatonsException();
 		}
@@ -32,7 +36,8 @@ public class StateTransition {
 	private final char by;
 	private final String output;
 
-	private StateTransition(final State from, final State to, final char by, final String output) {
+	private StateTransition(final State from, final State to, final char by,
+			final String output) {
 		this.from = from;
 		this.to = to;
 		this.by = by;
