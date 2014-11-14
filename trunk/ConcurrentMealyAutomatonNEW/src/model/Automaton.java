@@ -112,10 +112,10 @@ public class Automaton {
 	public String getPossibleOutput(String input) throws NoOutputException {
 		return new AutomatonThreadManager(this).getPossibleOutput(input);
 	}
-	
+
 	/**
-	 * Calculates all possible output of the receiver.
-	 * Therefore it will create several threads which let the automaton run.
+	 * Calculates all possible output of the receiver. Therefore it will create
+	 * several threads which let the automaton run.
 	 * 
 	 * @param input
 	 *            given input for the receiver
@@ -123,7 +123,8 @@ public class Automaton {
 	 * @throws NoOutputException
 	 *             if there is no possible output
 	 */
-	public Collection<String> getAllPossibleOutputs(String input) throws NoOutputException {
+	public Collection<String> getAllPossibleOutputs(String input)
+			throws NoOutputException {
 		return new AutomatonThreadManager(this).getAllPossibleOutputs(input);
 	}
 }
