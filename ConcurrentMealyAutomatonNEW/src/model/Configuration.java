@@ -16,6 +16,8 @@ public class Configuration implements Runnable {
 	 * Creates a configuration of the given automaton with the given state, the
 	 * given input and the given output.
 	 * 
+	 * @param manager
+	 *            Thread manager of the configuration
 	 * @param out
 	 *            The automaton of the configuration.
 	 * @param states
@@ -26,23 +28,27 @@ public class Configuration implements Runnable {
 	 *            The current output of the configuration.
 	 * @return The created configuration.
 	 */
-	public static Configuration create(final Automaton out, final State state,
-			final String input, final OutputTree output) {
-		return new Configuration(out, state, input, output);
+	public static Configuration create(AutomatonThreadManager manager,
+			final Automaton out, final State state, final String input,
+			final OutputTree output) {
+		return new Configuration(out, state, input, output, manager);
 	}
 
 	/**
 	 * Creates the starting configuration of the given automaton with the given
 	 * input String.
 	 * 
+	 * @param manager
+	 *            Thread manager of the configuration
 	 * @param out
 	 *            The automaton of the configuration.
 	 * @param input
 	 *            The input of the configuration.
 	 * @return The created configuration.
 	 */
-	public static Configuration create(final Automaton out, final String input) {
-		return Configuration.create(out, out.getStart(), input,
+	public static Configuration create(AutomatonThreadManager manager,
+			final Automaton out, final String input) {
+		return Configuration.create(manager, out, out.getStart(), input,
 				TreeRoot.getInstance());
 	}
 
@@ -51,14 +57,17 @@ public class Configuration implements Runnable {
 	private String input;
 	private OutputTree output;
 	private boolean running;
+	private AutomatonThreadManager manager;
 
 	private Configuration(final Automaton out, final State state,
-			final String input, final OutputTree output) {
+			final String input, final OutputTree output,
+			AutomatonThreadManager manager) {
 		this.out = out;
 		this.state = state;
 		this.input = input;
 		this.output = output;
 		this.running = false;
+		this.manager = manager;
 	}
 
 	/**
@@ -75,7 +84,7 @@ public class Configuration implements Runnable {
 						.getState().get(c);
 				if (possibleStateTransitions.isEmpty()) {
 					this.running = false;
-					this.getOut().threadEnds(this, false, this.output);
+					this.manager.threadEnds(this, false, this.output);
 					return;
 				} else {
 					final String newInput = this.getInput().substring(1);
@@ -84,7 +93,9 @@ public class Configuration implements Runnable {
 					StateTransition first = stateTransitions.next();
 					while (stateTransitions.hasNext()) {
 						StateTransition current = stateTransitions.next();
-						this.getOut().configurationHasSeveralSuccessorsDetected(current.getTo(), newInput, this.output.addElement(current.getOutput()));
+						this.manager.configurationHasSeveralSuccessorsDetected(
+								current.getTo(), newInput,
+								this.output.addElement(current.getOutput()));
 					}
 					this.state = first.getTo();
 					this.input = newInput;
@@ -92,7 +103,7 @@ public class Configuration implements Runnable {
 				}
 			}
 		}
-		this.getOut().threadEnds(this, this.isEndConfiguration(), this.output);
+		this.manager.threadEnds(this, this.isEndConfiguration(), this.output);
 	}
 
 	/**
