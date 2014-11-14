@@ -1,8 +1,8 @@
 package test;
 
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import model.Automaton;
 import model.NoOutputException;
@@ -12,38 +12,38 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-
 public class AutomatonTest {
 
 	private Automaton m1;
-	
+
 	private Automaton m2;
-	
+
 	private Automaton m3;
-	
+
 	private Automaton m4;
-	
+
 	private Automaton m5;
-	
+
 	private Automaton m6;
-	
+
 	private Automaton m7;
-	
+
 	private Automaton m8;
 
-	
+	private Automaton m9;
+
 	@Before
 	public void setUp() throws Exception {
 		this.m1 = Automaton.create();
-		
+
 		this.m2 = Automaton.create('a', "hallo");
-		
+
 		this.m3 = Automaton.create('a', "End");
 		this.m3.getStart().add('a', this.m3.getStart(), "NotEnd");
 
 		this.m4 = Automaton.create('b', "b");
 		this.m4.getStart().add('a', this.m4.getStart(), "a");
-		
+
 		this.m5 = Automaton.create();
 		final State z1 = State.create(this.m5);
 		final State z2 = State.create(this.m5);
@@ -54,7 +54,7 @@ public class AutomatonTest {
 		z2.add('1', this.m5.getEnd(), "1");
 		z3.add('0', z2, "0");
 		z3.add('1', z2, "1");
-		
+
 		this.m6 = Automaton.create();
 		final State a1 = State.create(this.m6);
 		final State a2 = State.create(this.m6);
@@ -69,7 +69,7 @@ public class AutomatonTest {
 		a3.add('1', this.m6.getEnd(), "1");
 		this.m6.getEnd().add('0', this.m6.getEnd(), "0");
 		this.m6.getEnd().add('1', this.m6.getEnd(), "1");
-		
+
 		this.m7 = Automaton.create('0', "0");
 		final State q1 = State.create(this.m7);
 		final State q2 = State.create(this.m7);
@@ -97,7 +97,7 @@ public class AutomatonTest {
 		this.m7.getEnd().add('1', q7, "1");
 		q7.add('0', q7, "0");
 		q7.add('1', q7, "1");
-		
+
 		this.m8 = Automaton.create();
 		final State s1 = State.create(this.m8);
 		final State s2 = State.create(this.m8);
@@ -105,8 +105,32 @@ public class AutomatonTest {
 		this.m8.getStart().add('0', s2, "test2");
 		s1.add('0', this.m8.getEnd(), "ende");
 		s2.add('0', this.m8.getEnd(), "ende");
+
+		this.m9 = Automaton.create();
+		State b1 = State.create(m9);
+		State b2 = State.create(m9);
+		State b3 = State.create(m9);
+		State b4 = State.create(m9);
+		State b5 = State.create(m9);
+		State b6 = State.create(m9);
+		State b7 = State.create(m9);
+		this.m9.getStart().add('a', b1, "1");
+		this.m9.getStart().add('a', b2, "2");
+		b1.add('a', this.m9.getStart(), "back");
+		b1.add('a', b3, "1");
+		b1.add('b', b4, "0");
+		b2.add('a', b1, "up");
+		b2.add('a', b3, "3");
+		b3.add('a', b5, "hi");
+		b3.add('a', b6, "a");
+		b4.add('b', b5, "up");
+		b4.add('b', b6, "mid");
+		b4.add('b', b7, "low");
+		b5.add('a', this.m9.getEnd(), "endTop");
+		b6.add('a', this.m9.getEnd(), "endMid");
+		b7.add('a', this.m9.getEnd(), "endDown");
 	}
-	
+
 	@Test
 	public void testEmpty() {
 		try {
@@ -115,7 +139,7 @@ public class AutomatonTest {
 		} catch (NoOutputException e) {
 		}
 	}
-	
+
 	@Test
 	public void testSingleEntry() {
 		String result = null;
@@ -127,7 +151,7 @@ public class AutomatonTest {
 		}
 		Assert.assertEquals("hallo", result);
 	}
-	
+
 	@Test
 	public void testAtLeastOneA() {
 		String result = null;
@@ -138,7 +162,7 @@ public class AutomatonTest {
 			Assert.fail();
 		}
 		Assert.assertEquals("NotEndNotEndEnd", result);
-		
+
 		try {
 			result = this.m3.getPossibleOutput("aaa");
 		} catch (NoOutputException e) {
@@ -147,7 +171,7 @@ public class AutomatonTest {
 		}
 		Assert.assertEquals("NotEndNotEndEnd", result);
 	}
-	
+
 	@Test
 	public void testPossibleAsAndAtLeastOneB() {
 		String result = null;
@@ -158,7 +182,7 @@ public class AutomatonTest {
 			Assert.fail();
 		}
 		Assert.assertEquals("aab", result);
-		
+
 		try {
 			result = this.m4.getPossibleOutput("aaaab");
 		} catch (NoOutputException e) {
@@ -167,7 +191,7 @@ public class AutomatonTest {
 		}
 		Assert.assertEquals("aaaab", result);
 	}
-	
+
 	@Test
 	public void testM5() {
 		String result = null;
@@ -178,7 +202,7 @@ public class AutomatonTest {
 			Assert.fail();
 		}
 		Assert.assertEquals("0011", result);
-		
+
 		try {
 			result = this.m5.getPossibleOutput("0001");
 		} catch (NoOutputException e) {
@@ -186,7 +210,7 @@ public class AutomatonTest {
 			Assert.fail();
 		}
 		Assert.assertEquals("0001", result);
-		
+
 		try {
 			result = this.m5.getPossibleOutput("011");
 		} catch (NoOutputException e) {
@@ -195,7 +219,7 @@ public class AutomatonTest {
 		}
 		Assert.assertEquals("011", result);
 	}
-	
+
 	@Test
 	public void testM6() {
 		String result = null;
@@ -207,7 +231,7 @@ public class AutomatonTest {
 			Assert.fail();
 		}
 		Assert.assertEquals(input, result);
-		
+
 		result = null;
 		input = "11111";
 		try {
@@ -216,7 +240,7 @@ public class AutomatonTest {
 			e.printStackTrace();
 			Assert.fail();
 		}
-		
+
 		Assert.assertEquals(input, result);
 		result = null;
 		input = "11110";
@@ -227,7 +251,6 @@ public class AutomatonTest {
 			Assert.fail();
 		}
 		Assert.assertEquals(input, result);
-		
 
 		Assert.assertEquals(input, result);
 		result = null;
@@ -240,7 +263,6 @@ public class AutomatonTest {
 		}
 		Assert.assertEquals(input, result);
 
-
 		Assert.assertEquals(input, result);
 		result = null;
 		input = "110111101";
@@ -252,7 +274,7 @@ public class AutomatonTest {
 		}
 		Assert.assertEquals(input, result);
 	}
-	
+
 	@Test
 	public void testM7() {
 		String input = "01110";
@@ -265,14 +287,14 @@ public class AutomatonTest {
 		}
 		Assert.assertEquals(input, result);
 	}
-	
+
 	@Test
 	public void testM8() {
 		String input = "00";
-		List<String> possibleResults = new LinkedList<String>();
+		Set<String> possibleResults = new HashSet<String>();
 		possibleResults.add("test1ende");
 		possibleResults.add("test2ende");
-		
+
 		String result = null;
 		try {
 			result = this.m8.getPossibleOutput(input);
@@ -281,7 +303,7 @@ public class AutomatonTest {
 			Assert.fail();
 		}
 		Assert.assertTrue(possibleResults.contains(result));
-		
+
 		try {
 			result = this.m8.getPossibleOutput(input);
 		} catch (NoOutputException e) {
@@ -289,10 +311,136 @@ public class AutomatonTest {
 			Assert.fail();
 		}
 		Assert.assertTrue(possibleResults.contains(result));
-		
+
 		Collection<String> results = null;
 		try {
 			results = this.m8.getAllPossibleOutputs(input);
+		} catch (NoOutputException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		Assert.assertEquals(possibleResults, results);
+	}
+
+	@Test
+	public void testM9() {
+		String input = "aaaa";
+		Collection<String> possibleResults = new HashSet<String>();
+		possibleResults.add("11hiendTop");
+		possibleResults.add("11aendMid");
+		possibleResults.add("23hiendTop");
+		possibleResults.add("23aendMid");
+
+		String result = null;
+		try {
+			result = this.m9.getPossibleOutput(input);
+		} catch (NoOutputException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		Assert.assertTrue(possibleResults.contains(result));
+
+		try {
+			result = this.m9.getPossibleOutput(input);
+		} catch (NoOutputException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		Assert.assertTrue(possibleResults.contains(result));
+
+		Collection<String> results = null;
+		try {
+			results = this.m9.getAllPossibleOutputs(input);
+		} catch (NoOutputException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		Assert.assertEquals(possibleResults, results);
+
+		input += "a";
+		possibleResults.clear();
+		possibleResults.add("2up1hiendTop");
+		possibleResults.add("2up1aendMid");
+
+		try {
+			result = this.m9.getPossibleOutput(input);
+		} catch (NoOutputException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		Assert.assertTrue(possibleResults.contains(result));
+
+		try {
+			result = this.m9.getPossibleOutput(input);
+		} catch (NoOutputException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		Assert.assertTrue(possibleResults.contains(result));
+
+		try {
+			results = this.m9.getAllPossibleOutputs(input);
+		} catch (NoOutputException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		Assert.assertEquals(possibleResults, results);
+
+		input += "a";
+		possibleResults.clear();
+		possibleResults.add("1back11hiendTop");
+		possibleResults.add("1back11aendMid");
+		possibleResults.add("1back23hiendTop");
+		possibleResults.add("1back23aendMid");
+
+		try {
+			result = this.m9.getPossibleOutput(input);
+		} catch (NoOutputException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		Assert.assertTrue(possibleResults.contains(result));
+
+		try {
+			result = this.m9.getPossibleOutput(input);
+		} catch (NoOutputException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		Assert.assertTrue(possibleResults.contains(result));
+
+		try {
+			results = this.m9.getAllPossibleOutputs(input);
+		} catch (NoOutputException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		Assert.assertEquals(possibleResults, results);
+
+		input = "aabba";
+		possibleResults.clear();
+		possibleResults.add("2up0upendTop");
+		possibleResults.add("2up0midendMid");
+		possibleResults.add("2up0lowendDown");
+
+		try {
+			result = this.m9.getPossibleOutput(input);
+		} catch (NoOutputException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		Assert.assertTrue(possibleResults.contains(result));
+
+		try {
+			result = this.m9.getPossibleOutput(input);
+		} catch (NoOutputException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		Assert.assertTrue(possibleResults.contains(result));
+
+		try {
+			results = this.m9.getAllPossibleOutputs(input);
 		} catch (NoOutputException e) {
 			e.printStackTrace();
 			Assert.fail();

@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 import model.lock.Lock;
@@ -50,7 +51,7 @@ public class AutomatonThreadManager {
 		}
 		return this.result;
 	}
-	
+
 	/**
 	 * Calculates all possible output of the automaton from the receiver.
 	 * Therefore it will create several threads which let the automaton run.
@@ -61,9 +62,11 @@ public class AutomatonThreadManager {
 	 * @throws NoOutputException
 	 *             if there is no possible output
 	 */
-	public Collection<String> getAllPossibleOutputs(String input) throws NoOutputException {
-		this.results = new LinkedList<String>();
-		this.startNewThread(this.automaton.getStart(), input, TreeRoot.getInstance());
+	public Collection<String> getAllPossibleOutputs(String input)
+			throws NoOutputException {
+		this.results = new HashSet<String>();
+		this.startNewThread(this.automaton.getStart(), input,
+				TreeRoot.getInstance());
 		this.finished.lock();
 		if (this.results.isEmpty()) {
 			throw new NoOutputException("There Is no possible output!");
@@ -73,8 +76,8 @@ public class AutomatonThreadManager {
 
 	private void startNewThread(State state, String input, OutputTree output) {
 		this.mutex.lock();
-		Configuration config = Configuration.create(this, this.automaton, state,
-				input, output);
+		Configuration config = Configuration.create(this, this.automaton,
+				state, input, output);
 		this.runningThreads.add(config);
 		config.start();
 		this.mutex.unlock();
