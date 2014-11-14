@@ -1,5 +1,6 @@
 package test;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -289,20 +290,13 @@ public class AutomatonTest {
 		}
 		Assert.assertTrue(possibleResults.contains(result));
 		
+		Collection<String> results = null;
 		try {
-			result = this.m8.getPossibleOutput(input);
+			results = this.m8.getAllPossibleOutputs(input);
 		} catch (NoOutputException e) {
 			e.printStackTrace();
 			Assert.fail();
 		}
-		Assert.assertTrue(possibleResults.contains(result));
-		
-		try {
-			result = this.m8.getPossibleOutput(input);
-		} catch (NoOutputException e) {
-			e.printStackTrace();
-			Assert.fail();
-		}
-		Assert.assertTrue(possibleResults.contains(result));
+		Assert.assertEquals(possibleResults, results);
 	}
 }
