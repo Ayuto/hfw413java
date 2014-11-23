@@ -1,6 +1,8 @@
 package model;
 
-
+/**
+ * Implementation of the philosopher using EBMs.
+ */
 public class EBMPhilosopher extends AbstractPhilosopher {
 
 	private final EBM left;
@@ -24,6 +26,9 @@ public class EBMPhilosopher extends AbstractPhilosopher {
 		this.left.put();
 	}
 
+	/**
+	 * Getter for the right EBM.
+	 */
 	public EBM getRight() {
 		this.mutex.lock();
 		final EBM result = this.right;
@@ -31,6 +36,9 @@ public class EBMPhilosopher extends AbstractPhilosopher {
 		return result;
 	}
 
+	/**
+	 * Getter for the left EBM.
+	 */
 	public EBM getLeft() {
 		this.mutex.lock();
 		final EBM result = this.left;
@@ -38,6 +46,9 @@ public class EBMPhilosopher extends AbstractPhilosopher {
 		return result;
 	}
 
+	/**
+	 * Setter for the right EBM.
+	 */
 	public void setNewRight(final EBM ebm) {
 		this.mutex.lock();
 		this.right = ebm;

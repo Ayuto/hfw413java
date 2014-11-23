@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Implementation of the philosopher without any actions before and after eating.
+ */
 public class Philosopher extends AbstractPhilosopher {
 
 	public Philosopher(PTOMonitor monitor) {

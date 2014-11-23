@@ -2,6 +2,9 @@ package model;
 
 import lock.Lock;
 
+/**
+ * Implementation of the EBM with two locks.
+ */
 public class EBMLock implements EBM {
 	
 	private final Lock getLock;
