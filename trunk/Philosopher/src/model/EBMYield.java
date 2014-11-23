@@ -2,6 +2,9 @@ package model;
 
 import lock.Lock;
 
+/**
+ * Implementation of the EBM using Thread.yield().
+ */
 public class EBMYield implements EBM {
 	private boolean available;
 	private final Lock mutex;
@@ -12,6 +15,7 @@ public class EBMYield implements EBM {
 		this.mutex = new Lock(false);
 	}
 	
+	@Override
 	public void put() {
 		this.mutex.lock();
 		boolean current = this.isAvailable();
@@ -26,6 +30,7 @@ public class EBMYield implements EBM {
 		this.mutex.unlock();
 	}
 
+	@Override
 	public void get() {
 		this.mutex.lock();
 		boolean current = !this.isAvailable();
@@ -40,11 +45,17 @@ public class EBMYield implements EBM {
 		this.mutex.unlock();
 	}
 	
+	/**
+	 * Getter for the flag whether the EBM is available.
+	 */
 	private boolean isAvailable() {
 		final boolean result = this.available;
 		return result;
 	}
 	
+	/**
+	 * Setter for the flag whether the EBM is available.
+	 */
 	private void setAvailable(final boolean value) {
 		this.available = value;
 	}
