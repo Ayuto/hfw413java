@@ -77,7 +77,7 @@ public abstract class AbstractPhilosopher implements Runnable {
 		this.mutex.lock();
 		this.status = PhilosopherStatus.EATING;
 		this.mutex.unlock();
-
+		System.out.println(this + " starts eating");
 		this.monitor.startEating(this);
 		try {
 			synchronized (this) {
@@ -108,6 +108,7 @@ public abstract class AbstractPhilosopher implements Runnable {
 	 * The thinking time will be calculated here, too.
 	 */
 	private void think() {
+		System.out.println(this + " starts thinking");
 		try {
 			synchronized (this) {
 				this.wait(new Random().nextInt(this.monitor

@@ -12,8 +12,8 @@ import lock.Lock;
  */
 public class PTOMonitor {
 
-	private static final int MAX_THINKING_TIME = 100;
-	private static final int MAX_EATING_TIME = 50;
+	private static final int MAX_THINKING_TIME = 3000;
+	private static final int MAX_EATING_TIME = 300;
 	private static final boolean USING_EBM = true;
 	private static final boolean USE_LOCK_EBM = true;
 
@@ -100,27 +100,38 @@ public class PTOMonitor {
 		this.mutex.lock();
 		AbstractPhilosopher philosopher = null;
 		if (USING_EBM) {
-			if (this.philosophers.isEmpty()) {
-				EBM left = USE_LOCK_EBM ? new EBMLock() : new EBMYield();
-				EBM right = USE_LOCK_EBM ? new EBMLock() : new EBMYield();
-				philosopher = new EBMPhilosopher(this, left, right);
-			} else {
-				final EBMPhilosopher first = (EBMPhilosopher) this.philosophers
-						.get(0);
-				final EBMPhilosopher last = (EBMPhilosopher) this.philosophers
-						.get(this.philosophers.size() - 1);
-
-				final EBM ebm = USE_LOCK_EBM ? new EBMLock() : new EBMYield();
-
-				philosopher = new EBMPhilosopher(this, ebm, last.getLeft());
-				first.setNewRight(ebm);
-			}
+			philosopher = getNextEBMPhilosopher();
 		} else {
 			philosopher = new Philosopher(this);
 		}
 		this.philosophers.add(philosopher);
 		this.activePhilosophers++;
 		this.mutex.unlock();
+	}
+
+	/**
+	 * Creates the next philosopher using EBMs. 
+	 * You are not allowed to call this method and not use the new philosopher 
+	 * afterwards because the EBM order is influenced by this method.
+	 */
+	private AbstractPhilosopher getNextEBMPhilosopher() {
+		AbstractPhilosopher philosopher;
+		if (this.philosophers.isEmpty()) {
+			EBM left = USE_LOCK_EBM ? new EBMLock() : new EBMYield();
+			EBM right = USE_LOCK_EBM ? new EBMLock() : new EBMYield();
+			philosopher = new EBMPhilosopher(this, left, right);
+		} else {
+			final EBMPhilosopher first = (EBMPhilosopher) this.philosophers
+					.get(0);
+			final EBMPhilosopher last = (EBMPhilosopher) this.philosophers
+					.get(this.philosophers.size() - 1);
+
+			final EBM ebm = USE_LOCK_EBM ? new EBMLock() : new EBMYield();
+
+			philosopher = new EBMPhilosopher(this, ebm, last.getLeft());
+			first.setNewRight(ebm);
+		}
+		return philosopher;
 	}
 
 	/**
@@ -202,10 +213,13 @@ public class PTOMonitor {
 				/ (System.currentTimeMillis() - this.startTime);
 		this.lastChangeTime = System.currentTimeMillis();
 
-		this.currentlyEating = startEating ? this.currentlyEating + 1
-				: this.currentlyEating - 1;
-		if (this.currentlyEating > this.maxEating) {
-			this.maxEating = this.currentlyEating;
+		if (startEating) {
+			this.currentlyEating++;
+			if (this.currentlyEating > this.maxEating) {
+				this.maxEating = this.currentlyEating;
+			}
+		} else {
+			this.currentlyEating--;
 		}
 		this.mutex.unlock();
 	}
