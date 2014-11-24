@@ -10,8 +10,8 @@ public class PTOTest {
 	public void test() {
 		final PTOMonitor monitor = PTOMonitor.getMonitor();
 		
-		monitor.addPhilosopher(200);
-		monitor.startSimulation(1000 * 10);
+		monitor.addPhilosopher(5);
+		monitor.startSimulation(1000 * 5);
 		
 		
 	}

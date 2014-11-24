@@ -16,13 +16,17 @@ public class EBMPhilosopher extends AbstractPhilosopher {
 	
 	@Override
 	protected void beforeEating() {
+		System.out.println(this + " wants to get the left EBM");
 		this.left.get();
+		System.out.println(this + " wants to get the right EBM");
 		this.right.get();
 	}
 	
 	@Override
 	protected void afterEating() {
+		System.out.println(this + " puts the right EBM back");
 		this.right.put();
+		System.out.println(this + " puts the left EBM back");
 		this.left.put();
 	}
 
