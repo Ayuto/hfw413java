@@ -1,4 +1,7 @@
 package model;
 
-public class Transition implements NetObject {
+/**
+ * Represents a transition in a P/T net.
+ */
+public class Transition implements PTNetObject {
 }
