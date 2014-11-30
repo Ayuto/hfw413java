@@ -319,7 +319,7 @@ public class Tester {
 	}
 	
 	@Test
-	public void testNet8NoCycles() {
+	public void testNet8Cycles() {
 		PTNet net = new PTNet();
 		
 		Place pos1 = new Place();
@@ -375,11 +375,11 @@ public class Tester {
 		net.setMarkers(pos5, 1);
 		
 		Assert.assertTrue(net.isFinite());
-		Assert.assertFalse(net.hasCycle()); // sagt dass es zyklisch ist, ist es aber eigentlich nicht
+		Assert.assertTrue(net.hasCycle());
 	}
 
 	@Test
-	public void testNet9NoCyclesAndIsNotFinite() {
+	public void testNet9CyclesAndIsNotFinite() {
 		PTNet net = new PTNet();
 		
 		Place pos1 = new Place();
@@ -435,6 +435,44 @@ public class Tester {
 		net.setMarkers(pos5, 1);
 		
 		Assert.assertFalse(net.isFinite());
-		Assert.assertFalse(net.hasCycle()); // sagt dass es zyklisch ist, ist es aber eigentlich nicht
+		Assert.assertTrue(net.hasCycle());
+	}
+	
+	@Test
+	public void testNet10() {
+		PTNet net = new PTNet();
+		
+		Place pos1 = new Place();
+		Place pos2 = new Place();
+		Place pos3 = new Place();
+		
+		Transition trans1 = new Transition();
+		Transition trans2 = new Transition();
+		Transition trans3 = new Transition();
+		
+		Relation rel1 = new Relation(pos1, trans1, 1);
+		Relation rel2 = new Relation(trans1, pos2, 1);
+		Relation rel3 = new Relation(pos2, trans2, 1);
+		Relation rel4 = new Relation(trans2, pos3, 1);
+		Relation rel5 = new Relation(pos3, trans3, 1);
+		Relation rel6 = new Relation(trans3, pos2, 1);
+		
+		net.addPlace(pos1);
+		net.addPlace(pos2);
+		net.addPlace(pos3);
+		net.addTransition(trans1);
+		net.addTransition(trans2);
+		net.addTransition(trans3);
+		net.addRelation(rel1);
+		net.addRelation(rel2);
+		net.addRelation(rel3);
+		net.addRelation(rel4);
+		net.addRelation(rel5);
+		net.addRelation(rel6);
+		
+		net.setMarkers(pos1, 1);
+		
+		Assert.assertTrue(net.isFinite());
+		Assert.assertTrue(net.hasCycle());
 	}
 }
