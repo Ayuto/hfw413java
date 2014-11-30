@@ -48,7 +48,7 @@ public class PTNet {
 	 * Returns the amount of markers at the given place.
 	 */
 	public int getMarkers(Place place) {
-		return this.startMarkers.get(place);
+		return this.getValue(startMarkers, place);
 	}
 
 	/**
@@ -103,9 +103,7 @@ public class PTNet {
 	private boolean isActivated(Transition transition, Integer quantifier,
 			Map<Place, Integer> markers) {
 		for (Place place : this.places) {
-			Integer temp = markers.get(place);
-			int markersAtPlace = temp == null ? 0 : temp;
-			int result = markersAtPlace - this.getPre(transition, place)
+			int result = this.getValue(markers, place) - this.getPre(transition, place)
 					* quantifier;
 
 			if (result < 0) {
@@ -151,7 +149,7 @@ public class PTNet {
 
 		for (Place place : this.places) {
 			newMarkers.put(place,
-					markers.get(place) + this.getEffect(transition, place)
+					this.getValue(markers, place) + this.getEffect(transition, place)
 							* quantifier);
 		}
 
@@ -175,48 +173,93 @@ public class PTNet {
 		while (!current.isEmpty()) {
 			current = this.getNewSuccessors(current, reachableStates);
 			reachableStates.addAll(current);
-			if (this.checkMarkers(current))
+			if (this.checkMarkers(current, reachableStates))
 				return false;
 		}
 		return true;
 	}
 
 	/**
-	 * Returns true if the amount of start markers on every place is less than
-	 * the the current amount of markers.
+	 * Returns {@code true} if any already reached marker distribution has
+	 * 1) at least the same amount of markers on every place
+	 * AND 2) at least at one place more markers
+	 * than any given new distribution.
 	 */
-	private boolean checkMarkers(Collection<Map<Place, Integer>> markers) {
-		boolean result = false;
-		for (Map<Place, Integer> current : markers) {
-			for (Place place : current.keySet()) {
-				if (this.startMarkers.get(place) < current.get(place))
-					result = true;
-				else if (this.startMarkers.get(place) > current.get(place))
-					return false;
+	private boolean checkMarkers(Collection<Map<Place, Integer>> newMarkers, Collection<Map<Place, Integer>> reachedMarkers) {
+		for (Map<Place, Integer> current : newMarkers) {
+			reached: for (Map<Place, Integer> reached : reachedMarkers) {
+				boolean result = false;
+				for (Place place : this.places) {
+					if (this.getValue(reached, place) > this.getValue(current, place)) {
+						continue reached;
+					}
+					if (this.getValue(reached, place) < this.getValue(current, place)) {
+						result = true;
+					}
+				}
+				if (result) {
+					return true;
+				}
 			}
 		}
-		return result;
+		return false;
 	}
 
 	/**
 	 * Returns true if the P/T net has cycles.
 	 */
 	public boolean hasCycle() {
-		for (Place place : this.places) {
-			if (!this.startMarkers.containsKey(place)) {
-				this.startMarkers.put(place, 0);
-			}
+		if (!this.isFinite()) {
+			return true;
 		}
 		Collection<Map<Place, Integer>> reachableStates = new LinkedList<Map<Place, Integer>>();
 		Collection<Map<Place, Integer>> current = new LinkedList<Map<Place, Integer>>();
 		current.add(startMarkers);
 
-		while (!current.isEmpty()
-				&& !reachableStates.contains(this.startMarkers)) {
-			current = this.getNewSuccessors(current, reachableStates);
+		while (!current.isEmpty()) {
+			current = this.getAllSuccessors(current);
+			if (this.checkCycles(reachableStates, current)) {
+				return true;
+			}
 			reachableStates.addAll(current);
 		}
-		return reachableStates.contains(this.startMarkers);
+		return false;
+	}
+
+	/**
+	 * Calculates all possible successors.
+	 * 
+	 * @param markers
+	 *            All current distributions of markers.
+	 * @return A collection of new states.
+	 */
+	private Collection<Map<Place, Integer>> getAllSuccessors(
+			Collection<Map<Place, Integer>> markers) {
+		Collection<Map<Place, Integer>> result = new LinkedList<Map<Place, Integer>>();
+		for (Map<Place, Integer> current : markers) {
+			result.addAll(this.getSuccessors(current));
+		}
+		return result;
+	}
+
+	/**
+	 * Checks all given new States {@code <newStates>} if was
+	 * already reaches. Returns {@code true} only if it was already
+	 * reached/there is a cycle.
+	 */
+	private boolean checkCycles(Collection<Map<Place, Integer>> reachedStates,
+			Collection<Map<Place, Integer>> newStates) {
+		for (Map<Place, Integer> successor : newStates) {
+			reached: for (Map<Place, Integer> reached : reachedStates) {
+				for (Place place : this.places) {
+					if (this.getValue(successor, place) != this.getValue(reached, place)) {
+						continue reached;
+					}
+				}
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -299,5 +342,13 @@ public class PTNet {
 		}
 
 		return result;
+	}
+	
+	/**
+	 * Returns zero if the given key is not mapped in the given map.
+	 * Otherwise returns the value from the map.
+	 */
+	private int getValue(Map<Place, Integer> map, Place key) {
+		return map.get(key) == null ? 0 : map.get(key);
 	}
 }
